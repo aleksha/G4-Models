@@ -23,42 +23,36 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1PrimaryGeneratorAction.hh 90623 2015-06-05 09:24:30Z gcosmo $
+// $Id: Sr90TESTSteppingAction.hh 74483 2013-10-09 13:37:06Z gcosmo $
 //
-/// \file B1PrimaryGeneratorAction.hh
-/// \brief Definition of the B1PrimaryGeneratorAction class
+/// \file Sr90TESTSteppingAction.hh
+/// \brief Definition of the Sr90TESTSteppingAction class
 
-#ifndef B1PrimaryGeneratorAction_h
-#define B1PrimaryGeneratorAction_h 1
+#ifndef Sr90TESTSteppingAction_h
+#define Sr90TESTSteppingAction_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+#include "G4UserSteppingAction.hh"
 #include "globals.hh"
 
-class G4ParticleGun;
-class G4Event;
-class G4Box;
+class Sr90TESTEventAction;
 
-/// The primary generator action class with particle gun.
-///
-/// The default kinematic is a 6 MeV gamma, randomly distribued 
-/// in front of the phantom across 80% of the (X,Y) phantom size.
+class G4LogicalVolume;
 
-class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+/// Stepping action class
+/// 
+
+class Sr90TESTSteppingAction : public G4UserSteppingAction
 {
   public:
-    B1PrimaryGeneratorAction();    
-    virtual ~B1PrimaryGeneratorAction();
+    Sr90TESTSteppingAction(Sr90TESTEventAction* eventAction);
+    virtual ~Sr90TESTSteppingAction();
 
     // method from the base class
-    virtual void GeneratePrimaries(G4Event*);         
-  
-    // method to access particle gun
-    const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
-  
+    virtual void UserSteppingAction(const G4Step*);
+
   private:
-    G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
-    G4Box* fEnvelopeBox;
+    Sr90TESTEventAction*  fEventAction;
+    G4LogicalVolume* fScoringVolume;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

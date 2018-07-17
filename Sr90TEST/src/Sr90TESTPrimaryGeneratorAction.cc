@@ -23,12 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1PrimaryGeneratorAction.cc 94307 2015-11-11 13:42:46Z gcosmo $
+// $Id: Sr90TESTPrimaryGeneratorAction.cc 94307 2015-11-11 13:42:46Z gcosmo $
 //
-/// \file B1PrimaryGeneratorAction.cc
-/// \brief Implementation of the B1PrimaryGeneratorAction class
+/// \file Sr90TESTPrimaryGeneratorAction.cc
+/// \brief Implementation of the Sr90TESTPrimaryGeneratorAction class
 
-#include "B1PrimaryGeneratorAction.hh"
+#include "Sr90TESTPrimaryGeneratorAction.hh"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
@@ -42,7 +42,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+Sr90TESTPrimaryGeneratorAction::Sr90TESTPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(0), 
   fEnvelopeBox(0)
@@ -62,14 +62,14 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
+Sr90TESTPrimaryGeneratorAction::~Sr90TESTPrimaryGeneratorAction()
 {
   delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void Sr90TESTPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
   //
@@ -97,7 +97,7 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     msg << "Envelope volume of box shape not found.\n"; 
     msg << "Perhaps you have changed geometry.\n";
     msg << "The gun will be place at the center.";
-    G4Exception("B1PrimaryGeneratorAction::GeneratePrimaries()",
+    G4Exception("Sr90TESTPrimaryGeneratorAction::GeneratePrimaries()",
      "MyCode0002",JustWarning,msg);
   }
 

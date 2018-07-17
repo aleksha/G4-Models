@@ -23,42 +23,43 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1RunAction.hh 99560 2016-09-27 07:03:29Z gcosmo $
+// $Id: Sr90TESTEventAction.cc 93886 2015-11-03 08:28:26Z gcosmo $
 //
-/// \file B1RunAction.hh
-/// \brief Definition of the B1RunAction class
+/// \file Sr90TESTEventAction.cc
+/// \brief Implementation of the Sr90TESTEventAction class
 
-#ifndef B1RunAction_h
-#define B1RunAction_h 1
+#include "Sr90TESTEventAction.hh"
+#include "Sr90TESTRunAction.hh"
 
-#include "G4UserRunAction.hh"
-#include "G4Accumulable.hh"
-#include "globals.hh"
+#include "G4Event.hh"
+#include "G4RunManager.hh"
 
-class G4Run;
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// Run action class
-///
-/// In EndOfRunAction(), it calculates the dose in the selected volume 
-/// from the energy deposit accumulated via stepping and event actions.
-/// The computed dose is then printed on the screen.
+Sr90TESTEventAction::Sr90TESTEventAction(Sr90TESTRunAction* runAction)
+: G4UserEventAction(),
+  fRunAction(runAction),
+  fEdep(0.)
+{} 
 
-class B1RunAction : public G4UserRunAction
-{
-  public:
-    B1RunAction();
-    virtual ~B1RunAction();
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    // virtual G4Run* GenerateRun();
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void   EndOfRunAction(const G4Run*);
+Sr90TESTEventAction::~Sr90TESTEventAction()
+{}
 
-    void AddEdep (G4double edep); 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-  private:
-    G4Accumulable<G4double> fEdep;
-    G4Accumulable<G4double> fEdep2;
-};
+void Sr90TESTEventAction::BeginOfEventAction(const G4Event*)
+{    
+  fEdep = 0.;
+}
 
-#endif
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void Sr90TESTEventAction::EndOfEventAction(const G4Event*)
+{   
+  // accumulate statistics in run action
+  fRunAction->AddEdep(fEdep);
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

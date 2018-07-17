@@ -23,49 +23,49 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1ActionInitialization.cc 68058 2013-03-13 14:47:43Z gcosmo $
+// $Id: Sr90TESTActionInitialization.cc 68058 2013-03-13 14:47:43Z gcosmo $
 //
-/// \file B1ActionInitialization.cc
-/// \brief Implementation of the B1ActionInitialization class
+/// \file Sr90TESTActionInitialization.cc
+/// \brief Implementation of the Sr90TESTActionInitialization class
 
-#include "B1ActionInitialization.hh"
-#include "B1PrimaryGeneratorAction.hh"
-#include "B1RunAction.hh"
-#include "B1EventAction.hh"
-#include "B1SteppingAction.hh"
+#include "Sr90TESTActionInitialization.hh"
+#include "Sr90TESTPrimaryGeneratorAction.hh"
+#include "Sr90TESTRunAction.hh"
+#include "Sr90TESTEventAction.hh"
+#include "Sr90TESTSteppingAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1ActionInitialization::B1ActionInitialization()
+Sr90TESTActionInitialization::Sr90TESTActionInitialization()
  : G4VUserActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1ActionInitialization::~B1ActionInitialization()
+Sr90TESTActionInitialization::~Sr90TESTActionInitialization()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1ActionInitialization::BuildForMaster() const
+void Sr90TESTActionInitialization::BuildForMaster() const
 {
-  B1RunAction* runAction = new B1RunAction;
+  Sr90TESTRunAction* runAction = new Sr90TESTRunAction;
   SetUserAction(runAction);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B1ActionInitialization::Build() const
+void Sr90TESTActionInitialization::Build() const
 {
-  SetUserAction(new B1PrimaryGeneratorAction);
+  SetUserAction(new Sr90TESTPrimaryGeneratorAction);
 
-  B1RunAction* runAction = new B1RunAction;
+  Sr90TESTRunAction* runAction = new Sr90TESTRunAction;
   SetUserAction(runAction);
   
-  B1EventAction* eventAction = new B1EventAction(runAction);
+  Sr90TESTEventAction* eventAction = new Sr90TESTEventAction(runAction);
   SetUserAction(eventAction);
   
-  SetUserAction(new B1SteppingAction(eventAction));
+  SetUserAction(new Sr90TESTSteppingAction(eventAction));
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

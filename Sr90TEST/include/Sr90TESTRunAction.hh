@@ -23,43 +23,42 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1EventAction.cc 93886 2015-11-03 08:28:26Z gcosmo $
+// $Id: Sr90TESTRunAction.hh 99560 2016-09-27 07:03:29Z gcosmo $
 //
-/// \file B1EventAction.cc
-/// \brief Implementation of the B1EventAction class
+/// \file Sr90TESTRunAction.hh
+/// \brief Definition of the Sr90TESTRunAction class
 
-#include "B1EventAction.hh"
-#include "B1RunAction.hh"
+#ifndef Sr90TESTRunAction_h
+#define Sr90TESTRunAction_h 1
 
-#include "G4Event.hh"
-#include "G4RunManager.hh"
+#include "G4UserRunAction.hh"
+#include "G4Accumulable.hh"
+#include "globals.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+class G4Run;
 
-B1EventAction::B1EventAction(B1RunAction* runAction)
-: G4UserEventAction(),
-  fRunAction(runAction),
-  fEdep(0.)
-{} 
+/// Run action class
+///
+/// In EndOfRunAction(), it calculates the dose in the selected volume 
+/// from the energy deposit accumulated via stepping and event actions.
+/// The computed dose is then printed on the screen.
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+class Sr90TESTRunAction : public G4UserRunAction
+{
+  public:
+    Sr90TESTRunAction();
+    virtual ~Sr90TESTRunAction();
 
-B1EventAction::~B1EventAction()
-{}
+    // virtual G4Run* GenerateRun();
+    virtual void BeginOfRunAction(const G4Run*);
+    virtual void   EndOfRunAction(const G4Run*);
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+    void AddEdep (G4double edep); 
 
-void B1EventAction::BeginOfEventAction(const G4Event*)
-{    
-  fEdep = 0.;
-}
+  private:
+    G4Accumulable<G4double> fEdep;
+    G4Accumulable<G4double> fEdep2;
+};
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#endif
 
-void B1EventAction::EndOfEventAction(const G4Event*)
-{   
-  // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

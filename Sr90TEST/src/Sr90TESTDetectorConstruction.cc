@@ -23,12 +23,12 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1DetectorConstruction.cc 94307 2015-11-11 13:42:46Z gcosmo $
+// $Id: Sr90TESTDetectorConstruction.cc 94307 2015-11-11 13:42:46Z gcosmo $
 //
-/// \file B1DetectorConstruction.cc
-/// \brief Implementation of the B1DetectorConstruction class
+/// \file Sr90TESTDetectorConstruction.cc
+/// \brief Implementation of the Sr90TESTDetectorConstruction class
 
-#include "B1DetectorConstruction.hh"
+#include "Sr90TESTDetectorConstruction.hh"
 
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -43,19 +43,19 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1DetectorConstruction::B1DetectorConstruction()
+Sr90TESTDetectorConstruction::Sr90TESTDetectorConstruction()
 : G4VUserDetectorConstruction(),
   fScoringVolume(0)
 { }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B1DetectorConstruction::~B1DetectorConstruction()
+Sr90TESTDetectorConstruction::~Sr90TESTDetectorConstruction()
 { }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B1DetectorConstruction::Construct()
+G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
 {  
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();

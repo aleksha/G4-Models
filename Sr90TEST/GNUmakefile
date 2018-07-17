@@ -1,9 +1,5 @@
-# $Id: GNUmakefile 68058 2013-03-13 14:47:43Z gcosmo $
-# --------------------------------------------------------------
-# GNUmakefile for examples module.  Gabriele Cosmo, 06/04/98.
-# --------------------------------------------------------------
 
-name := exampleB1
+name := exec_Sr90TEST
 G4TARGET := $(name)
 G4EXLIB := true
 

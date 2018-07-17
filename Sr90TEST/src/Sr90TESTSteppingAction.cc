@@ -23,37 +23,56 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1DetectorConstruction.hh 69565 2013-05-08 12:35:31Z gcosmo $
+// $Id: Sr90TESTSteppingAction.cc 74483 2013-10-09 13:37:06Z gcosmo $
 //
-/// \file B1DetectorConstruction.hh
-/// \brief Definition of the B1DetectorConstruction class
+/// \file Sr90TESTSteppingAction.cc
+/// \brief Implementation of the Sr90TESTSteppingAction class
 
-#ifndef B1DetectorConstruction_h
-#define B1DetectorConstruction_h 1
+#include "Sr90TESTSteppingAction.hh"
+#include "Sr90TESTEventAction.hh"
+#include "Sr90TESTDetectorConstruction.hh"
 
-#include "G4VUserDetectorConstruction.hh"
-#include "globals.hh"
-
-class G4VPhysicalVolume;
-class G4LogicalVolume;
-
-/// Detector construction class to define materials and geometry.
-
-class B1DetectorConstruction : public G4VUserDetectorConstruction
-{
-  public:
-    B1DetectorConstruction();
-    virtual ~B1DetectorConstruction();
-
-    virtual G4VPhysicalVolume* Construct();
-    
-    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
-
-  protected:
-    G4LogicalVolume*  fScoringVolume;
-};
+#include "G4Step.hh"
+#include "G4Event.hh"
+#include "G4RunManager.hh"
+#include "G4LogicalVolume.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+Sr90TESTSteppingAction::Sr90TESTSteppingAction(Sr90TESTEventAction* eventAction)
+: G4UserSteppingAction(),
+  fEventAction(eventAction),
+  fScoringVolume(0)
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+Sr90TESTSteppingAction::~Sr90TESTSteppingAction()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void Sr90TESTSteppingAction::UserSteppingAction(const G4Step* step)
+{
+  if (!fScoringVolume) { 
+    const Sr90TESTDetectorConstruction* detectorConstruction
+      = static_cast<const Sr90TESTDetectorConstruction*>
+        (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+    fScoringVolume = detectorConstruction->GetScoringVolume();   
+  }
+
+  // get volume of the current step
+  G4LogicalVolume* volume 
+    = step->GetPreStepPoint()->GetTouchableHandle()
+      ->GetVolume()->GetLogicalVolume();
+      
+  // check if we are in scoring volume
+  if (volume != fScoringVolume) return;
+
+  // collect energy deposited in this step
+  G4double edepStep = step->GetTotalEnergyDeposit();
+  fEventAction->AddEdep(edepStep);  
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

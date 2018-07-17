@@ -23,40 +23,44 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: B1EventAction.hh 93886 2015-11-03 08:28:26Z gcosmo $
+// $Id: Sr90TESTPrimaryGeneratorAction.hh 90623 2015-06-05 09:24:30Z gcosmo $
 //
-/// \file B1EventAction.hh
-/// \brief Definition of the B1EventAction class
+/// \file Sr90TESTPrimaryGeneratorAction.hh
+/// \brief Definition of the Sr90TESTPrimaryGeneratorAction class
 
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef Sr90TESTPrimaryGeneratorAction_h
+#define Sr90TESTPrimaryGeneratorAction_h 1
 
-#include "G4UserEventAction.hh"
+#include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4ParticleGun.hh"
 #include "globals.hh"
 
-class B1RunAction;
+class G4ParticleGun;
+class G4Event;
+class G4Box;
 
-/// Event action class
+/// The primary generator action class with particle gun.
 ///
+/// The default kinematic is a 6 MeV gamma, randomly distribued 
+/// in front of the phantom across 80% of the (X,Y) phantom size.
 
-class B1EventAction : public G4UserEventAction
+class Sr90TESTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B1EventAction(B1RunAction* runAction);
-    virtual ~B1EventAction();
+    Sr90TESTPrimaryGeneratorAction();    
+    virtual ~Sr90TESTPrimaryGeneratorAction();
 
-    virtual void BeginOfEventAction(const G4Event* event);
-    virtual void EndOfEventAction(const G4Event* event);
-
-    void AddEdep(G4double edep) { fEdep += edep; }
-
+    // method from the base class
+    virtual void GeneratePrimaries(G4Event*);         
+  
+    // method to access particle gun
+    const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
+  
   private:
-    B1RunAction* fRunAction;
-    G4double     fEdep;
+    G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
+    G4Box* fEnvelopeBox;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-    
