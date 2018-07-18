@@ -19,9 +19,11 @@ CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
  myOUT .open( "out.data" , std::ios::trunc);
  myINI .open( "ini.data" , std::ios::trunc);
  myCSC .open( "csc.data" , std::ios::trunc);
+ mySCI .open( "sci.data" , std::ios::trunc);
 }
 //------------------------------------------------------------------------------
-CSCSteppingAction::~CSCSteppingAction(){ myOUT.close(); myCSC.close(); myINI.close();}
+CSCSteppingAction::~CSCSteppingAction(){ 
+  myOUT.close(); myCSC.close(); myINI.close(); mySCI.close() }
 //------------------------------------------------------------------------------
 void CSCSteppingAction::UserSteppingAction(const G4Step* step)
 {
@@ -76,7 +78,7 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
   if (volume == fLV15) vol=15 ;
   if (volume == fLV16) vol=16 ;
 
-  if (vol<5 || vol>8) return;
+  if (vol!=0 || vol<5 || vol>8 || vol!=15) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
@@ -114,10 +116,10 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
     double tr_pre_z   = pre_step->GetPosition().z() / mm ;
     double g_pre_time = pre_step->GetGlobalTime ()  / ns ;
 
-    //double tr_x   =  0.5 * (tr_pre_x + tr_post_x);
-    //double tr_y   =  0.5 * (tr_pre_y + tr_post_y);
-    //double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
-    //double g_time =  0.5 * (g_pre_time + g_post_time);
+    double tr_x   =  0.5 * (tr_pre_x + tr_post_x);
+    double tr_y   =  0.5 * (tr_pre_y + tr_post_y);
+    double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
+    double g_time =  0.5 * (g_pre_time + g_post_time);
 
     if(myOUT.is_open() && vol==5 && st_id==2)
        myOUT << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
@@ -139,6 +141,15 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
              << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << G4endl;
+
+    if(mySCI.is_open() && (vol==1 || vol==6 || vol==15) && tr_ed>0){
+       if( ( (vol==1 || vol==16) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
+           ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300) ) ){
+           mySCI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
+                 << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
+                 << tr_x  << " " << tr_y  << " " << tr_z  << " " << g_time  << " "
+                 << G4endl;}
+    }
   }
 
 //  // collect energy deposited in this step

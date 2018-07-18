@@ -30,6 +30,7 @@ class CSCSteppingAction : public G4UserSteppingAction
     std::ofstream myOUT;
     std::ofstream myINI;
     std::ofstream myCSC;
+    std::ofstream mySCI;
 
     G4LogicalVolume* fLV00;
     G4LogicalVolume* fLV01;
