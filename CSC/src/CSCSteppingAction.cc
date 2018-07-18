@@ -76,6 +76,7 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
   if (volume == fLV15) vol=15 ;
   if (volume == fLV16) vol=16 ;
 
+  if (vol<5 || vol>8) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
