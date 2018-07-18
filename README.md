@@ -13,10 +13,9 @@ Repository contains different GEANT-4 models, which use
 To build executable
 -------------------
 
+```bash
   > mkdir build;
-
   > cd build;
-
   > cmake -DGeant4_DIR=/home/user/Sim/geant4.10.04.p02-install/lib/Geant4-10.4.2/ ../Sr90TEST
-
   > source Run_Geant.sh
+```
