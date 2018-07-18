@@ -11,8 +11,10 @@
 CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction),
-  fLV0(0), fLV1(0), fLV2(0), fLV3(0), fLV4(0),
-  fLV5(0), fLV6(0), fLV7(0), fLV8(0), fLV9(0)
+  fLV00(0), fLV01(0), fLV02(0), fLV03(0), fLV04(0),
+  fLV05(0), fLV06(0), fLV07(0), fLV08(0), fLV09(0),
+  fLV10(0), fLV11(0), fLV12(0), fLV13(0), fLV14(0),
+  fLV15(0), fLV16(0)
 {
  myOUT .open( "out.data" , std::ios::trunc);
  myINI .open( "ini.data" , std::ios::trunc);
@@ -23,22 +25,30 @@ CSCSteppingAction::~CSCSteppingAction(){ myOUT.close(); myCSC.close(); myINI.clo
 //------------------------------------------------------------------------------
 void CSCSteppingAction::UserSteppingAction(const G4Step* step)
 {
-  if ( !fLV0 || !fLV1 || !fLV2 || !fLV3 || !fLV4 ||
-                !fLV5 || !fLV6 || !fLV7 || !fLV8 || !fLV9 ) {
+  if ( !fLV00 || !fLV01 || !fLV02 || !fLV03 || !fLV04 ||
+                 !fLV05 || !fLV06 || !fLV07 || !fLV08 || !fLV09 ||
+       !fLV10 || !fLV11 || !fLV12 || !fLV13 || !fLV14 || !fLV15 || !fLV16 ){
     const CSCDetectorConstruction* detectorConstruction
       = static_cast<const CSCDetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
-    fLV0 = detectorConstruction->GetLV0();
-    fLV1 = detectorConstruction->GetLV1();
-    fLV2 = detectorConstruction->GetLV2();
-    fLV3 = detectorConstruction->GetLV3();
-    fLV4 = detectorConstruction->GetLV4();
-    fLV5 = detectorConstruction->GetLV5();
-    fLV6 = detectorConstruction->GetLV6();
-    fLV7 = detectorConstruction->GetLV7();
-    fLV8 = detectorConstruction->GetLV8();
-    fLV9 = detectorConstruction->GetLV9();
+    fLV00 = detectorConstruction->GetLV00();
+    fLV01 = detectorConstruction->GetLV01();
+    fLV02 = detectorConstruction->GetLV02();
+    fLV03 = detectorConstruction->GetLV03();
+    fLV04 = detectorConstruction->GetLV04();
+    fLV05 = detectorConstruction->GetLV05();
+    fLV06 = detectorConstruction->GetLV06();
+    fLV07 = detectorConstruction->GetLV07();
+    fLV08 = detectorConstruction->GetLV08();
+    fLV09 = detectorConstruction->GetLV09();
+    fLV10 = detectorConstruction->GetLV10();
+    fLV11 = detectorConstruction->GetLV11();
+    fLV12 = detectorConstruction->GetLV12();
+    fLV13 = detectorConstruction->GetLV13();
+    fLV14 = detectorConstruction->GetLV14();
+    fLV15 = detectorConstruction->GetLV15();
+    fLV16 = detectorConstruction->GetLV16();
   }
 
   // get volume of the current step
@@ -48,18 +58,24 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
 
   int vol=-1;
   // check if we are in scoring volume
-  if (volume == fLV0) vol=0 ;
-  if (volume == fLV1) vol=1 ;
-  if (volume == fLV2) vol=2 ;
-  if (volume == fLV3) vol=3 ;
-  if (volume == fLV4) vol=4 ;
-  if (volume == fLV5) vol=5 ;
-  if (volume == fLV6) vol=6 ;
-  if (volume == fLV7) vol=7 ;
-  if (volume == fLV8) vol=8 ;
-  if (volume == fLV9) vol=9 ;
+  if (volume == fLV00) vol= 0 ;
+  if (volume == fLV01) vol= 1 ;
+  if (volume == fLV02) vol= 2 ;
+  if (volume == fLV03) vol= 3 ;
+  if (volume == fLV04) vol= 4 ;
+  if (volume == fLV05) vol= 5 ;
+  if (volume == fLV06) vol= 6 ;
+  if (volume == fLV07) vol= 7 ;
+  if (volume == fLV08) vol= 8 ;
+  if (volume == fLV09) vol= 9 ;
+  if (volume == fLV10) vol=10 ;
+  if (volume == fLV11) vol=11 ;
+  if (volume == fLV12) vol=12 ;
+  if (volume == fLV13) vol=13 ;
+  if (volume == fLV14) vol=14 ;
+  if (volume == fLV15) vol=15 ;
+  if (volume == fLV16) vol=16 ;
 
-  if (vol<0 || vol>7) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
@@ -102,21 +118,21 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
     //double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
     //double g_time =  0.5 * (g_pre_time + g_post_time);
 
-    if(myOUT.is_open() && vol==4 && st_id==2)
+    if(myOUT.is_open() && vol==5 && st_id==2)
        myOUT << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-    if(myINI.is_open() && vol==5 && st_id==2 )
+    if(myINI.is_open() && vol==6 && st_id==2 )
        myINI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-    if(myCSC.is_open() && vol>5 && vol<8 && tr_ed>0)
+    if(myCSC.is_open() && vol>6 && vol<9 && tr_ed>0)
        myCSC << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "

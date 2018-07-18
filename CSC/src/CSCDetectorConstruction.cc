@@ -14,8 +14,10 @@
 //------------------------------------------------------------------------------
 CSCDetectorConstruction::CSCDetectorConstruction()
 : G4VUserDetectorConstruction(),
-  fLV0(0), fLV1(0), fLV2(0), fLV3(0), fLV4(0),
-  fLV5(0), fLV6(0), fLV7(0), fLV8(0), fLV9(0)
+  fLV00(0), fLV01(0), fLV02(0), fLV03(0), fLV04(0),
+  fLV05(0), fLV06(0), fLV07(0), fLV08(0), fLV09(0),
+  fLV10(0), fLV11(0), fLV12(0), fLV13(0), fLV14(0),
+  fLV15(0), fLV16(0)
 { }
 //------------------------------------------------------------------------------
 CSCDetectorConstruction::~CSCDetectorConstruction(){ }
@@ -76,16 +78,28 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
 
   // Layer (LV) geometrical parameters
   G4double l_xy = 999.000*mm;
-  G4double l0_z =  10.000*mm;
-  G4double l1_z =  10.000*mm;
-  G4double l2_z =  10.000*mm;
-  G4double l3_z =  10.000*mm;
-  G4double l4_z =  10.000*mm;
-  G4double l5_z =  22.000*mm;
-  G4double l6_z =   3.000*mm;
-  G4double l7_z =   3.000*mm;
-  G4double l8_z =   0.001*mm;
-  G4double l9_z =   0.001*mm;
+
+  G4double l00_z =   5.000*mm;
+
+  G4double l01_z =  10.000*mm;
+  G4double l02_z =  10.000*mm;
+  G4double l03_z =  10.000*mm;
+  G4double l04_z =  10.000*mm;
+  G4double l05_z =  10.000*mm;
+
+  G4double l06_z =  22.000*mm;
+  G4double l07_z =   3.000*mm;
+  G4double l08_z =   3.001*mm;
+  G4double l09_z =  22.001*mm;
+
+  G4double l10_z =  10.000*mm;
+  G4double l11_z =  10.000*mm;
+  G4double l12_z =  10.000*mm;
+  G4double l13_z =  10.000*mm;
+  G4double l14_z =  10.000*mm;
+
+  G4double l15_z =   5.000*mm;
+  G4double l16_z =   0.001*mm;
 
   // World
   G4double w_xy = 1000.0*mm;
@@ -97,77 +111,129 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, w_mat, "World");
 
   // LVs
-  G4Box* solidLV0 =  new G4Box("LV0", 0.5*l_xy, 0.5*l_xy, 0.5*l0_z);
-  G4Box* solidLV1 =  new G4Box("LV1", 0.5*l_xy, 0.5*l_xy, 0.5*l1_z);
-  G4Box* solidLV2 =  new G4Box("LV2", 0.5*l_xy, 0.5*l_xy, 0.5*l2_z);
-  G4Box* solidLV3 =  new G4Box("LV3", 0.5*l_xy, 0.5*l_xy, 0.5*l3_z);
-  G4Box* solidLV4 =  new G4Box("LV4", 0.5*l_xy, 0.5*l_xy, 0.5*l4_z);
-  G4Box* solidLV5 =  new G4Box("LV5", 0.5*l_xy, 0.5*l_xy, 0.5*l5_z);
-  G4Box* solidLV6 =  new G4Box("LV6", 0.5*l_xy, 0.5*l_xy, 0.5*l6_z);
-  G4Box* solidLV7 =  new G4Box("LV7", 0.5*l_xy, 0.5*l_xy, 0.5*l7_z);
-  G4Box* solidLV8 =  new G4Box("LV8", 0.5*l_xy, 0.5*l_xy, 0.5*l8_z);
-  G4Box* solidLV9 =  new G4Box("LV9", 0.5*l_xy, 0.5*l_xy, 0.5*l9_z);
+  G4Box* solidLV00 =  new G4Box("LV00", 0.5*l_xy, 0.5*l_xy, 0.5*l00_z);
+  G4Box* solidLV01 =  new G4Box("LV01", 0.5*l_xy, 0.5*l_xy, 0.5*l01_z);
+  G4Box* solidLV02 =  new G4Box("LV02", 0.5*l_xy, 0.5*l_xy, 0.5*l02_z);
+  G4Box* solidLV03 =  new G4Box("LV03", 0.5*l_xy, 0.5*l_xy, 0.5*l03_z);
+  G4Box* solidLV04 =  new G4Box("LV04", 0.5*l_xy, 0.5*l_xy, 0.5*l04_z);
+  G4Box* solidLV05 =  new G4Box("LV05", 0.5*l_xy, 0.5*l_xy, 0.5*l05_z);
+  G4Box* solidLV06 =  new G4Box("LV06", 0.5*l_xy, 0.5*l_xy, 0.5*l06_z);
+  G4Box* solidLV07 =  new G4Box("LV07", 0.5*l_xy, 0.5*l_xy, 0.5*l07_z);
+  G4Box* solidLV08 =  new G4Box("LV08", 0.5*l_xy, 0.5*l_xy, 0.5*l08_z);
+  G4Box* solidLV09 =  new G4Box("LV09", 0.5*l_xy, 0.5*l_xy, 0.5*l09_z);
+  G4Box* solidLV10 =  new G4Box("LV10", 0.5*l_xy, 0.5*l_xy, 0.5*l10_z);
+  G4Box* solidLV11 =  new G4Box("LV11", 0.5*l_xy, 0.5*l_xy, 0.5*l11_z);
+  G4Box* solidLV12 =  new G4Box("LV12", 0.5*l_xy, 0.5*l_xy, 0.5*l12_z);
+  G4Box* solidLV13 =  new G4Box("LV13", 0.5*l_xy, 0.5*l_xy, 0.5*l13_z);
+  G4Box* solidLV14 =  new G4Box("LV14", 0.5*l_xy, 0.5*l_xy, 0.5*l14_z);
+  G4Box* solidLV15 =  new G4Box("LV15", 0.5*l_xy, 0.5*l_xy, 0.5*l15_z);
+  G4Box* solidLV16 =  new G4Box("LV16", 0.5*l_xy, 0.5*l_xy, 0.5*l16_z);
 
-  //G4Material* l0_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l1_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l2_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l3_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l4_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l5_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l6_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  //G4Material* l7_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* l8_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* l9_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l00_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l01_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l02_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l03_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l04_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l05_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l06_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l07_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l08_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l09_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l10_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l11_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l12_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l13_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l14_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l15_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  //G4Material* l16_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
-  G4LogicalVolume* logicLV0 = new G4LogicalVolume(solidLV0, steel , "LV0");
-  G4LogicalVolume* logicLV1 = new G4LogicalVolume(solidLV1, steel , "LV1");
-  G4LogicalVolume* logicLV2 = new G4LogicalVolume(solidLV2, steel , "LV2");
-  G4LogicalVolume* logicLV3 = new G4LogicalVolume(solidLV3, steel , "LV3");
-  G4LogicalVolume* logicLV4 = new G4LogicalVolume(solidLV4, steel , "LV4");
-  G4LogicalVolume* logicLV5 = new G4LogicalVolume(solidLV5, ArCH4 , "LV5");
-  G4LogicalVolume* logicLV6 = new G4LogicalVolume(solidLV6, ArCH4 , "LV6");
-  G4LogicalVolume* logicLV7 = new G4LogicalVolume(solidLV7, ArCH4 , "LV7");
-  G4LogicalVolume* logicLV8 = new G4LogicalVolume(solidLV8, l8_mat, "LV8");
-  G4LogicalVolume* logicLV9 = new G4LogicalVolume(solidLV9, l9_mat, "LV9");
+  G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, scinc , "LV00");
+  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, steel , "LV01");
+  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, steel , "LV02");
+  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, steel , "LV03");
+  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, steel , "LV04");
+  G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, steel , "LV05");
+  G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, ArCH4 , "LV06");
+  G4LogicalVolume* logicLV07 = new G4LogicalVolume(solidLV07, ArCH4 , "LV07");
+  G4LogicalVolume* logicLV08 = new G4LogicalVolume(solidLV08, ArCH4 , "LV08");
+  G4LogicalVolume* logicLV09 = new G4LogicalVolume(solidLV09, ArCH4 , "LV09");
+  G4LogicalVolume* logicLV10 = new G4LogicalVolume(solidLV10, steel , "LV10");
+  G4LogicalVolume* logicLV11 = new G4LogicalVolume(solidLV11, steel , "LV11");
+  G4LogicalVolume* logicLV12 = new G4LogicalVolume(solidLV12, steel , "LV12");
+  G4LogicalVolume* logicLV13 = new G4LogicalVolume(solidLV13, steel , "LV13");
+  G4LogicalVolume* logicLV14 = new G4LogicalVolume(solidLV14, steel , "LV14");
+  G4LogicalVolume* logicLV15 = new G4LogicalVolume(solidLV15, scinc , "LV15");
+  G4LogicalVolume* logicLV16 = new G4LogicalVolume(solidLV16, w_mat , "LV16");
 
 
-  G4double shft = 10.*mm;
-  G4ThreeVector l0_pos; l0_pos.set(0,0,0.5*l0_z-0.5*w_z+shft);
-  G4ThreeVector l1_pos; l1_pos.set(0,0,l0_z+0.5*l1_z-0.5*w_z+shft);
-  G4ThreeVector l2_pos; l2_pos.set(0,0,l0_z+l1_z+0.5*l2_z-0.5*w_z+shft);
-  G4ThreeVector l3_pos; l3_pos.set(0,0,l0_z+l1_z+l2_z+0.5*l3_z-0.5*w_z+shft);
-  G4ThreeVector l4_pos; l4_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+0.5*l4_z-0.5*w_z+shft);
-  G4ThreeVector l5_pos; l5_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+l4_z+0.5*l5_z-0.5*w_z+shft);
-  G4ThreeVector l6_pos; l6_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+l4_z+l5_z+0.5*l6_z-0.5*w_z+shft);
-  G4ThreeVector l7_pos; l7_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+l4_z+l5_z+l6_z+0.5*l7_z-0.5*w_z+shft);
-  G4ThreeVector l8_pos; l8_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+l4_z+l5_z+l6_z+l7_z+0.5*l8_z-0.5*w_z+shft);
-  G4ThreeVector l9_pos; l9_pos.set(0,0,l0_z+l1_z+l2_z+l3_z+l4_z+l5_z+l6_z+l7_z+l8_z+0.5*l9_z-0.5*w_z+shft);
+  G4double shft  = 10.*mm;
+  G4double s_gap = 30.*mm;
+
+  G4double p_start = shft -  0.5*w_z ;
+
+  G4double wall1 = l00_z + s_gap + l01_z + l02_z + l03_z + l04_z + l05_z + p_start;
+  G4double argap = wall1 + l06_z + l07_z + l08_z + l09_z                 ;
+  G4double wall2 = argap + l10_z + l11_z + l12_z + l13_z + l14_z + s_gap ;
+
+  G4ThreeVector l00_pos; l00_pos.set(0,0,0.5*l00_z + p_start);
+  G4ThreeVector l01_pos; l01_pos.set(0,0,l00_z + s_gap + 0.5*l01_z + p_start);
+  G4ThreeVector l02_pos; l02_pos.set(0,0,l00_z + s_gap + l01_z+0.5*l02_z+ p_start );
+  G4ThreeVector l03_pos; l03_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+0.5*l03_z+p_start );
+  G4ThreeVector l04_pos; l04_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+l03_z+0.5*l04_z+p_start);
+  G4ThreeVector l05_pos; l05_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+l03_z+l04_z+0.5*l05_z+p_start);
+  G4ThreeVector l06_pos; l06_pos.set(0,0,wall1 + 0.5*l06_z);
+  G4ThreeVector l07_pos; l07_pos.set(0,0,wall1 + l06_z+0.5*l07_z);
+  G4ThreeVector l08_pos; l08_pos.set(0,0,wall1 + l06_z+l07_z+0.5*l08_z);
+  G4ThreeVector l09_pos; l09_pos.set(0,0,wall1 + l06_z+l07_z+l08_z+0.5*l09_z);
+
+  G4ThreeVector l10_pos; l10_pos.set(0,0,argap + 0.5*l10_z);
+  G4ThreeVector l11_pos; l11_pos.set(0,0,argap + l10_z+0.5*l11_z);
+  G4ThreeVector l12_pos; l12_pos.set(0,0,argap + l10_z+l11_z+0.5*l12_z);
+  G4ThreeVector l13_pos; l13_pos.set(0,0,argap + l10_z+l11_z+l12_z+0.5*l13_z);
+  G4ThreeVector l14_pos; l14_pos.set(0,0,argap + l10_z+l11_z+l12_z+l13_z+0.5*l14_z);
+
+  G4ThreeVector l15_pos; l15_pos.set(0,0,wall2 + 0.5*l15_z);
+  G4ThreeVector l16_pos; l16_pos.set(0,0,wall2 + l15_z + 0.5*l16_z);
 
   G4VPhysicalVolume* physWorld =
     new G4PVPlacement(0, G4ThreeVector(), logicWorld,
                          "World", 0, false, checkOverlaps);
 
-  new G4PVPlacement(0, l0_pos, logicLV0, "LV0", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l1_pos, logicLV1, "LV1", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l2_pos, logicLV2, "LV2", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l3_pos, logicLV3, "LV3", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l4_pos, logicLV4, "LV4", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l5_pos, logicLV5, "LV5", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l6_pos, logicLV6, "LV6", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l7_pos, logicLV7, "LV7", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l8_pos, logicLV8, "LV8", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l9_pos, logicLV9, "LV9", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l00_pos, logicLV00, "LV10", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l01_pos, logicLV01, "LV11", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l02_pos, logicLV02, "LV12", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l03_pos, logicLV03, "LV13", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l04_pos, logicLV04, "LV14", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l05_pos, logicLV05, "LV15", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l06_pos, logicLV06, "LV16", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l07_pos, logicLV07, "LV17", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l08_pos, logicLV08, "LV18", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l09_pos, logicLV09, "LV19", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l10_pos, logicLV10, "LV10", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l11_pos, logicLV11, "LV11", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l12_pos, logicLV12, "LV12", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l13_pos, logicLV13, "LV13", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l14_pos, logicLV14, "LV14", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l15_pos, logicLV15, "LV15", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l16_pos, logicLV16, "LV16", logicWorld, false, 0, checkOverlaps);
 
-  fLV0 = logicLV0;
-  fLV1 = logicLV1;
-  fLV2 = logicLV2;
-  fLV3 = logicLV3;
-  fLV4 = logicLV4;
-  fLV5 = logicLV5;
-  fLV6 = logicLV6;
-  fLV7 = logicLV7;
-  fLV8 = logicLV8;
-  fLV9 = logicLV9;
+  fLV00 = logicLV00;
+  fLV01 = logicLV01;
+  fLV02 = logicLV02;
+  fLV03 = logicLV03;
+  fLV04 = logicLV04;
+  fLV05 = logicLV05;
+  fLV06 = logicLV06;
+  fLV07 = logicLV07;
+  fLV08 = logicLV08;
+  fLV09 = logicLV09;
+  fLV10 = logicLV10;
+  fLV11 = logicLV11;
+  fLV12 = logicLV12;
+  fLV13 = logicLV13;
+  fLV14 = logicLV14;
+  fLV15 = logicLV15;
+  fLV16 = logicLV16;
 
   return physWorld;
 }

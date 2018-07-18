@@ -17,28 +17,43 @@ class CSCDetectorConstruction : public G4VUserDetectorConstruction
 
     virtual G4VPhysicalVolume* Construct();
 
-    G4LogicalVolume* GetLV0() const { return fLV0; }
-    G4LogicalVolume* GetLV1() const { return fLV1; }
-    G4LogicalVolume* GetLV2() const { return fLV2; }
-    G4LogicalVolume* GetLV3() const { return fLV3; }
-    G4LogicalVolume* GetLV4() const { return fLV4; }
-    G4LogicalVolume* GetLV5() const { return fLV5; }
-    G4LogicalVolume* GetLV6() const { return fLV6; }
-    G4LogicalVolume* GetLV7() const { return fLV7; }
-    G4LogicalVolume* GetLV8() const { return fLV8; }
-    G4LogicalVolume* GetLV9() const { return fLV9; }
+    G4LogicalVolume* GetLV00() const { return fLV00; }
+    G4LogicalVolume* GetLV01() const { return fLV01; }
+    G4LogicalVolume* GetLV02() const { return fLV02; }
+    G4LogicalVolume* GetLV03() const { return fLV03; }
+    G4LogicalVolume* GetLV04() const { return fLV04; }
+    G4LogicalVolume* GetLV05() const { return fLV05; }
+    G4LogicalVolume* GetLV06() const { return fLV06; }
+    G4LogicalVolume* GetLV07() const { return fLV07; }
+    G4LogicalVolume* GetLV08() const { return fLV08; }
+    G4LogicalVolume* GetLV09() const { return fLV09; }
+    G4LogicalVolume* GetLV10() const { return fLV10; }
+    G4LogicalVolume* GetLV11() const { return fLV11; }
+    G4LogicalVolume* GetLV12() const { return fLV12; }
+    G4LogicalVolume* GetLV13() const { return fLV13; }
+    G4LogicalVolume* GetLV14() const { return fLV14; }
+    G4LogicalVolume* GetLV15() const { return fLV15; }
+    G4LogicalVolume* GetLV16() const { return fLV16; }
 
   protected:
-    G4LogicalVolume*  fLV0;
-    G4LogicalVolume*  fLV1;
-    G4LogicalVolume*  fLV2;
-    G4LogicalVolume*  fLV3;
-    G4LogicalVolume*  fLV4;
-    G4LogicalVolume*  fLV5;
-    G4LogicalVolume*  fLV6;
-    G4LogicalVolume*  fLV7;
-    G4LogicalVolume*  fLV8;
-    G4LogicalVolume*  fLV9;
+    G4LogicalVolume*  fLV00;
+    G4LogicalVolume*  fLV01;
+    G4LogicalVolume*  fLV02;
+    G4LogicalVolume*  fLV03;
+    G4LogicalVolume*  fLV04;
+    G4LogicalVolume*  fLV05;
+    G4LogicalVolume*  fLV06;
+    G4LogicalVolume*  fLV07;
+    G4LogicalVolume*  fLV08;
+    G4LogicalVolume*  fLV09;
+    G4LogicalVolume*  fLV10;
+    G4LogicalVolume*  fLV11;
+    G4LogicalVolume*  fLV12;
+    G4LogicalVolume*  fLV13;
+    G4LogicalVolume*  fLV14;
+    G4LogicalVolume*  fLV15;
+    G4LogicalVolume*  fLV16;
+
 };
 
 #endif

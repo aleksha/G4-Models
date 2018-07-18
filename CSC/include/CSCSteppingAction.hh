@@ -31,16 +31,23 @@ class CSCSteppingAction : public G4UserSteppingAction
     std::ofstream myINI;
     std::ofstream myCSC;
 
-    G4LogicalVolume* fLV0;
-    G4LogicalVolume* fLV1;
-    G4LogicalVolume* fLV2;
-    G4LogicalVolume* fLV3;
-    G4LogicalVolume* fLV4;
-    G4LogicalVolume* fLV5;
-    G4LogicalVolume* fLV6;
-    G4LogicalVolume* fLV7;
-    G4LogicalVolume* fLV8;
-    G4LogicalVolume* fLV9;
+    G4LogicalVolume* fLV00;
+    G4LogicalVolume* fLV01;
+    G4LogicalVolume* fLV02;
+    G4LogicalVolume* fLV03;
+    G4LogicalVolume* fLV04;
+    G4LogicalVolume* fLV05;
+    G4LogicalVolume* fLV06;
+    G4LogicalVolume* fLV07;
+    G4LogicalVolume* fLV08;
+    G4LogicalVolume* fLV09;
+    G4LogicalVolume* fLV10;
+    G4LogicalVolume* fLV11;
+    G4LogicalVolume* fLV12;
+    G4LogicalVolume* fLV13;
+    G4LogicalVolume* fLV14;
+    G4LogicalVolume* fLV15;
+    G4LogicalVolume* fLV16;
 };
 //------------------------------------------------------------------------------
 #endif
