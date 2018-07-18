@@ -60,9 +60,11 @@ void coins(){
     }
     fOUT.close();
 
-    cout << "---> All fired   "  << 100.*real  /ev  << " %"<< endl;
-    cout << "---> True proton "  << 100.*ideal /ev  << " %"<< endl;
-    cout << "---> No CSC      "  << 100.*missed/ev  << " %"<< endl;
-
+    cout << "---> All fired   "  << 100.*real  /ev  << " %  ( " << real   << " )" << endl;
+    cout << "---> True proton "  << 100.*ideal /ev  << " %  ( " << ideal  << " )" << endl;
+    cout << "---> No CSC      "  << 100.*missed/ev  << " %  ( " << missed << " )" << endl;
+// ---> All fired   66.1973 %  ( 33098 )
+// ---> True proton 50.135 %  ( 25067 )
+// ---> No CSC      0.402008 %  ( 201 )
     gSystem->Exit(0);
 }
