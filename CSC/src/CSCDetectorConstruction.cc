@@ -33,7 +33,7 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   G4String name;
   G4double z, a, density;
   //G4double temperature, pressure;
-  G4int ncomponents;//, natoms;
+  G4int ncomponents, natoms;
   G4double fractionmass;
 
   // Elements
