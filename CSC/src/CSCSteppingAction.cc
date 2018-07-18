@@ -23,7 +23,7 @@ CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
 }
 //------------------------------------------------------------------------------
 CSCSteppingAction::~CSCSteppingAction(){ 
-  myOUT.close(); myCSC.close(); myINI.close(); mySCI.close() }
+  myOUT.close(); myCSC.close(); myINI.close(); mySCI.close(); }
 //------------------------------------------------------------------------------
 void CSCSteppingAction::UserSteppingAction(const G4Step* step)
 {
@@ -143,8 +143,9 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
              << G4endl;
 
     if(mySCI.is_open() && (vol==1 || vol==6 || vol==15) && tr_ed>0){
+
        if( ( (vol==1 || vol==16) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
-           ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300) ) ){
+           ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300                 )    ){
            mySCI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
                  << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
                  << tr_x  << " " << tr_y  << " " << tr_z  << " " << g_time  << " "
