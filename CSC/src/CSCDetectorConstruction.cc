@@ -45,9 +45,9 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   //G4Element* Ar = new G4Element("Argon",    "Ar", z= 18, a= 39.95*g/mole);
   //G4Element* Cu = new G4Element("Copper",   "Cu", z= 29, a= 63.546*g/mole);
 
-  //G4Material* SciSolid = new G4Material(name="SciSolid", density = 1.032*g/cm3, ncomponents=2);
-  //SciSolid->AddElement(C, natoms=9);
-  //SciSolid->AddElement(H, natoms=10);
+  G4Material* scinc = new G4Material(name="scinc", density = 1.032*g/cm3, ncomponents=2);
+  scinc->AddElement(C, natoms=9);
+  scinc->AddElement(H, natoms=10);
 
   //Gases
   G4Material* CH4Gas = new G4Material(name="CH4Gas",density=13.661*kg/m3,ncomponents=2);
