@@ -78,7 +78,7 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
   if (volume == fLV15) vol=15 ;
   if (volume == fLV16) vol=16 ;
 
-  if (vol!=0 || vol<5 || vol>8 || vol!=15) return;
+//  if (vol!=0 || vol!=5 || vol!=6 || vol!=7 || vol!=8 || vol!=15) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
@@ -142,9 +142,9 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << G4endl;
 
-    if(mySCI.is_open() && (vol==1 || vol==6 || vol==15) && tr_ed>0){
+    if(mySCI.is_open() && (vol==0 || vol==6 || vol==15) && tr_ed>0){
 
-       if( ( (vol==1 || vol==16) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
+       if( ( (vol==0 || vol==15) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
            ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300                 )    ){
            mySCI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
                  << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
