@@ -1,14 +1,14 @@
 
-#include "B1SteppingAction.hh"
-#include "B1EventAction.hh"
-#include "B1DetectorConstruction.hh"
+#include "CSCSteppingAction.hh"
+#include "CSCEventAction.hh"
+#include "CSCDetectorConstruction.hh"
 #include "G4Step.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
 #include "G4SystemOfUnits.hh"
 //------------------------------------------------------------------------------
-B1SteppingAction::B1SteppingAction(B1EventAction* eventAction)
+CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction),
   fLV0(0), fLV1(0), fLV2(0), fLV3(0), fLV4(0),
@@ -19,14 +19,14 @@ B1SteppingAction::B1SteppingAction(B1EventAction* eventAction)
  myCSC .open( "csc.data" , std::ios::trunc);
 }
 //------------------------------------------------------------------------------
-B1SteppingAction::~B1SteppingAction(){ myOUT.close(); myCSC.close(); myINI.close();}
+CSCSteppingAction::~CSCSteppingAction(){ myOUT.close(); myCSC.close(); myINI.close();}
 //------------------------------------------------------------------------------
-void B1SteppingAction::UserSteppingAction(const G4Step* step)
+void CSCSteppingAction::UserSteppingAction(const G4Step* step)
 {
   if ( !fLV0 || !fLV1 || !fLV2 || !fLV3 || !fLV4 ||
                 !fLV5 || !fLV6 || !fLV7 || !fLV8 || !fLV9 ) {
-    const B1DetectorConstruction* detectorConstruction
-      = static_cast<const B1DetectorConstruction*>
+    const CSCDetectorConstruction* detectorConstruction
+      = static_cast<const CSCDetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
     fLV0 = detectorConstruction->GetLV0();

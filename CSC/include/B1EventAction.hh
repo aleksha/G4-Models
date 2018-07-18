@@ -1,23 +1,23 @@
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef CSCEventAction_h
+#define CSCEventAction_h 1
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
 
-class B1RunAction;
+class CSCRunAction;
 
 /// Event action class
 ///
 
-class B1EventAction : public G4UserEventAction
+class CSCEventAction : public G4UserEventAction
 {
   public:
-    B1EventAction(B1RunAction* runAction);
-    virtual ~B1EventAction();
+    CSCEventAction(CSCRunAction* runAction);
+    virtual ~CSCEventAction();
     virtual void BeginOfEventAction(const G4Event* event);
     virtual void EndOfEventAction(const G4Event* event);
   private:
-    B1RunAction* fRunAction;
+    CSCRunAction* fRunAction;
 };
 //------------------------------------------------------------------------------
 #endif

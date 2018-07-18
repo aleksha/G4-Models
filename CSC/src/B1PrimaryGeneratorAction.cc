@@ -1,4 +1,4 @@
-#include "B1PrimaryGeneratorAction.hh"
+#include "CSCPrimaryGeneratorAction.hh"
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
@@ -9,7 +9,7 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 //------------------------------------------------------------------------------
-B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
+CSCPrimaryGeneratorAction::CSCPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fParticleGun(0)
 {
@@ -27,9 +27,9 @@ B1PrimaryGeneratorAction::B1PrimaryGeneratorAction()
   fParticleGun->SetParticleEnergy(55.*MeV);
 }
 //------------------------------------------------------------------------------
-B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction(){ delete fParticleGun; }
+CSCPrimaryGeneratorAction::~CSCPrimaryGeneratorAction(){ delete fParticleGun; }
 //------------------------------------------------------------------------------
-void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void CSCPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
   fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-499.5*mm) );

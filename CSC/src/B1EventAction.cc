@@ -1,16 +1,16 @@
-#include "B1EventAction.hh"
-#include "B1RunAction.hh"
+#include "CSCEventAction.hh"
+#include "CSCRunAction.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 //------------------------------------------------------------------------------
-B1EventAction::B1EventAction(B1RunAction* runAction)
+CSCEventAction::CSCEventAction(CSCRunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction)
 {}
 //------------------------------------------------------------------------------
-B1EventAction::~B1EventAction(){}
+CSCEventAction::~CSCEventAction(){}
 //------------------------------------------------------------------------------
-void B1EventAction::BeginOfEventAction(const G4Event*){}
+void CSCEventAction::BeginOfEventAction(const G4Event*){}
 //------------------------------------------------------------------------------
-void B1EventAction::EndOfEventAction(const G4Event*){}
+void CSCEventAction::EndOfEventAction(const G4Event*){}
 //------------------------------------------------------------------------------

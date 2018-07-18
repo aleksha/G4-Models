@@ -1,5 +1,5 @@
-#include "Sr90TESTDetectorConstruction.hh"
-#include "Sr90TESTActionInitialization.hh"
+#include "CSCDetectorConstruction.hh"
+#include "CSCActionInitialization.hh"
 
 #include "G4RunManager.hh"
 
@@ -23,7 +23,7 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 
   // Detector construction
-  runManager->SetUserInitialization(new Sr90TESTDetectorConstruction());
+  runManager->SetUserInitialization(new CSCDetectorConstruction());
 
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;
@@ -31,7 +31,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(physicsList);
     
   // User action initialization
-  runManager->SetUserInitialization(new Sr90TESTActionInitialization());
+  runManager->SetUserInitialization(new CSCActionInitialization());
   
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();

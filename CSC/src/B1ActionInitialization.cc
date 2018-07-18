@@ -1,31 +1,31 @@
 //------------------------------------------------------------------------------
-#include "B1ActionInitialization.hh"
-#include "B1PrimaryGeneratorAction.hh"
-#include "B1RunAction.hh"
-#include "B1EventAction.hh"
-#include "B1SteppingAction.hh"
+#include "CSCActionInitialization.hh"
+#include "CSCPrimaryGeneratorAction.hh"
+#include "CSCRunAction.hh"
+#include "CSCEventAction.hh"
+#include "CSCSteppingAction.hh"
 //------------------------------------------------------------------------------
-B1ActionInitialization::B1ActionInitialization()
+CSCActionInitialization::CSCActionInitialization()
  : G4VUserActionInitialization()
 {}
 //------------------------------------------------------------------------------
-B1ActionInitialization::~B1ActionInitialization(){}
+CSCActionInitialization::~CSCActionInitialization(){}
 //------------------------------------------------------------------------------
-void B1ActionInitialization::BuildForMaster() const
+void CSCActionInitialization::BuildForMaster() const
 {
-  B1RunAction* runAction = new B1RunAction;
+  CSCRunAction* runAction = new CSCRunAction;
   SetUserAction(runAction);
 }
 //------------------------------------------------------------------------------
-void B1ActionInitialization::Build() const
+void CSCActionInitialization::Build() const
 {
-  SetUserAction(new B1PrimaryGeneratorAction);
+  SetUserAction(new CSCPrimaryGeneratorAction);
 
-  B1RunAction* runAction = new B1RunAction;
+  CSCRunAction* runAction = new CSCRunAction;
   SetUserAction(runAction);
 
-  B1EventAction* eventAction = new B1EventAction(runAction);
+  CSCEventAction* eventAction = new CSCEventAction(runAction);
   SetUserAction(eventAction);
-  SetUserAction(new B1SteppingAction(eventAction));
+  SetUserAction(new CSCSteppingAction(eventAction));
 }
 //------------------------------------------------------------------------------

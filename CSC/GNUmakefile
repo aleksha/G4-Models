@@ -1,5 +1,5 @@
 
-name := exec_Sr90TEST
+name := exec_CSC
 G4TARGET := $(name)
 G4EXLIB := true
 

@@ -1,5 +1,5 @@
-#ifndef B1SteppingAction_h
-#define B1SteppingAction_h 1
+#ifndef CSCSteppingAction_h
+#define CSCSteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
 #include "globals.hh"
@@ -9,24 +9,24 @@
 #include <sstream>
 #include <string>
 
-class B1EventAction;
+class CSCEventAction;
 
 class G4LogicalVolume;
 
 /// Stepping action class
 ///
 
-class B1SteppingAction : public G4UserSteppingAction
+class CSCSteppingAction : public G4UserSteppingAction
 {
   public:
-    B1SteppingAction(B1EventAction* eventAction);
-    virtual ~B1SteppingAction();
+    CSCSteppingAction(CSCEventAction* eventAction);
+    virtual ~CSCSteppingAction();
 
     // method from the base class
     virtual void UserSteppingAction(const G4Step*);
 
   private:
-    B1EventAction*  fEventAction;
+    CSCEventAction*  fEventAction;
     std::ofstream myOUT;
     std::ofstream myINI;
     std::ofstream myCSC;

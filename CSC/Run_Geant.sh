@@ -2,4 +2,4 @@
 rm *LOG;
 source /home/user/Sim/geant4.10.04.p02-install/bin/geant4.sh;
 make;
-./exec_Sr90TEST run.mac >> inLOG;
+./exec_CSC run.mac >> inLOG;

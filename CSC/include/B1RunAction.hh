@@ -1,5 +1,5 @@
-#ifndef B1RunAction_h
-#define B1RunAction_h 1
+#ifndef CSCRunAction_h
+#define CSCRunAction_h 1
 
 #include "G4UserRunAction.hh"
 #include "globals.hh"
@@ -8,11 +8,11 @@ class G4Run;
 
 /// Run action class
 
-class B1RunAction : public G4UserRunAction
+class CSCRunAction : public G4UserRunAction
 {
   public:
-    B1RunAction();
-    virtual ~B1RunAction();
+    CSCRunAction();
+    virtual ~CSCRunAction();
 
     // virtual G4Run* GenerateRun();
     virtual void BeginOfRunAction(const G4Run*);

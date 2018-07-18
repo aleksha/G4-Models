@@ -1,5 +1,5 @@
-#ifndef B1PrimaryGeneratorAction_h
-#define B1PrimaryGeneratorAction_h 1
+#ifndef CSCPrimaryGeneratorAction_h
+#define CSCPrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4ParticleGun.hh"
@@ -11,11 +11,11 @@ class G4Event;
 
 /// The primary generator action class with particle gun.
 
-class B1PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class CSCPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B1PrimaryGeneratorAction();
-    virtual ~B1PrimaryGeneratorAction();
+    CSCPrimaryGeneratorAction();
+    virtual ~CSCPrimaryGeneratorAction();
 
     // method from the base class
     virtual void GeneratePrimaries(G4Event*);

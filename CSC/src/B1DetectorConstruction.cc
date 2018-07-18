@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-#include "B1DetectorConstruction.hh"
+#include "CSCDetectorConstruction.hh"
 //------------------------------------------------------------------------------
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -12,15 +12,15 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 //------------------------------------------------------------------------------
-B1DetectorConstruction::B1DetectorConstruction()
+CSCDetectorConstruction::CSCDetectorConstruction()
 : G4VUserDetectorConstruction(),
   fLV0(0), fLV1(0), fLV2(0), fLV3(0), fLV4(0),
   fLV5(0), fLV6(0), fLV7(0), fLV8(0), fLV9(0)
 { }
 //------------------------------------------------------------------------------
-B1DetectorConstruction::~B1DetectorConstruction(){ }
+CSCDetectorConstruction::~CSCDetectorConstruction(){ }
 //------------------------------------------------------------------------------
-G4VPhysicalVolume* B1DetectorConstruction::Construct()
+G4VPhysicalVolume* CSCDetectorConstruction::Construct()
 {
   G4bool checkOverlaps = true;
   G4NistManager* nist = G4NistManager::Instance();
