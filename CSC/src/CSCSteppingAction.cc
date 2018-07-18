@@ -22,7 +22,7 @@ CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
  mySCI .open( "sci.data" , std::ios::trunc);
 }
 //------------------------------------------------------------------------------
-CSCSteppingAction::~CSCSteppingAction(){ 
+CSCSteppingAction::~CSCSteppingAction(){
   myOUT.close(); myCSC.close(); myINI.close(); mySCI.close(); }
 //------------------------------------------------------------------------------
 void CSCSteppingAction::UserSteppingAction(const G4Step* step)
