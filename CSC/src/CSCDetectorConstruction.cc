@@ -99,12 +99,13 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   G4double l14_z =  10.000*mm;
 
   G4double l15_z =   5.000*mm;
-  G4double l16_z =   0.001*mm;
+  G4double l16_z =   5.000*mm;
 
   // World
-  G4double w_xy = 1000.0*mm;
-  G4double w_z  = 1000.0*mm;
-  G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  G4double w_xy = 2000.0*mm;
+  G4double w_z  = 2000.0*mm;
+  //G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  G4Material* w_mat = nist->FindOrBuildMaterial("G4_AIR");
   G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4Box* solidWorld = new G4Box("World", 0.5*w_xy, 0.5*w_xy, 0.5*w_z);
 
@@ -163,11 +164,12 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   G4LogicalVolume* logicLV13 = new G4LogicalVolume(solidLV13, steel , "LV13");
   G4LogicalVolume* logicLV14 = new G4LogicalVolume(solidLV14, steel , "LV14");
   G4LogicalVolume* logicLV15 = new G4LogicalVolume(solidLV15, scinc , "LV15");
-  G4LogicalVolume* logicLV16 = new G4LogicalVolume(solidLV16, w_mat , "LV16");
+  G4LogicalVolume* logicLV16 = new G4LogicalVolume(solidLV16, scinc , "LV16");
 
 
-  G4double shft  = 10.*mm;
-  G4double s_gap = 30.*mm;
+  G4double shft  =   10.*mm;
+  G4double s_gap =   30.*mm;
+  G4double l_tof = 1000.*mm;
 
   G4double p_start = shft -  0.5*w_z ;
 
@@ -193,7 +195,7 @@ G4VPhysicalVolume* CSCDetectorConstruction::Construct()
   G4ThreeVector l14_pos; l14_pos.set(0,0,argap + l10_z+l11_z+l12_z+l13_z+0.5*l14_z);
 
   G4ThreeVector l15_pos; l15_pos.set(0,0,wall2 + 0.5*l15_z);
-  G4ThreeVector l16_pos; l16_pos.set(0,0,wall2 + l15_z + 0.5*l16_z);
+  G4ThreeVector l16_pos; l16_pos.set(0,0,wall2 + l15_z + l_tof + 0.5*l16_z);
 
   G4VPhysicalVolume* physWorld =
     new G4PVPlacement(0, G4ThreeVector(), logicWorld,

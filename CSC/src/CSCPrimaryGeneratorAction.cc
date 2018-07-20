@@ -30,7 +30,7 @@ CSCPrimaryGeneratorAction::~CSCPrimaryGeneratorAction(){ delete fParticleGun; }
 void CSCPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
-  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-499.5*mm) );
+  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-999.5*mm) );
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 //------------------------------------------------------------------------------

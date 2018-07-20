@@ -142,13 +142,14 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << G4endl;
 
-    if(mySCI.is_open() && (vol==0 || vol==6 || vol==15) && tr_ed>0){
+    if(mySCI.is_open() && (vol==0 || vol==6 || vol==15 || vol==16) && tr_ed>0){
 
-       if( ( (vol==0 || vol==15) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
+       if( ( (vol==0 || vol==15 || vol==16) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
            ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300                 )    ){
            mySCI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
                  << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
-                 << tr_x  << " " << tr_y  << " " << tr_z  << " " << g_time  << " "
+                 << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "
+                 << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
                  << G4endl;}
     }
   }
