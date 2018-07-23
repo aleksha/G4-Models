@@ -1,0 +1,22 @@
+#----- BEGIN -----------------------
+# '#' - comment the raw
+# ' ' - separation
+# units are not used but neccesary
+# 
+#-----------------------------------
+Number_of_events 100001 events
+Electron_energy 720 MeV
+Tp 15 MeV
+zTPC 275 mm
+MatMode 1 code
+lTPC 275 mm
+BeWindow 0.5 mm
+Ar1 2 mm
+Ar2 10 mm
+MWPCgap 20 mm
+BeamSmearing 0 code
+BeamTheta 0.5 mrad
+BeamPos 0.1 mm
+TrackProtons 1 code
+UseMuons 0 instead_of_electrons
+#----- END -------------------------
