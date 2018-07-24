@@ -37,7 +37,7 @@ void fit_data(TString mode = "looks"){
       } fOUT.close();
       cout << "LOAD: " << cntr << " (x,y)-data points loaded.\n";
 
-      TF1* func = new TF1("func","pol6[0]",0,1);
+      TF1* func = new TF1("func","pol19",0,1);
       TF1* ber4 = new TF1("ber4","[0]*x**4+[1]*4*x**3*(1-x)+[2]*6*x**2*(1-x)**2+[3]*4*x*(1-x)**3+[4]*(1-x)**4",0,1);
       TF1* ber5 = new TF1("ber5","[0]*x**5+[1]*5*x**4*(1-x)+[2]*10*x**3*(1-x)**2+[3]*10*x**2*(1-x)**3+[4]*5*x*(1-x)**4+[5]*(1-x)**5",0,1);
       TF1* ber6 = new TF1("ber6","[0]*x**6+[1]*6*x**5*(1-x)+[2]*15*x**4*(1-x)**2+[3]*20*x**3*(1-x)**3+[4]*15*x**2*(1-x)**4+[5]*6*x*(1-x)**5+[6]*(1-x)**6",0,1);
@@ -86,11 +86,35 @@ void fit_data(TString mode = "looks"){
       gr->Fit("ber4","M");
       gr->Fit("ber5","M");
       gr->Fit("ber6","M");
+
+      TSpline *s3 = new TSpline3("s3",gr);
+      s3->SetLineColor(kOrange+1);
+      s3->SetLineWidth(3);
+
+      TGraphSmooth* gs1 = new TGraphSmooth("gs1");
+      TGraph*  gh = gs1->SmoothKern(gr,"normal",0.025 );
+      gh->SetLineColor(kBlue+1);
+      gh->SetLineWidth(3);
+
+      TGraphSmooth* gs3 = new TGraphSmooth("gs3");
+      TGraph*  gb = gs3->SmoothKern(gr,"box",0.1 );
+      gb->SetLineColor(kCyan);
+      gb->SetLineWidth(3);
+
+      TGraphSmooth* gs2 = new TGraphSmooth("gs2");
+      TGraph*  gl = gs2->SmoothSuper(gr);
+      gl->SetLineColor(kGreen+1);
+      gl->SetLineWidth(3);
+
       gr->Draw("AP");
+      gh->Draw("same");
+      //gb->Draw("same");
+      gl->Draw("same");
+      s3->Draw("same");
       func->Draw("same");
-      ber4->Draw("same");
-      ber5->Draw("same");
-      ber6->Draw("same");
+      //ber4->Draw("same");
+      //ber5->Draw("same");
+      //ber6->Draw("same");
       canv->Print("c.png");
     }
 
