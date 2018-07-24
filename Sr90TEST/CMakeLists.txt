@@ -43,6 +43,7 @@ target_link_libraries(exec_Sr90TEST ${Geant4_LIBRARIES})
 #
 set(Sr90TEST_SCRIPTS
   run.mac
+  Sr-Y-90_source.txt
   Run_Geant.sh
   )
 

@@ -1,32 +1,3 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-// $Id: Sr90TESTPrimaryGeneratorAction.cc 94307 2015-11-11 13:42:46Z gcosmo $
-//
-/// \file Sr90TESTPrimaryGeneratorAction.cc
-/// \brief Implementation of the Sr90TESTPrimaryGeneratorAction class
 
 #include "Sr90TESTPrimaryGeneratorAction.hh"
 
@@ -40,76 +11,129 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+//==============================================================================
+// HERE IS PRIMARY GENERATOR CLASS FIRST
+//==============================================================================
+class PrimaryGenerator : public G4VPrimaryGenerator
+{
+  public:
+    PrimaryGenerator();    
+   ~PrimaryGenerator();
 
+  public:
+    virtual void GeneratePrimaryVertex(G4Event*);
+
+  private:
+    std::ifstream in_data ;
+    double Egamma = 2.2792  ;
+    double Pgamma = 0.000115;
+    double Tmin   = 0.143791;
+    double Tmax   = 2.18736;
+    TSpline3 *spline; 
+    TGraph *graph; 
+
+    G4double fCosAlphaMin, fCosAlphaMax;
+    G4double fPsiMin, fPsiMax;
+    G4double fVx, fVy, fT, fR, fAlpha;
+};
+//------------------------------------------------------------------------------
+PrimaryGenerator::PrimaryGenerator()
+: G4VPrimaryGenerator()
+{
+  in_file.open("Sr-Y-90_source.txt", std::ios::in);
+  double kin_energy[48], prob[48];
+  double x,y;
+  int cntr=0;
+  while(configFile  >> x >> y ){
+    kin_enegry[cntr]=x; prob[cntr]=y/3.12535; cntr++;
+  }
+  in_file.close();
+  graph = new TGraph(48,kin_energy,prob);
+  spline = new TSpline3("spline",graph);
+
+  G4double alphaMin =   0*deg;      //alpha in [0,pi]
+  G4double alphaMax = 180*deg;
+  fCosAlphaMin = std::cos(alphaMin);
+  fCosAlphaMax = std::cos(alphaMax);
+  fPsiMin = 0*deg;       //psi in [0, 2*pi]
+  fPsiMax = 360*deg;
+}
+//------------------------------------------------------------------------------
+PrimaryGenerator::~PrimaryGenerator(){}
+//------------------------------------------------------------------------------
+void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
+{
+
+  G4ParticleDefinition* particleDefE = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+  G4ParticleDefinition* particleDefG = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
+
+  G4PrimaryParticle* particle1;
+  G4PrimaryParticle* particle2;
+
+  particle1 = new G4PrimaryParticle(particleDefE);
+  particle2 = new G4PrimaryParticle(particleDefG);
+
+  do{
+    fT = G4UniformRand()*(Xmax-Xmin);
+    fR = G4UniformRand();
+  }
+  while( spline->Eval(fT) > fR );
+
+  double Me = particle1->GetMass() / MeV;
+  double Ee = Me + fT;
+  double Pze = sqrt(Ee*Ee - Me*Me);
+
+  double Pzg = Egamma;
+
+
+  do{
+    fVx = G4UniformRand()*2.;
+    fVy = G4UniformRand()*2.;
+  }
+  while (fVx*fVx + fVy*fVy > BeamPos*BeamPos);
+  positionB.setX( fVx*mm );
+  positionB.setY( fVy*mm );
+  positionB.setZ( G4UniformRand()*2.*mm );
+  
+  G4double cosAlpha, sinAlpha, psi;
+
+  fAlpha = std::acos( G4UniformRand()*2. - 1. );
+
+  sinAlpha = std::sin(fAlpha);
+  cosAlpha = std::sqrt(1. - sinAlpha*sinAlpha);
+
+  psi = G4UniformRand()*(fPsiMax - fPsiMin);
+
+  particle1->SetMomentum(Pze*sinAlpha*std::cos(psi)*MeV,Pze*sinAlpha*std::sin(psi)*MeV,Pze*cosAlpha*MeV) ;
+  particle2->SetMomentum(Pzg*sinAlpha*std::cos(psi)*MeV,Pzg*sinAlpha*std::sin(psi)*MeV,Pzg*cosAlpha*MeV) ;
+
+  G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
+
+  if( G4UniformRand()<Pgamma)
+    vertexB->SetPrimary(particle2);
+  else
+    vertexB->SetPrimary(particle1);
+  
+  event->AddPrimaryVertex(vertexB);
+
+}
+//==============================================================================
+// PRIMARY GENERATOR ACTION
+//==============================================================================
 Sr90TESTPrimaryGeneratorAction::Sr90TESTPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0), 
-  fEnvelopeBox(0)
-{
-  G4int n_particle = 1;
-  fParticleGun  = new G4ParticleGun(n_particle);
-
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle
-    = particleTable->FindParticle(particleName="gamma");
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(6.*MeV);
+  fPrimaryGenerator(0)
+{ 
+  fPrimaryGenerator = new PrimaryGenerator();
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+//------------------------------------------------------------------------------
 Sr90TESTPrimaryGeneratorAction::~Sr90TESTPrimaryGeneratorAction()
 {
-  delete fParticleGun;
+  delete fPrimaryGenerator;
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+//------------------------------------------------------------------------------
 void Sr90TESTPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
-  //
-
-  // In order to avoid dependence of PrimaryGeneratorAction
-  // on DetectorConstruction class we get Envelope volume
-  // from G4LogicalVolumeStore.
-  
-  G4double envSizeXY = 0;
-  G4double envSizeZ = 0;
-
-  if (!fEnvelopeBox)
-  {
-    G4LogicalVolume* envLV
-      = G4LogicalVolumeStore::GetInstance()->GetVolume("Envelope");
-    if ( envLV ) fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
-  }
-
-  if ( fEnvelopeBox ) {
-    envSizeXY = fEnvelopeBox->GetXHalfLength()*2.;
-    envSizeZ = fEnvelopeBox->GetZHalfLength()*2.;
-  }  
-  else  {
-    G4ExceptionDescription msg;
-    msg << "Envelope volume of box shape not found.\n"; 
-    msg << "Perhaps you have changed geometry.\n";
-    msg << "The gun will be place at the center.";
-    G4Exception("Sr90TESTPrimaryGeneratorAction::GeneratePrimaries()",
-     "MyCode0002",JustWarning,msg);
-  }
-
-  G4double size = 0.8; 
-  G4double x0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double y0 = size * envSizeXY * (G4UniformRand()-0.5);
-  G4double z0 = -0.5 * envSizeZ;
-  
-  fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
-
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+  fPrimaryGenerator->GeneratePrimaryVertex(anEvent);
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+//------------------------------------------------------------------------------
