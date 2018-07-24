@@ -10,13 +10,13 @@ class PrimaryGenerator;
 class Sr90TESTPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    TPCPrimaryGeneratorAction();    
-    virtual ~TPCPrimaryGeneratorAction();
+    Sr90TESTPrimaryGeneratorAction();
+    virtual ~Sr90TESTPrimaryGeneratorAction();
 
-    virtual void GeneratePrimaries(G4Event*);         
+    virtual void GeneratePrimaries(G4Event*);
 
   private:
-    PrimaryGenerator*  fPrimaryGenerator; 
+    PrimaryGenerator*  fPrimaryGenerator;
 };
 
 #endif

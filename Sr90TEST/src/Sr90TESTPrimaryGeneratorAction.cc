@@ -11,26 +11,27 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
+#include "TGraph.h"
+
 //==============================================================================
 // HERE IS PRIMARY GENERATOR CLASS FIRST
 //==============================================================================
 class PrimaryGenerator : public G4VPrimaryGenerator
 {
   public:
-    PrimaryGenerator();    
+    PrimaryGenerator();
    ~PrimaryGenerator();
 
   public:
     virtual void GeneratePrimaryVertex(G4Event*);
 
   private:
-    std::ifstream in_data ;
+    std::ifstream in_file ;
     double Egamma = 2.2792  ;
     double Pgamma = 0.000115;
-    double Tmin   = 0.143791;
-    double Tmax   = 2.18736;
-    TSpline3 *spline; 
-    TGraph *graph; 
+    double Xmin   = 0.143791;
+    double Xmax   = 2.18736;
+    TGraph *graph;
 
     G4double fCosAlphaMin, fCosAlphaMax;
     G4double fPsiMin, fPsiMax;
@@ -44,12 +45,11 @@ PrimaryGenerator::PrimaryGenerator()
   double kin_energy[48], prob[48];
   double x,y;
   int cntr=0;
-  while(configFile  >> x >> y ){
-    kin_enegry[cntr]=x; prob[cntr]=y/3.12535; cntr++;
+  while(in_file  >> x >> y ){
+    kin_energy[cntr]=x; prob[cntr]=y/3.12535; cntr++;
   }
   in_file.close();
   graph = new TGraph(48,kin_energy,prob);
-  spline = new TSpline3("spline",graph);
 
   G4double alphaMin =   0*deg;      //alpha in [0,pi]
   G4double alphaMax = 180*deg;
@@ -64,6 +64,9 @@ PrimaryGenerator::~PrimaryGenerator(){}
 void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 {
 
+  G4double x0 = 0*mm, y0 = 0*mm, z0 = -1*mm;
+  G4ThreeVector positionB(x0,y0,z0);
+
   G4ParticleDefinition* particleDefE = G4ParticleTable::GetParticleTable()->FindParticle("e-");
   G4ParticleDefinition* particleDefG = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
 
@@ -77,7 +80,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
     fT = G4UniformRand()*(Xmax-Xmin);
     fR = G4UniformRand();
   }
-  while( spline->Eval(fT) > fR );
+  while( graph->Eval(fT,0,"S") > fR );
 
   double Me = particle1->GetMass() / MeV;
   double Ee = Me + fT;
@@ -90,11 +93,11 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
     fVx = G4UniformRand()*2.;
     fVy = G4UniformRand()*2.;
   }
-  while (fVx*fVx + fVy*fVy > BeamPos*BeamPos);
+  while (fVx*fVx + fVy*fVy > 2*2);
   positionB.setX( fVx*mm );
   positionB.setY( fVy*mm );
   positionB.setZ( G4UniformRand()*2.*mm );
-  
+
   G4double cosAlpha, sinAlpha, psi;
 
   fAlpha = std::acos( G4UniformRand()*2. - 1. );
@@ -113,7 +116,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
     vertexB->SetPrimary(particle2);
   else
     vertexB->SetPrimary(particle1);
-  
+
   event->AddPrimaryVertex(vertexB);
 
 }
@@ -123,7 +126,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 Sr90TESTPrimaryGeneratorAction::Sr90TESTPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
   fPrimaryGenerator(0)
-{ 
+{
   fPrimaryGenerator = new PrimaryGenerator();
 }
 //------------------------------------------------------------------------------
