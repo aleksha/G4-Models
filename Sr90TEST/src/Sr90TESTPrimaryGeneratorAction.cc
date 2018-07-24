@@ -11,8 +11,6 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
-#include "TGraph.h"
-
 //==============================================================================
 // HERE IS PRIMARY GENERATOR CLASS FIRST
 //==============================================================================
@@ -31,7 +29,6 @@ class PrimaryGenerator : public G4VPrimaryGenerator
     double Pgamma = 0.000115;
     double Xmin   = 0.143791;
     double Xmax   = 2.18736;
-    TGraph *graph;
 
     G4double fCosAlphaMin, fCosAlphaMax;
     G4double fPsiMin, fPsiMax;
@@ -49,7 +46,6 @@ PrimaryGenerator::PrimaryGenerator()
     kin_energy[cntr]=x; prob[cntr]=y/3.12535; cntr++;
   }
   in_file.close();
-  graph = new TGraph(48,kin_energy,prob);
 
   G4double alphaMin =   0*deg;      //alpha in [0,pi]
   G4double alphaMax = 180*deg;
