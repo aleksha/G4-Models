@@ -191,8 +191,8 @@ void tpcEvent::DrawDisplay(){
   ev_ttext.SetText(0.01, 0.95, txt);
   ev_ttext.Draw();
 
-  cnv->Print("c.png");
-  cnv->Close();
+  cnvd->Print("display.png");
+  cnvd->Close();
 };
 void tpcEvent::DrawHist( int anod ){
   TCanvas* cnv = new TCanvas("cnvh","histo",900,450);
@@ -239,6 +239,8 @@ void tpcEvent::DrawHist( int anod ){
   sprintf(   txt, "ENERGY %d", energyDeposit[anod]);
   en_ttext.SetText(100, maxY - 5.*step, txt);
   en_ttext.Draw();
+  cnv->Print("anode.png");
+  cnv->Close();
 };
 void tpcEvent::DrawTwo( int anod1, int anod2 ){
   TCanvas* cnv = new TCanvas("cnvh","histo",900,450);
@@ -267,6 +269,8 @@ void tpcEvent::DrawTwo( int anod1, int anod2 ){
   hB1->Draw("same");
   hF2->Draw("same");
   hB2->Draw("same");
+  cnv->Print("two_anodes.png");
+  cnv->Close();
 };
 
 void tpcEvent::DrawSector( int sector ){
@@ -331,6 +335,8 @@ void tpcEvent::DrawSector( int sector ){
   hF4->Draw("same");
   hF5->Draw("same");
   hF6->Draw("same");
+  cnvd->Print("sector.png");
+  cnvd->Close();
 };
 
 void tpcEvent::DrawAll( ){

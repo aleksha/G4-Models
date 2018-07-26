@@ -1,15 +1,16 @@
 #include "tpc_event.C"
 
 TTree* h101;
-tpcEvent *EVENT;
-int fEventNumber =  2; // 
-int fAnodNumber  = 66; // 
-int fAnod1Number = 65; // 
-int fAnod2Number = 66; // 
-int fWindowWidth = 10; // 
-double fThreshold   = 1.02; // 
+tpcEvent *EVENT= new tpcEvent();;
+int fEventNumber =  2; //
+int fSector      = 15; //
+int fAnodNumber  = 66; //
+int fAnod1Number = 65; //
+int fAnod2Number = 66; //
+int fWindowWidth = 10; //
+double fThreshold   = 1.02; //
 
-void DoLoad(int evnt)
+void DoLoad(int evnt, int anode, int a1, int a2, int sct)
 {
   Int_t hi;
   Double_t hx,hy;
@@ -41,12 +42,17 @@ void DoLoad(int evnt)
   EVENT->CheckAll();
   EVENT->Print();
   EVENT->DrawDisplay();
+  EVENT->DrawHist(anode);
+  EVENT->DrawTwo(a1,a2);
+  EVENT->DrawSector(sct);
   c2->Close();
   Printf("Loaded");
 }
 
 void no_gui(TString file_name = "/home/user/Data/TPC/gen_0080.root")
 {
-   DoLoad(fEventNumber);
+   TFile *oldfile  = new TFile(file_name);
+   h101 = (TTree*)oldfile->Get("h101");
+   DoLoad(fEventNumber, fAnodNumber, fAnod1Number, fAnod2Number, fSector);
    gSystem->Exit(0);
 }
