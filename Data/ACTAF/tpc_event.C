@@ -32,15 +32,15 @@ class tpcEvent
 
   private:
 
-    int peakPosition[70];
-    int timeStamp[70];
-    double energyDeposit[70];
-    double baseLevel[70];
-    double FADC[70][2050];
-    int  color[70];
+    int peakPosition[CHANNELS];
+    int timeStamp[CHANNELS];
+    double energyDeposit[CHANNELS];
+    double baseLevel[CHANNELS];
+    double FADC[CHANNELS][TRACELENGTH];
+    int  color[CHANNELS];
     int ev;
-    bool fired[70];
-    TText  ttext[70];
+    bool fired[CHANNELS];
+    TText  ttext[CHANNELS];
     TText ev_ttext;
     TText an_ttext;
     TText tm_ttext;
@@ -50,12 +50,12 @@ class tpcEvent
     TText  sec_ttext[16];
     int window    = 10;
     double threshold = 1.02;
-    int n_anods = 70;
-    int n_ch    = 2050;
+    int n_anods = CHANNELS;
+    int n_ch    = TRACELENGTH;
 };
 
 tpcEvent::tpcEvent(){
-  for(int i = 0; i < 70; i++){
+  for(int i = 0; i < CHANNELS; i++){
     fired[i]=false;
     baseLevel[i]=0;
     peakPosition[i]=0;
@@ -77,14 +77,14 @@ tpcEvent::tpcEvent(){
   color[65]=1; color[66] = 2;
   window    = 10;
   threshold = 1.02;
-  n_anods = 70;
-  n_ch    = 2050;
+  n_anods = CHANNELS;
+  n_ch    = TRACELENGTH;
 };
 
 tpcEvent::~tpcEvent(){ };
 
 void tpcEvent::Reset(){
-  for(int i = 0; i < 70; i++){
+  for(int i = 0; i < CHANNELS; i++){
     fired[i]=false;
     baseLevel[i]=0;
     peakPosition[i]=0;
@@ -106,8 +106,8 @@ void tpcEvent::Reset(){
   color[65]=1; color[66] = 2;
   window    = 10;
   threshold = 1.02;
-  n_anods = 70;
-  n_ch    = 2050;
+  n_anods = CHANNELS;
+  n_ch    = TRACELENGTH;
 };
 
 int    tpcEvent::GetEventNumber(){ return ev; };
@@ -400,7 +400,7 @@ void tpcEvent::CheckAll( ){
 void tpcEvent::CorrectBaseLevel( int anod ){
   if( fired[anod] ){
     int peak_pos = 0; double peak_level = FADC[anod][peak_pos];
-    for(int ch=1;ch<2050;ch++){
+    for(int ch=1;ch<TRACELENGTH;ch++){
       if( FADC[anod][ch] > peak_level ){
         peak_pos   = ch;
         peak_level = FADC[anod][ch];
@@ -409,7 +409,7 @@ void tpcEvent::CorrectBaseLevel( int anod ){
     peakPosition[anod] = peak_pos;
     double sum = 0 ; double nch = 0 ;
     int veto_width = 150;
-    for(int ch=0;ch<2050;ch++){
+    for(int ch=0;ch<TRACELENGTH;ch++){
       if( ch < peak_pos - veto_width || ch > peak_pos + veto_width ){
         sum = sum + FADC[anod][ch];
         nch = nch + 1.;

@@ -355,7 +355,7 @@ GUIWindow::GUIWindow(TString file_name)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void gui2(TString file_name = "beam_2245_300evnt.root")
+void gui2(TString file_name = "/home/user/Data/TPC/gen_0080.root")
 {
    // Main program.
    //TString file_name = "beam_2245_300evnt.root";
