@@ -17,6 +17,7 @@ class tpcEvent
     int  GetEventNumber();
     int  GetWindowWidth();
     double  GetThresholdFactor();
+    double  GetBaseLevel(int anod);
 
     void SetEventNumber(int N );
     void SetWindowWidth(int w );
@@ -115,6 +116,8 @@ int    tpcEvent::GetEventNumber(){ return ev; };
 int    tpcEvent::GetWindowWidth(){ return window; };
 
 double tpcEvent::GetThresholdFactor(){return threshold;};
+
+double tpcEvent::GetBaseLevel(int anod){return baseLevel[anod];};
 
 void   tpcEvent::SetEventNumber(int N){ ev = N; };
 
@@ -397,9 +400,9 @@ void tpcEvent::CheckAll( ){
       CorrectBaseLevel(anod);
       FindTime(anod);
       FindEnergyDeposit(anod);
-      cout << " Anod : " << anod << "\t   time: " << timeStamp[anod]
-                                 << "\t   peak: " << peakPosition[anod]
-                                 << "\t energy: " << energyDeposit[anod] << "\n";
+      //cout << " Anod : " << anod << "\t   time: " << timeStamp[anod]
+      //                           << "\t   peak: " << peakPosition[anod]
+      //                           << "\t energy: " << energyDeposit[anod] << "\n";
     }
   }
 };
