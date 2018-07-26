@@ -191,8 +191,8 @@ void tpcEvent::DrawDisplay(){
   ev_ttext.SetText(0.01, 0.95, txt);
   ev_ttext.Draw();
 
-  //cnv->Print(name);
-  //cnv->Close();
+  cnv->Print("c.png");
+  cnv->Close();
 };
 void tpcEvent::DrawHist( int anod ){
   TCanvas* cnv = new TCanvas("cnvh","histo",900,450);
