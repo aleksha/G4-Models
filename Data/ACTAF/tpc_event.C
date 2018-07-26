@@ -1,3 +1,6 @@
+#define TRACELENGTH 2692
+#define CHANNELS 70
+
 class tpcEvent
 {
   public:
