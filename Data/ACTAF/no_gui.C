@@ -47,7 +47,10 @@ void DoLoad(int evnt, bool  draw, int anode, int a1, int a2, int sct)
     EVENT->DrawHist(anode);
     EVENT->DrawTwo(a1,a2);
     EVENT->DrawSector(sct);
+
+    EVENT->AnimatedDisplay();
   }
+
   c2->Close();
   //Printf("Loaded");
 }
@@ -57,38 +60,8 @@ void no_gui(TString file_name = "/home/user/Data/TPC/gen_0080.root")
    TFile *oldfile  = new TFile(file_name);
    h101 = (TTree*)oldfile->Get("h101");
 
-   double e_num[PROCESS], b_lev[67][PROCESS];
-   for(int ev=0; ev<PROCESS; ev++){
-     DoLoad(ev, false, fAnodNumber, fAnod1Number, fAnod2Number, fSector);
-     e_num[ev] = ev;
-     for(int and=1;and<67;and++){
-       b_lev[and][ev] = EVENT->GetBaseLevel(and);
-     }
-//     cout << "  base: " <<  EVENT->GetBaseLevel(66) << endl;
-   };
-
-   TCanvas* canv_m = new TCanvas("canv_m", "canv_m", 800, 400);
-
-   TString fig_name, C_name;
-   TGraph* gr_lev[67];
-   for(int and=1;and<67;and++){
-     gr_lev[and] = new TGraph(PROCESS, e_num, b_lev[and]);
-     gr_lev[and]->SetMarkerStyle(20);
-     gr_lev[and]->Draw("AP");
-     gr_lev[and]->Fit("pol1");
-
-     if(and<10) fig_name.Form("base_lev_0%d.png",and);
-     else fig_name.Form("base_lev_%d.png",and);
-
-     if(and<10) C_name.Form("base_lev_0%d.C",and);
-     else C_name.Form("base_lev_%d.C",and);
-
-     gr_lev[and]->SetTitle(fig_name);
-     canv_m->Print(fig_name);
-     canv_m->Print(C_name);
-
-   }
-   canv_m->Close();
+//   DoLoad(fEventNumber, true, fAnodNumber, fAnod1Number, fAnod2Number, fSector);
+   DoLoad(2,true,66,65,66,16);
 
    gSystem->Exit(0);
 }

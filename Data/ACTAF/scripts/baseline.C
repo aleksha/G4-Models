@@ -1,4 +1,4 @@
-#define PROCESS 5000
+#define PROCESS 500
 #include "tpc_event.C"
 
 TTree* h101;
@@ -52,7 +52,7 @@ void DoLoad(int evnt, bool  draw, int anode, int a1, int a2, int sct)
   //Printf("Loaded");
 }
 
-void no_gui(TString file_name = "/home/user/Data/TPC/gen_0080.root")
+void baseline(TString file_name = "/home/user/Data/TPC/gen_0080.root")
 {
    TFile *oldfile  = new TFile(file_name);
    h101 = (TTree*)oldfile->Get("h101");
