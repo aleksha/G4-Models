@@ -11,6 +11,9 @@ n_bins   = 30
 progress = 500
 show_progress = True
 #===============================================================================
+# see for details
+# https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.rfft.html#scipy.fftpack.rfft
+#===============================================================================
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
