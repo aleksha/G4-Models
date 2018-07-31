@@ -69,6 +69,7 @@ class anode_noise:
         plt.savefig( fig_name )
         print("Distribution of absolute value ( ev = " + str(num) +  " ) to " + fig_name )
         print(" (zero term substructed)")
+        print(" len ( freq ) = " + str( len( self.fftset[0] ) ) )
         plt.clf()
 
     def hist_abs(self, chan, fig_name = "ABS_VAL.png"):
@@ -131,11 +132,55 @@ class anode_noise:
         print("Corrwlation for all events ( freq. = " + str(chan1) + " and " + str(chan2) + " ) saved into " + fig_name )
         plt.clf()
 
+    def diff_arg(self, chan1, chan2, fig_name = "ARG_DIFF.png"):
+        """Diggerence for two complex phases"""
+        datos = []
+        for evt_fft in self.fftset:
+            if np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) > 0 :
+                datos.append( np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) )
+            else :
+                datos.append( np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) + pi*2. )
+        n, bins, patches = plt.hist(datos, 30, facecolor='red', alpha = 0.75)
+        plt.grid( True )
+        plt.xlabel("phase " + str(chan1) + " - phase " + str(chan2))
+        plt.ylabel("events")
+        plt.title(r'Difference of phases between %d and %d' %(chan1,chan2))
+        plt.savefig( fig_name )
+        print("Difference for all events ( freq. = " + str(chan1) + " and " + str(chan2) + " ) saved into " + fig_name )
+        plt.clf()
+
 #===============================================================================
 anode = anode_noise(dump_file_path)
 anode.draw_event(0)
 anode.draw_spectrum(0)
 anode.hist_abs(17)
 anode.hist_arg(17)
-anode.corr_arg(16,17)
-anode.corr_abs(16,17)
+anode.diff_arg(13,17)
+anode.corr_arg(13,17)
+anode.corr_abs(13,17)
+#===============================================================================
+nn = 1500 ; mm = 2692
+A  = []   ; B  = []
+
+for ii in range(nn/2):
+    if ii == 3:
+        A.append( 10000. )
+    else:
+        A.append( 0. )
+    A.append( 0. )
+
+for ii in range(mm/2):
+    if ii == 3:
+        B.append( 10000. )
+    else:
+        B.append( 0. )
+    B.append( 0. )
+
+AA = np.array( A )
+BB = np.array( B )
+SS = irfft(AA)
+DD = irfft(BB)
+
+plt.plot( DD , "r")
+plt.plot( SS      )
+plt.savefig("PLAY.png")
