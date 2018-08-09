@@ -49,13 +49,14 @@ void DoLoad(int evnt, bool  draw, int anode, int a1, int a2, int sct)
     EVENT->DrawSector(sct);
 //    EVENT->AnimatedDisplay();
   }
-  EVENT->DumpSpectrum(66,1500);
+  EVENT->DumpSpectrum(66,2692);
 
   c2->Close();
   //Printf("Loaded");
 }
 
-void no_gui(TString file_name = "/home/user/Data/TPC/gen_0080.root")
+//void no_gui(TString file_name = "/home/user/Data/TPC/gen_0080.root")
+void no_gui(TString file_name = "/home/user/Data/TPC/alp_0290.root")
 {
    TFile *oldfile  = new TFile(file_name);
    h101 = (TTree*)oldfile->Get("h101");

@@ -134,14 +134,16 @@ void   tpcEvent::SetWindowWidth(int w){ window = w; };
 void   tpcEvent::SetThresholdFactor(double t){ threshold = t; };
 
 void   tpcEvent::DumpSpectrum(int anod, int length_ch){
-  ofstream dump_file;
-  dump_file.open("dump.txt", std::ios_base::app);
-  for(int ch=0;ch<length_ch;ch++){
-    dump_file << FADC[anod][ch] ;
-    if( (ch+1) != length_ch) dump_file << ",";
-    else dump_file << "\n";
+  if( !fired[anod] ){
+    ofstream dump_file;
+    dump_file.open("dump.txt", std::ios_base::app);
+    for(int ch=0;ch<length_ch;ch++){
+      dump_file << FADC[anod][ch] ;
+      if( (ch+1) != length_ch) dump_file << ",";
+      else dump_file << "\n";
+    }
+    dump_file.close();
   }
-  dump_file.close();
 };
 
 void   tpcEvent::Print(){
