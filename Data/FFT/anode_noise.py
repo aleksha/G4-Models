@@ -228,6 +228,23 @@ class anode_noise:
         rdb.close()
         return arr_2d
 
+    def corr_scatter(self, chan1, chan2, fig_name = "CORR_SCT.png"):
+        """Scatter plot for two channels"""
+        datos1 = []
+        datos2 = []
+        datos3 = []
+        datos4 = []
+        for evt_fft in self.fftset:
+            datos1.append( np.real( evt_fft[chan1] ) )
+            datos2.append( np.imag( evt_fft[chan1] ) )
+            datos3.append( np.real( evt_fft[chan2] ) )
+            datos4.append( np.imag( evt_fft[chan2] ) )
+        plt.scatter(datos1, datos2, s=1, c = "red" , alpha=0.5)
+        plt.scatter(datos3, datos4, s=1, c = "blue", alpha=0.5)
+        plt.grid( True )
+        plt.savefig( fig_name )
+        plt.clf()
+
     def corr_abs(self, chan1, chan2, fig_name = "ABS_CORR.png"):
         """Scatter plot for two complex phases"""
         datos1 = []
@@ -242,6 +259,18 @@ class anode_noise:
         plt.title(r'Correlation of abs. val. between %d and %d' %(chan1,chan2))
         plt.savefig( fig_name )
         print("Corrwlation for all events ( freq. = " + str(chan1) + " and " + str(chan2) + " ) saved into " + fig_name )
+        plt.clf()
+
+    def phase_abs(self, chan1,fig_name = "ABS_ARG.png"):
+        """Scatter plot for abs and complex phases"""
+        datos1 = []
+        datos2 = []
+        for evt_fft in self.fftset:
+            datos1.append( np.angle( evt_fft[chan1] ) )
+            datos2.append( np.abs  ( evt_fft[chan1] ) )
+        plt.scatter(datos1, datos2, s=10, c = "green", alpha=0.5)
+        plt.grid( True )
+        plt.savefig( fig_name )
         plt.clf()
 
     def corr_arg(self, chan1, chan2, fig_name = "ARG_CORR.png"):
@@ -284,15 +313,17 @@ anode = anode_noise(dump_file_path)
 #anode.draw_extended_event(20)
 #anode.draw_spectrum(20)
 #anode.draw_average_spectrum(1,200)
-#anode.hist_abs(150)
-#anode.hist_arg(150)
+#anode.hist_abs(100)
+#anode.hist_arg(100)
+#anode.phase_abs(100)
 #anode.diff_arg(100,150)
 #anode.corr_arg(100,150)
 #anode.corr_abs(100,150)
+anode.corr_scatter(100,100)
 
 #anode.check_args()
 
-a2d = anode.check_args_corr(chan_min = 0, chan_stop = 50, chan_max = 300, chan_depth = 100, chan2_shift = 50)
-rdb = shelve.open("temp_store.shelve")
-rdb["phase_diff_array"] = a2d
-rdb.close()
+#a2d = anode.check_args_corr(chan_min = 0, chan_stop = 50, chan_max = 300, chan_depth = 100, chan2_shift = 50)
+#rdb = shelve.open("temp_store.shelve")
+#rdb["phase_diff_array"] = a2d
+#rdb.close()
