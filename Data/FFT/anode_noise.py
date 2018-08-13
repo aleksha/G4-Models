@@ -6,6 +6,7 @@
 dump_file_path = "/home/user/Temp/dump.txt"
 N_CHANNELS     = 2692
 #===============================================================================
+import shelve
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -13,7 +14,7 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab   as mlab
 from   scipy.fftpack import  fft,  ifft
 from   scipy.fftpack import rfft, irfft
-from   scipy.stats   import norm
+from   scipy.stats   import norm, chi2
 from math import pow, sqrt, atan, pi
 #===============================================================================
 def Arg( x, y ):
@@ -122,7 +123,7 @@ class anode_noise:
         """Distribution of abs. val. for frequency channel for all events"""
         datos = []
         for evt_fft in self.fftset:
-            datos.append( np.abs( evt_fft[chan] ) )
+            datos.append( np.abs( evt_fft[chan] )/self.channels )
         n, bins, patches = plt.hist(datos, 30, facecolor='green')
         plt.grid( True )
         plt.xlabel("abs value")
@@ -137,7 +138,7 @@ class anode_noise:
         datos = []
         for evt_fft in self.fftset:
             datos.append( np.angle( evt_fft[chan] ) )
-        n, bins, patches = plt.hist(datos, 30, facecolor='green')
+        n, bins, patches = plt.hist(datos, self.events/100, facecolor='green')
         plt.grid( True )
         plt.xlabel("complex phase")
         plt.ylabel("events")
@@ -145,6 +146,87 @@ class anode_noise:
         plt.savefig( fig_name )
         print("Distribution of compex phase for all events ( freq. = " + str(chan) + " ) saved into " + fig_name )
         plt.clf()
+
+    def check_args(self, chi2_alpha = 0.997, fig_name = "CHCK_ARGS.png"):
+        """Make chi2 test that argument distributions are flat"""
+        print("\n\n====== CHECK THAT PHASE IS FLAT ======\n")
+        for chan in range(1,self.channels/2):
+            datos = []
+            for evt_fft in self.fftset:
+                datos.append( np.angle( evt_fft[chan] ) )
+            n, bins, patches = plt.hist(datos, self.events/100, facecolor='green')
+            chi2_obs = 0.
+            for n_i in n:
+                chi2_obs = chi2_obs + float( pow( n_i-100 ,2) )/float(n_i)
+            if chi2_obs > chi2.interval(chi2_alpha,len(n))[1]:
+                print("-----> CHANNEL " + str(chan) + "\t OBS. :" + str(chi2_obs) + "\t EXP.: " + str(chi2.interval(chi2_alpha,len(n)) ) )
+            elif chi2_obs < chi2.interval(chi2_alpha,len(n))[0]:
+                print("-----> CHANNEL " + str(chan) + "\t OBS. :" + str(chi2_obs) + "\t TOO GOOD TO BE TRUE" )
+            else:
+                print("-----> CHANNEL " + str(chan) + "\t OBS. :" + str(chi2_obs) + "\t FINE" )
+            plt.clf()
+        print("\n======      END PHASE CHECK     ======\n")
+
+    def check_args_corr(self, chan_min   = 0 , chan_stop=256, chan_max = 256,
+                              chan_depth = 10, chan2_shift = 0,
+                              chi2_alpha = 0.997, fig_name = "CHCK_DIFF.png"):
+        """Make chi2 test that chan1 chan2 argument difference distributions are flat"""
+        print("\n\n====== CHECK THAT DIFF. IS FLAT ======\n")
+
+        rdb = shelve.open("temp_store.shelve")
+        tmp_arr_2d = rdb["phase_diff_array"]
+
+        if len(tmp_arr_2d)<chan_max:
+            arr_2d = np.zeros( (chan_max,chan_max) )
+            for ch1 in range(0,chan_max):
+                for ch2 in range(0,chan_max):
+                    arr_2d[ch1][ch2] = 0.5
+            for ch1 in range(len(tmp_arr_2d)):
+                for ch2 in range(0,len(tmp_arr_2d)):
+                    arr_2d[ch1][ch2] = tmp_arr_2d[ch1][ch2]
+        else:
+            arr_2d = tmp_arr_2d
+
+        for chan1 in range(chan_min,chan_stop):
+            print("-----> CHANNEL " + str(chan1) + " / " + str(chan_stop) )
+            for chan2 in range(chan1+chan2_shift,chan1+chan2_shift+chan_depth):
+                if chan2 < chan_max and chan1<chan_max:
+                    if arr_2d[chan1][chan2]>0. or arr_2d[chan1][chan2]<1.:
+                        datos = []
+                        for evt_fft in self.fftset:
+                            if np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) > 0 :
+                                datos.append( np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) )
+                            else :
+                                datos.append( np.angle( evt_fft[chan1] ) - np.angle( evt_fft[chan2] ) + pi*2. )
+                        n, bins, patches = plt.hist(datos, self.events/100, facecolor='green')
+                        plt.title(r'Difference of phases between %d and %d' %(chan1,chan2))
+                        plt.savefig("TEMP.png")
+                        if chan1 == chan2 :
+                            arr_2d[chan1][chan2]=0.
+                        else:
+                            chi2_obs = 0.
+                            for n_i in n:
+                                chi2_obs = chi2_obs + float( pow( n_i-100 ,2) )/float(n_i)
+                            if chi2_obs > chi2.interval(chi2_alpha,len(n))[1]:
+                                arr_2d[chan1][chan2]=1.
+                            else:
+                                arr_2d[chan1][chan2]=0.
+                        plt.clf()
+
+        for ch1 in range(0,chan_max):
+            for ch2 in range(ch1+1,chan_max):
+                arr_2d[ch2][ch1] = arr_2d[ch1][ch2]
+
+        plt.imshow(arr_2d,cmap="gray", interpolation='none')
+        plt.tight_layout()
+        plt.xlabel("channel")
+        plt.ylabel("channel")
+        plt.title(r'Non-flat phases difference between channels')
+        plt.savefig(fig_name)
+        plt.clf()
+        print("\n======      END DIFF. CHECK     ======\n")
+        rdb.close()
+        return arr_2d
 
     def corr_abs(self, chan1, chan2, fig_name = "ABS_CORR.png"):
         """Scatter plot for two complex phases"""
@@ -201,9 +283,16 @@ anode = anode_noise(dump_file_path)
 #anode.draw_event(20)
 #anode.draw_extended_event(20)
 #anode.draw_spectrum(20)
-anode.draw_average_spectrum(1,200)
-#anode.hist_abs(1)
-#anode.hist_arg(1)
-#anode.diff_arg(1,12)
-#anode.corr_arg(1,12)
-#anode.corr_abs(1,12)
+#anode.draw_average_spectrum(1,200)
+#anode.hist_abs(150)
+#anode.hist_arg(150)
+#anode.diff_arg(100,150)
+#anode.corr_arg(100,150)
+#anode.corr_abs(100,150)
+
+#anode.check_args()
+
+a2d = anode.check_args_corr(chan_min = 0, chan_stop = 50, chan_max = 300, chan_depth = 100, chan2_shift = 50)
+rdb = shelve.open("temp_store.shelve")
+rdb["phase_diff_array"] = a2d
+rdb.close()
