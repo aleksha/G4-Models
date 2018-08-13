@@ -2,8 +2,8 @@
 # see for details
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.rfft.html#scipy.fftpack.rfft
 #===============================================================================
-dump_file_path = "/home/user/Temp/dump.txt"
 #dump_file_path = "./dump.txt"
+dump_file_path = "/home/user/Temp/dump.txt"
 N_CHANNELS     = 2692
 #===============================================================================
 import numpy as np
@@ -30,7 +30,7 @@ class anode_noise:
     def __init__(self, dump_path):
         """Load csv dump, make fft (half shorten) as real input"""
         self.channels = N_CHANNELS
-        print("CHANNELS : " + str(self.channels))
+        self.events   = 0
         print("Loading anode dump file")
         self.path = dump_path
         self.dataset = []
@@ -41,7 +41,10 @@ class anode_noise:
             for idx in range(self.channels):
                 value_list.append( float( value_str_list[idx] ) )
             self.dataset .append( np.array( value_list ) )
+            self.events   = self.events + 1
         dumpfile.close()
+        print("CHANNELS : " + str( self.channels ) )
+        print("EVENTS   : " + str( self.events   ) )
         fft_list  = []
         fft_list2 = []
         print("Performing fast Fourier transformation")
@@ -68,20 +71,12 @@ class anode_noise:
         for ii in range(0,self.channels):
             evt_newl.append( evt_fft[ii]*2. )
             evt_newl.append( 0 )
-#            if ii < self.channels/2:
-#                evt_newl.append( evt_fft[ii]*2. )
-#                evt_newl.append( 0 )
-#            else:
-#                evt_newl.append( 0 )
-#                evt_newl.append( evt_fft[ii]*.2 )
 
         evt_new = np.array(evt_newl)
         ext_event  = ifft( evt_new )
 
         plt.plot( ext_event, "r" )
         plt.plot( self.dataset[num] )
-#        plt.plot( self.dataset[num] - ext_event , "g")
-#        plt.plot( self.dataset[num] - ext_event2, "r")
         plt.grid( True )
         plt.xlabel("time, ch.")
         plt.ylabel("val, a.u.")
@@ -103,24 +98,24 @@ class anode_noise:
         print(" len ( freq ) = " + str( len( self.fftset[0] ) ) )
         plt.clf()
 
-    def draw_average_spectrum(self, fig_name = "SPECTRUM_AVE.png"):
+    def draw_average_spectrum(self, fmin = 1, fmax = 100,  fig_name = "SPECTRUM_AVE.png"):
         """Draw absolute value of frequiency spectrum"""
 
         means = []
-        for chan in range(1,100):
+        for chan in range(fmin,fmax):
             datos = []
             for evt_fft in self.fftset :
                 datos.append( np.abs( evt_fft[chan] ) )
             (mu, sigma) = norm.fit(datos)
-            means.append( mu/1500. )
+            means.append( mu/self.channels )
         plt.plot( means )
         plt.grid( True )
-        plt.xlabel("freq., 1/ch.")
-        plt.ylabel("val, a.u.")
+        plt.xlabel("freq., 1/num.of.ch.")
+        plt.ylabel("mean abs. val., a.u.")
         plt.title('Average spectrum')
         plt.savefig( fig_name )
         print("Distribution of absolute value to " + fig_name )
-        print(" (zero term substructed)")
+        print("  in range = ("+str(fmin) + ","+str(fmax) + ")")
         plt.clf()
 
     def hist_abs(self, chan, fig_name = "ABS_VAL.png"):
@@ -203,12 +198,12 @@ class anode_noise:
 #===============================================================================
 anode = anode_noise(dump_file_path)
 
-anode.draw_event(20)
-anode.draw_extended_event(20)
-anode.draw_spectrum(20)
-anode.draw_average_spectrum()
-anode.hist_abs(17)
-anode.hist_arg(17)
-anode.diff_arg(13,17)
-anode.corr_arg(13,17)
-anode.corr_abs(13,17)
+#anode.draw_event(20)
+#anode.draw_extended_event(20)
+#anode.draw_spectrum(20)
+anode.draw_average_spectrum(1,200)
+#anode.hist_abs(1)
+#anode.hist_arg(1)
+#anode.diff_arg(1,12)
+#anode.corr_arg(1,12)
+#anode.corr_abs(1,12)
