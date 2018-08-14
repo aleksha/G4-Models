@@ -5,6 +5,7 @@
 #dump_file_path = "./dump.txt"
 dump_file_path = "/home/user/Temp/dump.txt"
 N_CHANNELS     = 2692
+BAN_LEVEL      = 65
 #===============================================================================
 import shelve
 import numpy as np
@@ -35,15 +36,47 @@ class anode_noise:
         print("Loading anode dump file")
         self.path = dump_path
         self.dataset = []
+
+        max_diff  = []
+        down_diff = []
+        ban_list  = []
+        ev_num    = 0
         dumpfile = open(self.path,"r")
         for line in dumpfile:
             value_str_list = (line[:-1]).split(",")
             value_list = []
             for idx in range(self.channels):
                 value_list.append( float( value_str_list[idx] ) )
-            self.dataset .append( np.array( value_list ) )
-            self.events   = self.events + 1
+            max_level = max( sum(value_list)/len(value_list) - min(value_list) ,
+                             max(value_list) - sum(value_list)/len(value_list) )
+            max_diff .append ( max_level )
+            if  sum(value_list)/len(value_list) - min(value_list) > max(value_list) - sum(value_list)/len(value_list)   :
+                down_diff.append ( sum(value_list)/len(value_list) - min(value_list)  )
+            if max_level > BAN_LEVEL:
+                ban_list.append( ev_num )
+            ev_num = ev_num + 1
         dumpfile.close()
+        n, bins, patches = plt.hist( np.array(max_diff) , 100 , facecolor='green', alpha = 0.5)
+        m, bbbb, patche2 = plt.hist( np.array(down_diff), bins = bins, facecolor='yellow', alpha = 0.5)
+        plt.grid( True )
+        plt.xlabel("maximal difference from event base line")
+        plt.ylabel("events")
+        plt.savefig( "MAX_DIFF.png" )
+        plt.clf()
+
+        dumpfile = open(self.path,"r")
+        ev_num = 0
+        for line in dumpfile:
+            if ev_num not in ban_list :
+                value_str_list = (line[:-1]).split(",")
+                value_list = []
+                for idx in range(self.channels):
+                    value_list.append( float( value_str_list[idx] ) )
+                self.dataset .append( np.array( value_list ) )
+                self.events   = self.events + 1
+            ev_num = ev_num + 1
+        dumpfile.close()
+
         print("CHANNELS : " + str( self.channels ) )
         print("EVENTS   : " + str( self.events   ) )
         fft_list  = []
@@ -85,6 +118,101 @@ class anode_noise:
         plt.savefig( fig_name )
         print("Time spectrum for event " + str(num) + " into " + fig_name )
         plt.clf()
+
+    def filter_event(self, num, flt = "gap 100 250", draw_sig = True, fig_name = "FLTR_EVENT.png", xmin=0, xmax=2692):
+        """Draw event number num into figure fig_name"""
+        all_flt = ["gap","cut"]
+        filter = flt.split(" ")
+        if filter[0] in all_flt:
+            evt_fft = np.copy ( self.fftset[num] )
+            evt_newl_part1 = []
+            evt_newl_part2 = []
+            if filter[0]=="gap":
+                evt_newl_part1.append( evt_fft[0] )
+                for ii in range(1,1+len(evt_fft)/2):
+                    if ii>int(filter[1]) and ii<int(filter[2]):
+                        evt_newl_part1.append(   evt_fft[ii]             )
+                        evt_newl_part2.insert(0, evt_fft[ii].conjugate() )
+                    else:
+                        evt_newl_part1.append(   0. )
+                        evt_newl_part2.insert(0, 0. )
+            elif filter[0]=="cut":
+                evt_newl_part1.append( evt_fft[0] )
+                for ii in range(1,1+len(evt_fft)/2):
+                    if ii>int(filter[1]) and ii<int(filter[2]):
+                        evt_newl_part1.append(   0. )
+                        evt_newl_part2.insert(0, 0. )
+                    else:
+                        evt_newl_part1.append(   evt_fft[ii]             )
+                        evt_newl_part2.insert(0, evt_fft[ii].conjugate() )
+
+            evt_newl = evt_newl_part1 + evt_newl_part2
+#            for ii in range(len(evt_fft)):
+#                print(str(ii)+"\t"+ str(evt_fft[ii]) + "\t" + str(evt_newl[ii]) )
+
+            evt_new = np.array(evt_newl)
+            ext_event  = ifft( evt_new )
+
+            plt.plot( ext_event, "r" )
+            axes = plt.gca()
+            axes.set_xlim([xmin,xmax])
+            if draw_sig:
+                plt.plot( self.dataset[num] )
+            plt.grid( True )
+            plt.xlabel("time, ch.")
+            plt.ylabel("val, a.u.")
+            plt.title("Signal for EVENT " + str(num) + " with FILTER " + flt)
+            plt.savefig( fig_name )
+            print("Time spectrum for event " + str(num) + " into " + fig_name )
+            plt.clf()
+
+    def filter_average(self, ev_min , ev_max, flt = "none", fig_name = "FLTR_AVE.png",
+                             xmin=0, xmax=2692, fmin=0, fmax = 200, freq_name = "FLTR_SPEC.png"):
+        """Draw event number num into figure fig_name"""
+        condition = ev_min<ev_max and ev_max < self.events and ev_min>-1
+        if condition :
+            all_flt = ["gap","cut","none"]
+            filter = flt.split(" ")
+            if filter[0] in all_flt:
+                base = 0.
+                nevt = 0.
+                for ch in range( len( self.dataset[0] ) ):
+                    for ev in range( ev_min, ev_max ):
+                        base = base + float( self.dataset[ev][ch] )
+                        nevt = nevt + 1.
+                base = base / nevt
+
+                signal = []
+                for ch in range( len( self.dataset[0] ) ):
+                    val = 0.
+                    for ev in range( ev_min, ev_max ):
+                        val = val + float( self.dataset[ev][ch] )
+                    signal.append( val / float( ev_max - ev_min ) - base )
+#                if ch < 300:
+#                    print(str(ch) + "\t" + str( val / float( len( self.dataset ) ) ))
+
+                sig = np.array( signal )
+                plt.plot( sig, "green" )
+                axes = plt.gca()
+                axes.set_xlim([xmin,xmax])
+                plt.grid( True )
+                plt.xlabel("time, ch.")
+                plt.ylabel("val, a.u.")
+                plt.title( "Signal for events FROM " + str(ev_min) + " TO " + str(ev_max) +" with FILTER " + flt )
+                plt.savefig( fig_name )
+                print("Time spectrum for events into " + fig_name )
+                plt.clf()
+
+                spec = fft( sig ) / float( self.channels )
+                plt.plot( np.abs(spec[fmin:fmax]), "green" )
+                plt.grid( True )
+                plt.xlabel("freq.")
+                plt.ylabel("val, a.u.")
+                plt.title( "Spectrum for events FROM " + str(ev_min) + " TO " + str(ev_max) +" with FILTER " + flt )
+                plt.savefig( freq_name )
+                print("Time spectrum for events into " + freq_name )
+                plt.clf()
+
 
     def draw_spectrum(self, num, fig_name = "SPECTRUM.png"):
         """Draw absolute value of frequiency spectrum"""
@@ -309,21 +437,26 @@ class anode_noise:
 #===============================================================================
 anode = anode_noise(dump_file_path)
 
-#anode.draw_event(20)
+anode.draw_event(1024)
+anode.filter_average( ev_min =    0, ev_max = 4850, flt="none" ,fmax = 200)
+#anode.filter_average( ev_min = 2000, ev_max = 4000, flt="none" )
+#anode.filter_average( flt="none" , xmin =0, xmax = 300 )
+#anode.filter_event(1024,flt="cut 28 30",xmin =0, xmax = 1000)
+#anode.filter_event(1020,flt="gap 100 250", draw_sig = False)
 #anode.draw_extended_event(20)
 #anode.draw_spectrum(20)
-#anode.draw_average_spectrum(1,200)
-#anode.hist_abs(100)
-#anode.hist_arg(100)
-#anode.phase_abs(100)
+anode.draw_average_spectrum(1,200)
+#anode.hist_abs(29)
+#anode.hist_arg(29)
+#anode.phase_abs(29)
 #anode.diff_arg(100,150)
 #anode.corr_arg(100,150)
 #anode.corr_abs(100,150)
-anode.corr_scatter(100,100)
+#anode.corr_scatter(100,100)
 
 #anode.check_args()
 
-#a2d = anode.check_args_corr(chan_min = 0, chan_stop = 50, chan_max = 300, chan_depth = 100, chan2_shift = 50)
+#a2d = anode.check_args_corr(chan_min = 1, chan_stop = 2, chan_max = 400, chan_depth = 1, chan2_shift = 0)
 #rdb = shelve.open("temp_store.shelve")
 #rdb["phase_diff_array"] = a2d
 #rdb.close()
