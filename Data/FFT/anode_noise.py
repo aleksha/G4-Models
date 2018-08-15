@@ -30,7 +30,7 @@ class anode_noise:
        obtained with pulse generator"""
 
     def __init__(self, dump_path):
-        """Load csv dump, make fft (half shorten) as real input"""
+        """Load csv dump, make fft"""
         self.channels = N_CHANNELS
         self.events   = 0
         print("Loading anode dump file")
@@ -96,6 +96,7 @@ class anode_noise:
         plt.savefig( fig_name )
         print("Time spectrum for event " + str(num) + " into " + fig_name )
         plt.clf()
+        return self.dataset[num]
 
     def draw_extended_event(self, num, fig_name = "EXTD_EVENT.png"):
         """Draw event number num into figure fig_name"""
@@ -212,6 +213,8 @@ class anode_noise:
                 plt.savefig( freq_name )
                 print("Time spectrum for events into " + freq_name )
                 plt.clf()
+
+                return sig
 
 
     def draw_spectrum(self, num, fig_name = "SPECTRUM.png"):
@@ -437,17 +440,28 @@ class anode_noise:
 #===============================================================================
 anode = anode_noise(dump_file_path)
 
-anode.draw_event(1024)
-anode.filter_average( ev_min =    0, ev_max = 4850, flt="none" ,fmax = 200)
+evt = anode.draw_event(1024)
+sig = anode.filter_average( ev_min =    0, ev_max = 4850, flt="none" ,fmax = 200)
+
+plt.plot( evt - ( sum(evt) / len(evt) ) , "blue"  )
+plt.plot( sig, "green" )
+axes = plt.gca()
+plt.grid( True )
+plt.xlabel("time, ch.")
+plt.ylabel("val, a.u.")
+plt.title( "Signal for one event and averaged one")
+plt.savefig( "EV_EV-AVE.png" )
+plt.clf()
+
 #anode.filter_average( ev_min = 2000, ev_max = 4000, flt="none" )
 #anode.filter_average( flt="none" , xmin =0, xmax = 300 )
 #anode.filter_event(1024,flt="cut 28 30",xmin =0, xmax = 1000)
 #anode.filter_event(1020,flt="gap 100 250", draw_sig = False)
 #anode.draw_extended_event(20)
 #anode.draw_spectrum(20)
-anode.draw_average_spectrum(1,200)
-#anode.hist_abs(29)
-#anode.hist_arg(29)
+#anode.draw_average_spectrum(1,200)
+anode.hist_abs(3)
+anode.hist_arg(3)
 #anode.phase_abs(29)
 #anode.diff_arg(100,150)
 #anode.corr_arg(100,150)
