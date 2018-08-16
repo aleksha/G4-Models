@@ -1,4 +1,6 @@
 #===============================================================================
+# CODE MUST BE REFACTORED !!!
+#===============================================================================
 # see for details
 # https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.rfft.html#scipy.fftpack.rfft
 #===============================================================================
@@ -15,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib.mlab   as mlab
 from   scipy.fftpack import  fft,  ifft
 from   scipy.fftpack import rfft, irfft
-from   scipy.stats   import norm, chi2
+from   scipy.stats   import norm, chi2, beta
 from math import pow, sqrt, atan, pi
 #===============================================================================
 def Arg( x, y ):
@@ -36,6 +38,9 @@ class anode_noise:
         print("Loading anode dump file")
         self.path = dump_path
         self.dataset = []
+
+        self.model = []
+        self.is_model = False
 
         max_diff  = []
         down_diff = []
@@ -216,7 +221,6 @@ class anode_noise:
 
                 return sig
 
-
     def draw_spectrum(self, num, fig_name = "SPECTRUM.png"):
         """Draw absolute value of frequiency spectrum"""
         plt.plot( np.abs( self.fftset[num][1:] ) )
@@ -229,6 +233,106 @@ class anode_noise:
         print(" (zero term substructed)")
         print(" len ( freq ) = " + str( len( self.fftset[0] ) ) )
         plt.clf()
+
+
+    def create_model( self ):
+        """Re / Im gaussian fits for all channels"""
+
+        for chan in range( len( self.fftset[0] ) ):
+
+            data_re  = []
+            data_im  = []
+
+            for evt_fft in self.fftset:
+                data_re .append( np.real ( evt_fft[chan] )/self.channels )
+                data_im .append( np.imag ( evt_fft[chan] )/self.channels )
+
+            mu1, si1  = norm.fit(data_re)
+            if chan != 0 or chan != self.channels/2:
+                mu2, si2  = norm.fit(data_im)
+            else:
+                mu2 = 0
+                si2 = 0
+
+            self.model.append( (mu1, si1, mu2, si2) )
+
+        self.is_model = True
+
+    def generate_event( self , nevt = 1):
+        """Return random event"""
+        if not self.model:
+            self.create_model()
+
+        gen_list = []
+
+        for chan in range( len( 1 + self.channes/2 ) ):
+
+            mu1 = self.model[chan][0]
+            si1 = self.model[chan][2]
+            mu3 = self.model[chan][2]
+            si3 = self.model[chan][3]
+
+            re_arr = norm(mu1,si1).rvs(size = nevt )
+            if chan != 0 or chan != self.channels/2:
+                im_arr = norm(mu2,si2).rvs(size = nevt )
+            else:
+                im_arr = np.zeros( nevt )
+
+            gen = re_arr + 1j*im_arr
+            gen_list.append( gen )
+
+        return gen_list
+
+    def create_model_chan(self, chan, fig_name = "CHANNEL.png", save_fig = True, test_it = False):
+        """Re / Im gaussian fits for chanel"""
+        data_abs = []
+        data_arg = []
+        data_re  = []
+        data_im  = []
+        for evt_fft in self.fftset:
+            data_abs.append( np.abs  ( evt_fft[chan] )/self.channels )
+            data_arg.append( np.angle( evt_fft[chan] )               )
+            data_re .append( np.real ( evt_fft[chan] )/self.channels )
+            data_im .append( np.imag ( evt_fft[chan] )/self.channels )
+
+
+        f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2) #, sharex='col', sharey='row')
+        f.suptitle('FREQ ' + str(chan) )
+        n1, b1, p1 = ax1.hist(data_re , 50, facecolor='green', normed = True ,label = "real part"      )
+        n2, b2, p2 = ax2.hist(data_im , 50, facecolor='green', normed = True ,label = "imaginary part" )
+        n3, b3, p3 = ax3.hist(data_abs, 50, facecolor='green', normed = True ,label = "absolute value" )
+        n4, b4, p4 = ax4.hist(data_arg, 50, facecolor='green', normed = True ,label = "complex phase"  )
+
+        ax1.legend(loc='best')
+        ax2.legend(loc='best')
+        ax3.legend(loc='best')
+        ax4.legend(loc='best')
+
+        mu1, si1  = norm.fit(data_re)
+        lnspc1    = np.linspace(min(data_re), max(data_re), len(data_re))
+        pdf_norm1 = norm.pdf(lnspc1, mu1, si1)
+        ax1.plot(lnspc1, pdf_norm1, "r", linewidth = 3)
+
+        if test_it:
+            re_arr = norm(mu1,si1).rvs(size = 20*len(data_abs))
+
+        mu2, si2  = norm.fit(data_im)
+        lnspc2    = np.linspace(min(data_im), max(data_im), len(data_im))
+        pdf_norm2 = norm.pdf(lnspc2, mu2, si2)
+        ax2.plot(lnspc2, pdf_norm2, "r", linewidth = 3)
+        if test_it:
+            im_arr = norm(mu2,si2).rvs(size = 20*len(data_abs))
+            abs_arr = np.sqrt(np.power(re_arr,2) + np.power(im_arr,2))
+            arg_arr = np.angle(re_arr + 1j*im_arr)
+
+            ax3.hist(abs_arr, bins = b3, facecolor="yellow", normed = True , alpha = 0.5)
+            ax4.hist(arg_arr, bins = b4, facecolor="yellow", normed = True , alpha = 0.5)
+
+        if save_fig :
+            plt.savefig( fig_name )
+        plt.clf()
+
+
 
     def draw_average_spectrum(self, fmin = 1, fmax = 100,  fig_name = "SPECTRUM_AVE.png"):
         """Draw absolute value of frequiency spectrum"""
@@ -255,7 +359,15 @@ class anode_noise:
         datos = []
         for evt_fft in self.fftset:
             datos.append( np.abs( evt_fft[chan] )/self.channels )
-        n, bins, patches = plt.hist(datos, 30, facecolor='green')
+        n, bins, patches = plt.hist(datos, 100, facecolor='green', normed = True)
+
+        xt = plt.xticks()[0]
+        xmin, xmax = min(xt), max(xt)
+        lnspc = np.linspace(xmin, xmax, len(datos))
+        ab,bb,cb,db = beta.fit(datos)
+        pdf_beta = beta.pdf(lnspc, ab, bb, cb, db)
+        plt.plot(lnspc, pdf_beta,  "r", label="Beta", linewidth = 3)
+
         plt.grid( True )
         plt.xlabel("abs value")
         plt.ylabel("events")
@@ -269,7 +381,15 @@ class anode_noise:
         datos = []
         for evt_fft in self.fftset:
             datos.append( np.angle( evt_fft[chan] ) )
-        n, bins, patches = plt.hist(datos, self.events/100, facecolor='green')
+        n, bins, patches = plt.hist(datos, 50, facecolor='green', normed = True)
+
+#        xt = plt.xticks()[0]
+#        xmin, xmax = min(xt), max(xt)
+#        lnspc = np.linspace(xmin, xmax, len(datos))
+#        hist = np.histogram(dataos, bins=50)
+#        hist_dist = rv_histogram(hist)
+#        plt.plot(lnspc, hist_dist.pdf(lnspc), "r", label="Beta", linewidth = 3)
+
         plt.grid( True )
         plt.xlabel("complex phase")
         plt.ylabel("events")
@@ -460,8 +580,8 @@ plt.clf()
 #anode.draw_extended_event(20)
 #anode.draw_spectrum(20)
 #anode.draw_average_spectrum(1,200)
-anode.hist_abs(3)
-anode.hist_arg(3)
+#anode.hist_abs(3)
+#anode.hist_arg(3)
 #anode.phase_abs(29)
 #anode.diff_arg(100,150)
 #anode.corr_arg(100,150)
@@ -474,3 +594,22 @@ anode.hist_arg(3)
 #rdb = shelve.open("temp_store.shelve")
 #rdb["phase_diff_array"] = a2d
 #rdb.close()
+
+#for idx in range(1,8):
+#    if idx<10:
+#        sname = "0"+str(idx)
+#    else:
+#        sname = str(idx)
+#    anode.hist_arg(idx,fig_name = "ARG_" + sname + ".png")
+
+#anode.create_model_chan( 110 , test_it = True)
+
+gen = anode.generate_event( 100 )
+
+fev = []
+for ii in range(len(gen)):
+    fev.append( gen[ii][0] )
+ev = ifft( np.array( fev ) )
+
+plt.plot(ev,"black")
+plt.savefig("GEN.png")
