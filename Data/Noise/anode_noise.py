@@ -238,7 +238,8 @@ class anode_noise:
     def create_model( self ):
         """Re / Im gaussian fits for all channels"""
 
-        for chan in range( len( self.fftset[0] ) ):
+        for chan in range( 1 + self.channels/2 ):
+            print(" MODEL FOR CHANNEL :" + str(chan))
 
             data_re  = []
             data_im  = []
@@ -258,30 +259,44 @@ class anode_noise:
 
         self.is_model = True
 
-    def generate_event( self , nevt = 1):
+    def generate_event( self , fig_name = "GEN_EVENT.png"):
         """Return random event"""
         if not self.model:
             self.create_model()
 
         gen_list = []
 
-        for chan in range( len( 1 + self.channes/2 ) ):
+        evt_newl_part1 = []
+        evt_newl_part2 = []
+        for chan in range( 1 + self.channels/2 ):
 
             mu1 = self.model[chan][0]
-            si1 = self.model[chan][2]
-            mu3 = self.model[chan][2]
-            si3 = self.model[chan][3]
+            si1 = self.model[chan][1]
+            mu2 = self.model[chan][2]
+            si2 = self.model[chan][3]
 
-            re_arr = norm(mu1,si1).rvs(size = nevt )
-            if chan != 0 or chan != self.channels/2:
-                im_arr = norm(mu2,si2).rvs(size = nevt )
-            else:
-                im_arr = np.zeros( nevt )
+            rep = norm(mu1,si1).rvs()
+            if mu2==0 and si2==0:
+                imp = 0.0
+            else :
+                imp = norm(mu2,si2).rvs()
+            evt_newl_part1.append(    rep + 1j*imp )
+            if chan!=0:
+                evt_newl_part2.insert( 0, rep - 1j*imp )
 
-            gen = re_arr + 1j*im_arr
-            gen_list.append( gen )
+        evt_newl = evt_newl_part1 + evt_newl_part2
+        evt_new = np.array(evt_newl) * self.channels
+        gen_event  = ifft( evt_new )
 
-        return gen_list
+        plt.plot( gen_event, "black" )
+        plt.grid( True )
+        plt.xlabel("time, ch.")
+        plt.ylabel("val, a.u.")
+        plt.title("Generated EVENT")
+        plt.savefig( fig_name )
+        print("Time spectrum for generated event stored into " + fig_name )
+        plt.clf()
+
 
     def create_model_chan(self, chan, fig_name = "CHANNEL.png", save_fig = True, test_it = False):
         """Re / Im gaussian fits for chanel"""
@@ -604,12 +619,5 @@ plt.clf()
 
 #anode.create_model_chan( 110 , test_it = True)
 
-gen = anode.generate_event( 100 )
+anode.generate_event()
 
-fev = []
-for ii in range(len(gen)):
-    fev.append( gen[ii][0] )
-ev = ifft( np.array( fev ) )
-
-plt.plot(ev,"black")
-plt.savefig("GEN.png")
