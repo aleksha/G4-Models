@@ -42,7 +42,7 @@ PrimaryGenerator::PrimaryGenerator()
   in_file.open("array.txt", std::ios::in);
   double y;int cntr=0;
   while(in_file  >> y ){
-    kin_energy_prob=y; cntr++;
+    kin_energy_prob[cntr]=y; cntr++;
   } in_file.close();
 
   G4double alphaMin =   0*deg;      //alpha in [0,pi]
