@@ -29,6 +29,7 @@ class PrimaryGenerator : public G4VPrimaryGenerator
     double Pgamma = 0.000115;
     double Xmin   = 0.143791;
     double Xmax   = 2.18736;
+    double kin_energy_prob[100000];
 
     G4double fCosAlphaMin, fCosAlphaMax;
     G4double fPsiMin, fPsiMax;
@@ -38,14 +39,11 @@ class PrimaryGenerator : public G4VPrimaryGenerator
 PrimaryGenerator::PrimaryGenerator()
 : G4VPrimaryGenerator()
 {
-  in_file.open("Sr-Y-90_source.txt", std::ios::in);
-  double kin_energy[48], prob[48];
-  double x,y;
-  int cntr=0;
-  while(in_file  >> x >> y ){
-    kin_energy[cntr]=x; prob[cntr]=y/3.12535; cntr++;
-  }
-  in_file.close();
+  in_file.open("array.txt", std::ios::in);
+  double y;int cntr=0;
+  while(in_file  >> y ){
+    kin_energy_prob=y; cntr++;
+  } in_file.close();
 
   G4double alphaMin =   0*deg;      //alpha in [0,pi]
   G4double alphaMax = 180*deg;
@@ -73,17 +71,18 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   particle2 = new G4PrimaryParticle(particleDefG);
 
   do{
-    fT = G4UniformRand()*(Xmax-Xmin);
+    fT = G4UniformRand()*100000;
     fR = G4UniformRand();
   }
-  while( graph->Eval(fT,0,"S") > fR );
+  while( kin_energy_prob[int(fT)] > fR );
+
+  fT = Xmin + fT*(Xmax-Xmin);
 
   double Me = particle1->GetMass() / MeV;
   double Ee = Me + fT;
   double Pze = sqrt(Ee*Ee - Me*Me);
 
   double Pzg = Egamma;
-
 
   do{
     fVx = G4UniformRand()*2.;
