@@ -1,33 +1,3 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-// $Id: Sr90TESTDetectorConstruction.cc 94307 2015-11-11 13:42:46Z gcosmo $
-//
-/// \file Sr90TESTDetectorConstruction.cc
-/// \brief Implementation of the Sr90TESTDetectorConstruction class
-
 #include "Sr90TESTDetectorConstruction.hh"
 
 #include "G4RunManager.hh"
@@ -56,15 +26,52 @@ Sr90TESTDetectorConstruction::~Sr90TESTDetectorConstruction()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
-{  
+{
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
-  
+
+  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* sr_mat    = nist->FindOrBuildMaterial("G4_Sr");
+  G4Material* steel_mat = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  G4Material* plexi_mat = nist->FindOrBuildMaterial("G4_PLEXIGLASS");
+  G4Material* pb_mat    = nist->FindOrBuildMaterial("G4_Pb");
+  G4Material* w_mat     = nist->FindOrBuildMaterial("G4_W");
+  G4Material* cu_mat    = nist->FindOrBuildMaterial("G4_Cu");
+
+
+  G4Element* H  = nist->FindOrBuildElement(1);
+  G4Element* C  = nist->FindOrBuildElement(6);
+  G4Element* O  = nist->FindOrBuildElement(8);
+  G4Element* Si = nist->FindOrBuildElement(14);
+  G4Material* G10 = new G4Material("G10", density=1.700*g/cm3, ncomponents=4);
+  G10->AddElement(Si,natoms=1); G10->AddElement(O,natoms=2);
+  G10->AddElement(C ,natoms=3); G10->AddElement(H,natoms=3);
+
+  G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 1.784 *kg/m3 );
+
+  G4double sr_XY = 2*mm, sr_Z = 2*mm;
+  G4double steel1_r = 1*mm, steel1_R = 3*mm;
+  G4double w_Z = 0.1*mm;
+  G4double steel2_Z = 6*mm;
+  G4double plexi1_r = 3*mm, plexi1_R = 8*mm;
+  G4double plexi1_Z = steel2_Z + sr_Z;
+  G4double plexi2_Z = 20*mm;
+  G4double pb1_r = 8*mm, pb1_R = 16*mm;
+  G4double pb1_Z = plexi2_Z + steel2_Z + sr_Z;
+  G4double pb2_Z = 8*mm;
+
+  G4double cu_Z  =  0.035*mm;
+  G4double g10_Z =  1.500*mm;
+  G4double air_Z = 10.000*mm;
+  G4double ar_Z  =  9.000*mm;
+
+  G4double chamber_R  = 200.0*mm;
+
+
   // Envelope parameters
   //
   G4double env_sizeXY = 20*cm, env_sizeZ = 30*cm;
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_WATER");
-   
   // Option to switch on/off checking of volumes overlaps
   //
   G4bool checkOverlaps = true;
@@ -74,7 +81,6 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   //
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
   
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
