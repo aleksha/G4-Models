@@ -6,6 +6,7 @@
 #include "G4Cons.hh"
 #include "G4Orb.hh"
 #include "G4Sphere.hh"
+#include "G4Tubs.hh"
 #include "G4Trd.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
@@ -30,7 +31,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   // Get nist material manager
   G4NistManager* nist = G4NistManager::Instance();
 
-  G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* air_mat   = nist->FindOrBuildMaterial("G4_AIR");
   G4Material* sr_mat    = nist->FindOrBuildMaterial("G4_Sr");
   G4Material* steel_mat = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4Material* plexi_mat = nist->FindOrBuildMaterial("G4_PLEXIGLASS");
@@ -43,13 +44,13 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4Element* C  = nist->FindOrBuildElement(6);
   G4Element* O  = nist->FindOrBuildElement(8);
   G4Element* Si = nist->FindOrBuildElement(14);
-  G4Material* G10 = new G4Material("G10", density=1.700*g/cm3, ncomponents=4);
-  G10->AddElement(Si,natoms=1); G10->AddElement(O,natoms=2);
-  G10->AddElement(C ,natoms=3); G10->AddElement(H,natoms=3);
+  G4Material* g10_mat = new G4Material("G10", density=1.700*g/cm3, ncomponents=4);
+  g10_mat->AddElement(Si,natoms=1); g10_mat->AddElement(O,natoms=2);
+  g10_mat->AddElement(C ,natoms=3); g10_mat->AddElement(H,natoms=3);
 
   G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 1.784 *kg/m3 );
 
-  G4double sr_XY = 2*mm, sr_Z = 2*mm;
+  G4double sr_R = 2*mm, sr_Z = 2*mm;
   G4double steel1_r = 1*mm, steel1_R = 3*mm;
   G4double w_Z = 0.1*mm;
   G4double steel2_Z = 6*mm;
@@ -65,8 +66,121 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4double air_Z = 10.000*mm;
   G4double ar_Z  =  9.000*mm;
 
-  G4double chamber_R  = 200.0*mm;
+  G4double chamber_R  = 300.0*mm;
 
+  G4double Zd  =   0.*deg;
+  G4double Td  = 360.*deg;
+
+  G4Tubs* sol_Sr  = new G4Tubs(  "Sr" ,    0.*mm,      sr_R ,     0.5*sr_Z, Zd, Td);
+  G4Tubs* sol_st1 = new G4Tubs( "st1" , steel1_r,  steel1_R ,     0.5*sr_Z, Zd, Td);
+  G4Tubs* sol_st2 = new G4Tubs( "st2" ,    0.*mm,  steel1_R , 0.5*steel2_Z, Zd, Td);
+  G4Tubs* sol_pl1 = new G4Tubs( "pl1" , plexi1_r,  plexi1_R , 0.5*plexi1_Z, Zd, Td);
+  G4Tubs* sol_pl2 = new G4Tubs( "pl2" ,    0.*mm,  plexi1_R , 0.5*plexi2_Z, Zd, Td);
+  G4Tubs* sol_pb1 = new G4Tubs( "pb1" ,    pb1_r,     pb1_R ,    0.5*pb1_Z, Zd, Td);
+  G4Tubs* sol_pb2 = new G4Tubs( "pb2" ,    0.*mm,     pb1_R ,    0.5*pb2_Z, Zd, Td);
+  G4Tubs* sol_w   = new G4Tubs(   "W" ,    0.*mm,  steel1_R ,      0.5*w_Z, Zd, Td);
+  G4Tubs* sol_cu1 = new G4Tubs( "cu1" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
+  G4Tubs* sol_cu2 = new G4Tubs( "cu2" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
+  G4Tubs* sol_cu3 = new G4Tubs( "cu3" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
+  G4Tubs* sol_cu4 = new G4Tubs( "cu4" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
+  G4Tubs* sol_gt1 = new G4Tubs( "gt1" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
+  G4Tubs* sol_gt2 = new G4Tubs( "gt2" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
+  G4Tubs* sol_gt3 = new G4Tubs( "gt3" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
+  G4Tubs* sol_gt4 = new G4Tubs( "gt4" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
+  G4Tubs* sol_ai1 = new G4Tubs( "ai1" ,    0.*mm, chamber_R ,    0.5*air_Z, Zd, Td);
+  G4Tubs* sol_ai2 = new G4Tubs( "ai2" ,    0.*mm, chamber_R ,    0.5*air_Z, Zd, Td);
+  G4Tubs* sol_Ar  = new G4Tubs(  "Ar" ,    0.*mm, chamber_R ,     0.5*ar_Z, Zd, Td);
+
+  G4LogicalVolume* log_Sr   = new G4LogicalVolume( sol_Sr  ,    sr_mat,  "Sr");
+  G4LogicalVolume* log_st1  = new G4LogicalVolume( sol_st1 , steel_mat, "st1");
+  G4LogicalVolume* log_st2  = new G4LogicalVolume( sol_st2 , steel_mat, "st2");
+  G4LogicalVolume* log_pl1  = new G4LogicalVolume( sol_pl1 , plexi_mat, "pl1");
+  G4LogicalVolume* log_pl2  = new G4LogicalVolume( sol_pl2 , plexi_mat, "pl2");
+  G4LogicalVolume* log_pb1  = new G4LogicalVolume( sol_pb1 ,    pb_mat, "pb1");
+  G4LogicalVolume* log_pb2  = new G4LogicalVolume( sol_pb2 ,    pb_mat, "pb2");
+  G4LogicalVolume* log_w    = new G4LogicalVolume( sol_w   ,     w_mat,   "W");
+  G4LogicalVolume* log_cu1  = new G4LogicalVolume( sol_cu1 ,    cu_mat, "cu1");
+  G4LogicalVolume* log_cu2  = new G4LogicalVolume( sol_cu2 ,    cu_mat, "cu2");
+  G4LogicalVolume* log_cu3  = new G4LogicalVolume( sol_cu3 ,    cu_mat, "cu3");
+  G4LogicalVolume* log_cu4  = new G4LogicalVolume( sol_cu4 ,    cu_mat, "cu4");
+  G4LogicalVolume* log_gt1  = new G4LogicalVolume( sol_gt1 ,   g10_mat, "gt1");
+  G4LogicalVolume* log_gt2  = new G4LogicalVolume( sol_gt2 ,   g10_mat, "gt2");
+  G4LogicalVolume* log_gt3  = new G4LogicalVolume( sol_gt3 ,   g10_mat, "gt3");
+  G4LogicalVolume* log_gt4  = new G4LogicalVolume( sol_gt4 ,   g10_mat, "gt4");
+  G4LogicalVolume* log_ai1  = new G4LogicalVolume( sol_ai1 ,   air_mat, "ai1");
+  G4LogicalVolume* log_ai2  = new G4LogicalVolume( sol_ai2 ,   air_mat, "ai2");
+  G4LogicalVolume* log_Ar   = new G4LogicalVolume( sol_Ar  ,     ArGas,  "Ar");
+
+  G4double cga   =       cu_Z+g10_Z+air_Z;
+  G4double wcga  = w_Z + cu_Z+g10_Z+air_Z;
+  G4double edge1 = w_Z + 2.*cu_Z+2.*g10_Z+air_Z;
+
+  G4ThreeVector pos_Sr  ;  pos_Sr .set(0,0, -sr_Z*0.5);
+  G4ThreeVector pos_st1 ;  pos_st1.set(0,0, -sr_Z*0.5);
+  G4ThreeVector pos_st2 ;  pos_st2.set(0,0, -sr_Z-steel2_Z*0.5);
+  G4ThreeVector pos_pl1 ;  pos_pl1.set(0,0, -plexi1_Z*0.5);
+  G4ThreeVector pos_pl2 ;  pos_pl2.set(0,0, -plexi1_Z-plexi2_Z*0.5);
+  G4ThreeVector pos_pb1 ;  pos_pb1.set(0,0, -pb1_Z*0.5);
+  G4ThreeVector pos_pb2 ;  pos_pb2.set(0,0, -pb1_Z-pb2_Z*0.5);
+  G4ThreeVector pos_w   ;  pos_w  .set(0,0, w_Z*0.5);
+  G4ThreeVector pos_cu1 ;  pos_cu1.set(0,0, w_Z + cu_Z*0.5);
+  G4ThreeVector pos_gt1 ;  pos_gt1.set(0,0, w_Z+cu_Z+g10_Z*0.5);
+  G4ThreeVector pos_ai1 ;  pos_ai1.set(0,0, wcga - air_Z*0.5);
+  G4ThreeVector pos_gt2 ;  pos_gt2.set(0,0, wcga + g10_Z*0.5);
+  G4ThreeVector pos_cu2 ;  pos_cu2.set(0,0, wcga + g10_Z + cu_Z*0.5);
+  G4ThreeVector pos_Ar  ;  pos_Ar .set(0,0, edge1 + ar_Z*0.5);
+  G4ThreeVector pos_cu3 ;  pos_cu3.set(0,0, edge1 + ar_Z + cu_Z*0.5);
+  G4ThreeVector pos_gt3 ;  pos_gt3.set(0,0, edge1 + ar_Z + cu_Z + g10_Z*0.5);
+  G4ThreeVector pos_ai2 ;  pos_ai2.set(0,0, edge1 + ar_Z + cga - air_Z*0.5);
+  G4ThreeVector pos_gt4 ;  pos_gt4.set(0,0, edge1 + ar_Z + cga + g10_Z*0.5);
+  G4ThreeVector pos_cu4 ;  pos_cu4.set(0,0, edge1 + ar_Z + cga + g10_Z + cu_Z*0.5);
+
+
+  G4VPhysicalVolume* physWorld =
+     new G4PVPlacement(0, world_pos, logicWorld , "World" ,           0, false, 0, ckOv );
+     new G4PVPlacement(0, pos_Sr   , log_Sr     , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_st1  , log_st1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_st2  , log_st2    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_pl1  , log_pl1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_pl2  , log_pl2    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_pb1  , log_pb1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_pb2  , log_pb2    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_w    , log_w      , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_cu1  , log_cu1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_cu2  , log_cu2    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_cu3  , log_cu3    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_cu4  , log_cu4    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_gt1  , log_gt1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_gt2  , log_gt2    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_gt3  , log_gt3    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_gt4  , log_gt4    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_ai1  , log_ai1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_ai2  , log_ai1    , ""   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_Ar   , log_Ar     , ""   , logicWorld,  false, 0, ckOv );
+
+     new G4PVPlacement(0,   bw1_pos, logicBW1   , "BW1"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   si1_pos, logicSi1   , "Si1"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   si2_pos, logicSi2   , "Si2"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   si3_pos, logicSi3   , "Si3"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   si4_pos, logicSi4   , "Si4"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   sci_pos, logicSci   , "Sci"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   be1_pos, logicBe1   , "Be1"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    w1_pos, logic_w1   , "w1"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    h1_pos, logic_h1   , "h1"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    f1_pos, logic_f1   , "f1"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    w2_pos, logic_w2   , "w2"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    h2_pos, logic_h2   , "h2"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    cu_pos, logicCu1   , "Cu1"   , logic_h2  , false, 0, ckOv );
+     new G4PVPlacement(0,  anod_pos, logicAnod  , "Anod"  , logic_h2  , false, 0, ckOv );
+     new G4PVPlacement(0,    CU_pos, logicCU    , "CU"    , logic_h2  , false, 0, ckOv );
+     new G4PVPlacement(0,    KA_pos, logicKA    , "KA"    , logic_h2  , false, 0, ckOv );
+     new G4PVPlacement(0,   TPC_pos, logicTPC   , "TPC"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,    h3_pos, logic_h3   , "h3"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,cathod_pos, logicCathod, "Cathod", logic_h3  , false, 0, ckOv );
+     new G4PVPlacement(0,    f2_pos, logic_f2   , "f2"    , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   be2_pos, logicBe2   , "Be2"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   end_pos, logicEnd   , "End"   , logicAir  , false, 0, ckOv );
+     new G4PVPlacement(0,   shi_pos, logicShi   , "Shi"   , logicAir  , false, 0, ckOv );
 
   // Envelope parameters
   //
@@ -76,12 +190,9 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   //
   G4bool checkOverlaps = true;
 
-  //     
-  // World
-  //
   G4double world_sizeXY = 1.2*env_sizeXY;
   G4double world_sizeZ  = 1.2*env_sizeZ;
-  
+
   G4Box* solidWorld =    
     new G4Box("World",                       //its name
        0.5*world_sizeXY, 0.5*world_sizeXY, 0.5*world_sizeZ);     //its size
