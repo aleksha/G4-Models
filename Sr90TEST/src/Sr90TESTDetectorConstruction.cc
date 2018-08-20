@@ -44,6 +44,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4Element* C  = nist->FindOrBuildElement(6);
   G4Element* O  = nist->FindOrBuildElement(8);
   G4Element* Si = nist->FindOrBuildElement(14);
+  G4double density; G4int ncomponents,natoms;
   G4Material* g10_mat = new G4Material("G10", density=1.700*g/cm3, ncomponents=4);
   g10_mat->AddElement(Si,natoms=1); g10_mat->AddElement(O,natoms=2);
   g10_mat->AddElement(C ,natoms=3); g10_mat->AddElement(H,natoms=3);
@@ -71,8 +72,8 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4double Zd  =   0.*deg;
   G4double Td  = 360.*deg;
 
-  G4double world_sXY = 400.mm;
-  G4double world_sZ  = 100.mm;
+  G4double world_sXY = 700.*mm;
+  G4double world_sZ  = 200.*mm;
 
   G4Box* solidWorld = new G4Box ( "World", 0.5*world_sXY, 0.5*world_sXY, 0.5*world_sZ );
   G4Tubs* sol_Sr  = new G4Tubs(  "Sr" ,    0.*mm,      sr_R ,     0.5*sr_Z, Zd, Td);
@@ -120,7 +121,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4double wcga  = w_Z + cu_Z+g10_Z+air_Z;
   G4double edge1 = w_Z + 2.*cu_Z+2.*g10_Z+air_Z;
 
-  G4ThreeVector pos_world; pos_world.set(0,0, -sr_Z*0.5);
+  G4ThreeVector pos_world; pos_world.set(0,0,0);
   G4ThreeVector pos_Sr   ;  pos_Sr .set(0,0, -sr_Z*0.5);
   G4ThreeVector pos_st1  ;  pos_st1.set(0,0, -sr_Z*0.5);
   G4ThreeVector pos_st2  ;  pos_st2.set(0,0, -sr_Z-steel2_Z*0.5);
@@ -162,7 +163,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
      new G4PVPlacement(0, pos_gt3  , log_gt3    , "gt3"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_gt4  , log_gt4    , "gt4"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_ai1  , log_ai1    , "ai1"   , logicWorld,  false, 0, ckOv );
-     new G4PVPlacement(0, pos_ai2  , log_ai1    , "ai2"   , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_ai2  , log_ai2    , "ai2"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_Ar   , log_Ar     , "Ar"    , logicWorld,  false, 0, ckOv );
 
   fScoringVolume = log_cu1;
