@@ -49,9 +49,9 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   g10_mat->AddElement(Si,natoms=1); g10_mat->AddElement(O,natoms=2);
   g10_mat->AddElement(C ,natoms=3); g10_mat->AddElement(H,natoms=3);
 
-  G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 1.784 *kg/m3 );
+  G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 1.396 *kg/m3 );
 
-  G4double sr_R = 2*mm, sr_Z = 2*mm;
+  G4double sr_R = 1*mm, sr_Z = 2*mm;
   G4double steel1_r = 1*mm, steel1_R = 3*mm;
   G4double w_Z = 0.1*mm;
   G4double steel2_Z = 6*mm;
@@ -77,7 +77,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
 
   G4Box* solidWorld = new G4Box ( "World", 0.5*world_sXY, 0.5*world_sXY, 0.5*world_sZ );
   G4Tubs* sol_Sr  = new G4Tubs(  "Sr" ,    0.*mm,      sr_R ,     0.5*sr_Z, Zd, Td);
-  G4Tubs* sol_st1 = new G4Tubs( "st1" , steel1_r,  steel1_R ,     0.5*sr_Z, Zd, Td);
+  G4Tubs* sol_st1 = new G4Tubs( "st1" ,     sr_R,  steel1_R ,     0.5*sr_Z, Zd, Td);
   G4Tubs* sol_st2 = new G4Tubs( "st2" ,    0.*mm,  steel1_R , 0.5*steel2_Z, Zd, Td);
   G4Tubs* sol_pl1 = new G4Tubs( "pl1" , plexi1_r,  plexi1_R , 0.5*plexi1_Z, Zd, Td);
   G4Tubs* sol_pl2 = new G4Tubs( "pl2" ,    0.*mm,  plexi1_R , 0.5*plexi2_Z, Zd, Td);
@@ -166,7 +166,24 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
      new G4PVPlacement(0, pos_ai2  , log_ai2    , "ai2"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_Ar   , log_Ar     , "Ar"    , logicWorld,  false, 0, ckOv );
 
-  fScoringVolume = log_cu1;
+//  fScoringVolume = log_Sr;
+//  fScoringVolume = log_Ar;
+//  fScoringVolume = log_ai1;
+//  fScoringVolume = log_ai2;
+//  fScoringVolume = log_st1;
+//  fScoringVolume = log_st2;
+//  fScoringVolume = log_pl1;
+//  fScoringVolume = log_pl2;
+//  fScoringVolume = log_pb1;
+//  fScoringVolume = log_pb2;
+//  fScoringVolume = log_gt1;
+//  fScoringVolume = log_gt2;
+//  fScoringVolume = log_gt3;
+//  fScoringVolume = log_gt4;
+//  fScoringVolume = log_cu1;
+//  fScoringVolume = log_cu2;
+  fScoringVolume = log_cu3;
+//  fScoringVolume = log_cu4;
   return physWorld;
 }
 

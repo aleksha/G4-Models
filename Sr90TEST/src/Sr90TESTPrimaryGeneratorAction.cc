@@ -11,6 +11,11 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 //==============================================================================
 // HERE IS PRIMARY GENERATOR CLASS FIRST
 //==============================================================================
@@ -24,6 +29,7 @@ class PrimaryGenerator : public G4VPrimaryGenerator
     virtual void GeneratePrimaryVertex(G4Event*);
 
   private:
+    std::ofstream out_file;
     std::ifstream in_file ;
     double Egamma = 2.2792  ;
     double Pgamma = 0.000115;
@@ -39,6 +45,8 @@ class PrimaryGenerator : public G4VPrimaryGenerator
 PrimaryGenerator::PrimaryGenerator()
 : G4VPrimaryGenerator()
 {
+  out_file.open( "source.data" , std::ios::trunc);
+
   in_file.open("array.txt", std::ios::in);
   double y;int cntr=0;
   while(in_file  >> y ){
@@ -53,7 +61,7 @@ PrimaryGenerator::PrimaryGenerator()
   fPsiMax = 360*deg;
 }
 //------------------------------------------------------------------------------
-PrimaryGenerator::~PrimaryGenerator(){}
+PrimaryGenerator::~PrimaryGenerator(){ out_file.close(); }
 //------------------------------------------------------------------------------
 void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 {
@@ -74,9 +82,12 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
     fT = G4UniformRand()*100000;
     fR = G4UniformRand();
   }
-  while( kin_energy_prob[int(fT)] > fR );
+  while( kin_energy_prob[int(fT)] < fR );
 
-  fT = Xmin + fT*(Xmax-Xmin);
+
+  fT = Xmin + fT*(Xmax-Xmin) / 100000.;
+
+  //out_file << fT << "\n";
 
   double Me = particle1->GetMass() / MeV;
   double Ee = Me + fT;
@@ -91,7 +102,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   while (fVx*fVx + fVy*fVy > 2*2);
   positionB.setX( fVx*mm );
   positionB.setY( fVy*mm );
-  positionB.setZ( G4UniformRand()*2.*mm );
+  positionB.setZ( -G4UniformRand()*2.*mm );
 
   G4double cosAlpha, sinAlpha, psi;
 

@@ -70,9 +70,13 @@ void Sr90TESTSteppingAction::UserSteppingAction(const G4Step* step)
 
   double dist = sqrt(tr_x*tr_x+tr_y*tr_y); // MWPC insesative area
 
-    if( myOUT.is_open() && dist > 0 ){
-      myOUT << tr_x  << " " << tr_y  << " " << tr_z  << " " << dist << " " << tr_ed <<  G4endl;
-    }
+//  if( myOUT.is_open() && step->IsLastStepInVolume()){
+//    myOUT << tr_post_x  << " " << tr_post_y  << " " << tr_post_z  << " " << dist << " " << tr_ed <<  G4endl;
+//  }
+
+  if( myOUT.is_open() && dist > 0 && tr_ed>0 ){
+    myOUT << tr_x  << " " << tr_y  << " " << tr_z  << " " << dist << " " << tr_ed <<  G4endl;
+  }
 
   fEventAction->AddEdep(edepStep);
 }
