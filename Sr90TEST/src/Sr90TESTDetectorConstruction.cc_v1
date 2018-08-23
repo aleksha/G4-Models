@@ -84,15 +84,15 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4Tubs* sol_pb1 = new G4Tubs( "pb1" ,    pb1_r,     pb1_R ,    0.5*pb1_Z, Zd, Td);
   G4Tubs* sol_pb2 = new G4Tubs( "pb2" ,    0.*mm,     pb1_R ,    0.5*pb2_Z, Zd, Td);
   G4Tubs* sol_w   = new G4Tubs(   "W" ,    0.*mm,  steel1_R ,      0.5*w_Z, Zd, Td);
-  G4Tubs* sol_cu1 = new G4Tubs( "cu1" ,    pb1_R, chamber_R ,     0.5*cu_Z, Zd, Td);
+  G4Tubs* sol_cu1 = new G4Tubs( "cu1" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
   G4Tubs* sol_cu2 = new G4Tubs( "cu2" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
   G4Tubs* sol_cu3 = new G4Tubs( "cu3" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
   G4Tubs* sol_cu4 = new G4Tubs( "cu4" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
-  G4Tubs* sol_gt1 = new G4Tubs( "gt1" ,    pb1_R, chamber_R ,    0.5*g10_Z, Zd, Td);
+  G4Tubs* sol_gt1 = new G4Tubs( "gt1" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
   G4Tubs* sol_gt2 = new G4Tubs( "gt2" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
   G4Tubs* sol_gt3 = new G4Tubs( "gt3" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
   G4Tubs* sol_gt4 = new G4Tubs( "gt4" ,    0.*mm, chamber_R ,    0.5*g10_Z, Zd, Td);
-  G4Tubs* sol_ai1 = new G4Tubs( "ai1" ,    pb1_R, chamber_R ,    0.5*air_Z, Zd, Td);
+  G4Tubs* sol_ai1 = new G4Tubs( "ai1" ,    0.*mm, chamber_R ,    0.5*air_Z, Zd, Td);
   G4Tubs* sol_ai2 = new G4Tubs( "ai2" ,    0.*mm, chamber_R ,    0.5*air_Z, Zd, Td);
   G4Tubs* sol_Ar  = new G4Tubs(  "Ar" ,    0.*mm, chamber_R ,     0.5*ar_Z, Zd, Td);
 
@@ -122,25 +122,25 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4double edge1 = w_Z + 2.*cu_Z+2.*g10_Z+air_Z;
 
   G4ThreeVector pos_world; pos_world.set(0,0,0);
-  G4ThreeVector pos_Sr   ;  pos_Sr .set(0,0, -sr_Z*0.5                                );
-  G4ThreeVector pos_st1  ;  pos_st1.set(0,0, -sr_Z*0.5                                );
-  G4ThreeVector pos_st2  ;  pos_st2.set(0,0, -sr_Z-steel2_Z*0.5                       );
-  G4ThreeVector pos_pl1  ;  pos_pl1.set(0,0, -plexi1_Z*0.5                            );
-  G4ThreeVector pos_pl2  ;  pos_pl2.set(0,0, -plexi1_Z-plexi2_Z*0.5                   );
-  G4ThreeVector pos_pb1  ;  pos_pb1.set(0,0, -pb1_Z*0.5                               );
-  G4ThreeVector pos_pb2  ;  pos_pb2.set(0,0, -pb1_Z-pb2_Z*0.5                         );
-  G4ThreeVector pos_w    ;  pos_w  .set(0,0, w_Z*0.5                                  );
-  G4ThreeVector pos_cu1  ;  pos_cu1.set(0,0, w_Z + cu_Z*0.5                       -cga);
-  G4ThreeVector pos_gt1  ;  pos_gt1.set(0,0, w_Z+cu_Z+g10_Z*0.5                   -cga);
-  G4ThreeVector pos_ai1  ;  pos_ai1.set(0,0, wcga - air_Z*0.5                     -cga);
-  G4ThreeVector pos_gt2  ;  pos_gt2.set(0,0, wcga + g10_Z*0.5                     -cga);
-  G4ThreeVector pos_cu2  ;  pos_cu2.set(0,0, wcga + g10_Z + cu_Z*0.5              -cga);
-  G4ThreeVector pos_Ar   ;  pos_Ar .set(0,0, edge1 + ar_Z*0.5                     -cga);
-  G4ThreeVector pos_cu3  ;  pos_cu3.set(0,0, edge1 + ar_Z + cu_Z*0.5              -cga);
-  G4ThreeVector pos_gt3  ;  pos_gt3.set(0,0, edge1 + ar_Z + cu_Z + g10_Z*0.5      -cga);
-  G4ThreeVector pos_ai2  ;  pos_ai2.set(0,0, edge1 + ar_Z + cga - air_Z*0.5       -cga);
-  G4ThreeVector pos_gt4  ;  pos_gt4.set(0,0, edge1 + ar_Z + cga + g10_Z*0.5       -cga);
-  G4ThreeVector pos_cu4  ;  pos_cu4.set(0,0, edge1 + ar_Z + cga + g10_Z + cu_Z*0.5-cga);
+  G4ThreeVector pos_Sr   ;  pos_Sr .set(0,0, -sr_Z*0.5);
+  G4ThreeVector pos_st1  ;  pos_st1.set(0,0, -sr_Z*0.5);
+  G4ThreeVector pos_st2  ;  pos_st2.set(0,0, -sr_Z-steel2_Z*0.5);
+  G4ThreeVector pos_pl1  ;  pos_pl1.set(0,0, -plexi1_Z*0.5);
+  G4ThreeVector pos_pl2  ;  pos_pl2.set(0,0, -plexi1_Z-plexi2_Z*0.5);
+  G4ThreeVector pos_pb1  ;  pos_pb1.set(0,0, -pb1_Z*0.5);
+  G4ThreeVector pos_pb2  ;  pos_pb2.set(0,0, -pb1_Z-pb2_Z*0.5);
+  G4ThreeVector pos_w    ;  pos_w  .set(0,0, w_Z*0.5);
+  G4ThreeVector pos_cu1  ;  pos_cu1.set(0,0, w_Z + cu_Z*0.5);
+  G4ThreeVector pos_gt1  ;  pos_gt1.set(0,0, w_Z+cu_Z+g10_Z*0.5);
+  G4ThreeVector pos_ai1  ;  pos_ai1.set(0,0, wcga - air_Z*0.5);
+  G4ThreeVector pos_gt2  ;  pos_gt2.set(0,0, wcga + g10_Z*0.5);
+  G4ThreeVector pos_cu2  ;  pos_cu2.set(0,0, wcga + g10_Z + cu_Z*0.5);
+  G4ThreeVector pos_Ar   ;  pos_Ar .set(0,0, edge1 + ar_Z*0.5);
+  G4ThreeVector pos_cu3  ;  pos_cu3.set(0,0, edge1 + ar_Z + cu_Z*0.5);
+  G4ThreeVector pos_gt3  ;  pos_gt3.set(0,0, edge1 + ar_Z + cu_Z + g10_Z*0.5);
+  G4ThreeVector pos_ai2  ;  pos_ai2.set(0,0, edge1 + ar_Z + cga - air_Z*0.5);
+  G4ThreeVector pos_gt4  ;  pos_gt4.set(0,0, edge1 + ar_Z + cga + g10_Z*0.5);
+  G4ThreeVector pos_cu4  ;  pos_cu4.set(0,0, edge1 + ar_Z + cga + g10_Z + cu_Z*0.5);
   G4bool ckOv = true;
 
 

@@ -69,6 +69,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   G4double x0 = 0*mm, y0 = 0*mm, z0 = -1*mm;
   G4ThreeVector positionB(x0,y0,z0);
 
+//  G4ParticleDefinition* particleDefE = G4ParticleTable::GetParticleTable()->FindParticle("mu-");
   G4ParticleDefinition* particleDefE = G4ParticleTable::GetParticleTable()->FindParticle("e-");
   G4ParticleDefinition* particleDefG = G4ParticleTable::GetParticleTable()->FindParticle("gamma");
 
@@ -86,7 +87,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 
 
   fT = Xmin + fT*(Xmax-Xmin) / 100000.;
-
+  // fT = fT*100000.; muons
   //out_file << fT << "\n";
 
   double Me = particle1->GetMass() / MeV;
