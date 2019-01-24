@@ -63,9 +63,12 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4double pb2_Z = 8*mm;
 
   G4double cu_Z  =  0.035*mm;
+  G4double sh_Z  =  0.400*mm;
   G4double g10_Z =  1.500*mm;
   G4double air_Z = 10.000*mm;
   G4double ar_Z  =  9.000*mm;
+
+  G4double ws_Z  = w_Z + sh_Z;
 
   G4double chamber_R  = 300.0*mm;
 
@@ -84,6 +87,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4Tubs* sol_pb1 = new G4Tubs( "pb1" ,    pb1_r,     pb1_R ,    0.5*pb1_Z, Zd, Td);
   G4Tubs* sol_pb2 = new G4Tubs( "pb2" ,    0.*mm,     pb1_R ,    0.5*pb2_Z, Zd, Td);
   G4Tubs* sol_w   = new G4Tubs(   "W" ,    0.*mm,  steel1_R ,      0.5*w_Z, Zd, Td);
+  G4Tubs* sol_shi = new G4Tubs( "shi" ,    0.*mm,  steel1_R ,     0.5*sh_Z, Zd, Td);
   G4Tubs* sol_cu1 = new G4Tubs( "cu1" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
   G4Tubs* sol_cu2 = new G4Tubs( "cu2" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
   G4Tubs* sol_cu3 = new G4Tubs( "cu3" ,    0.*mm, chamber_R ,     0.5*cu_Z, Zd, Td);
@@ -105,6 +109,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4LogicalVolume* log_pb1  = new G4LogicalVolume( sol_pb1 ,    pb_mat, "pb1");
   G4LogicalVolume* log_pb2  = new G4LogicalVolume( sol_pb2 ,    pb_mat, "pb2");
   G4LogicalVolume* log_w    = new G4LogicalVolume( sol_w   ,     w_mat,   "W");
+  G4LogicalVolume* log_shi  = new G4LogicalVolume( sol_shi ,    cu_mat, "shi");
   G4LogicalVolume* log_cu1  = new G4LogicalVolume( sol_cu1 ,    cu_mat, "cu1");
   G4LogicalVolume* log_cu2  = new G4LogicalVolume( sol_cu2 ,    cu_mat, "cu2");
   G4LogicalVolume* log_cu3  = new G4LogicalVolume( sol_cu3 ,    cu_mat, "cu3");
@@ -118,8 +123,8 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4LogicalVolume* log_Ar   = new G4LogicalVolume( sol_Ar  ,     ArGas,  "Ar");
 
   G4double cga   =       cu_Z+g10_Z+air_Z;
-  G4double wcga  = w_Z + cu_Z+g10_Z+air_Z;
-  G4double edge1 = w_Z + 2.*cu_Z+2.*g10_Z+air_Z;
+  G4double wcga  = ws_Z + cu_Z+g10_Z+air_Z;
+  G4double edge1 = ws_Z + 2.*cu_Z+2.*g10_Z+air_Z;
 
   G4ThreeVector pos_world; pos_world.set(0,0,0);
   G4ThreeVector pos_Sr   ;  pos_Sr .set(0,0, -sr_Z*0.5);
@@ -130,8 +135,9 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
   G4ThreeVector pos_pb1  ;  pos_pb1.set(0,0, -pb1_Z*0.5);
   G4ThreeVector pos_pb2  ;  pos_pb2.set(0,0, -pb1_Z-pb2_Z*0.5);
   G4ThreeVector pos_w    ;  pos_w  .set(0,0, w_Z*0.5);
-  G4ThreeVector pos_cu1  ;  pos_cu1.set(0,0, w_Z + cu_Z*0.5);
-  G4ThreeVector pos_gt1  ;  pos_gt1.set(0,0, w_Z+cu_Z+g10_Z*0.5);
+  G4ThreeVector pos_shi  ;  pos_shi.set(0,0, w_Z + sh_Z*0.5);
+  G4ThreeVector pos_cu1  ;  pos_cu1.set(0,0, ws_Z + cu_Z*0.5);
+  G4ThreeVector pos_gt1  ;  pos_gt1.set(0,0, ws_Z+cu_Z+g10_Z*0.5);
   G4ThreeVector pos_ai1  ;  pos_ai1.set(0,0, wcga - air_Z*0.5);
   G4ThreeVector pos_gt2  ;  pos_gt2.set(0,0, wcga + g10_Z*0.5);
   G4ThreeVector pos_cu2  ;  pos_cu2.set(0,0, wcga + g10_Z + cu_Z*0.5);
@@ -154,6 +160,7 @@ G4VPhysicalVolume* Sr90TESTDetectorConstruction::Construct()
      new G4PVPlacement(0, pos_pb1  , log_pb1    , "pb1"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_pb2  , log_pb2    , "pb2"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_w    , log_w      , "W"     , logicWorld,  false, 0, ckOv );
+     new G4PVPlacement(0, pos_shi  , log_shi    , "shi"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_cu1  , log_cu1    , "cu1"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_cu2  , log_cu2    , "cu2"   , logicWorld,  false, 0, ckOv );
      new G4PVPlacement(0, pos_cu3  , log_cu3    , "cu3"   , logicWorld,  false, 0, ckOv );
