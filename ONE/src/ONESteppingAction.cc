@@ -17,7 +17,7 @@ ONESteppingAction::ONESteppingAction(ONEEventAction* eventAction)
 }
 //------------------------------------------------------------------------------
 ONESteppingAction::~ONESteppingAction(){
-  myOUT.close(); myONE.close(); myINI.close(); mySCI.close(); }
+  myOUT.close();}
 //------------------------------------------------------------------------------
 void ONESteppingAction::UserSteppingAction(const G4Step* step)
 {
@@ -88,7 +88,7 @@ void ONESteppingAction::UserSteppingAction(const G4Step* step)
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-
+ }
 //  // collect energy deposited in this step
 //  G4double edepStep = step->GetTotalEnergyDeposit();
 //  fEventAction->AddEdep(edepStep);
