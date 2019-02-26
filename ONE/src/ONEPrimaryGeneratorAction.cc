@@ -22,7 +22,7 @@ ONEPrimaryGeneratorAction::ONEPrimaryGeneratorAction()
   G4ParticleDefinition* particle = particleTable->FindParticle(particleName="proton");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(1000.*MeV);
+  fParticleGun->SetParticleEnergy(0.7*MeV);
 }
 //------------------------------------------------------------------------------
 ONEPrimaryGeneratorAction::~ONEPrimaryGeneratorAction(){ delete fParticleGun; }
@@ -30,7 +30,7 @@ ONEPrimaryGeneratorAction::~ONEPrimaryGeneratorAction(){ delete fParticleGun; }
 void ONEPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
-  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-999.5*mm) );
+  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,0) );
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 //------------------------------------------------------------------------------
