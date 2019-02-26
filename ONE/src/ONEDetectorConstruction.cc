@@ -96,10 +96,6 @@ G4VPhysicalVolume* ONEDetectorConstruction::Construct()
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, H2Gas , "LV00");
 
 
-  G4double wall1 = l00_z + s_gap + l01_z + l02_z + l03_z + l04_z + l05_z + p_start;
-  G4double argap = wall1 + l06_z + l07_z + l08_z + l09_z                 ;
-  G4double wall2 = argap + l10_z + l11_z + l12_z + l13_z + l14_z + s_gap ;
-
   G4ThreeVector l00_pos; l00_pos.set(0,0,0.5*l00_z);
 
   G4VPhysicalVolume* physWorld =
