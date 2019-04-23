@@ -19,10 +19,10 @@ MUPPrimaryGeneratorAction::MUPPrimaryGeneratorAction()
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
-  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="proton");
+  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="mu+");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(1000.*MeV);
+  fParticleGun->SetParticleEnergy(100.*GeV);
 }
 //------------------------------------------------------------------------------
 MUPPrimaryGeneratorAction::~MUPPrimaryGeneratorAction(){ delete fParticleGun; }
