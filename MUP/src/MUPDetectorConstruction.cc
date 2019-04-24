@@ -25,13 +25,13 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4NistManager* nist = G4NistManager::Instance();
 
   G4String name;
-  G4double z, a, density;
+  //G4double z, a, density;
   //G4double temperature, pressure;
-  G4int ncomponents, natoms;
-  G4double fractionmass;
+  //G4int ncomponents, natoms;
+  //G4double fractionmass;
 
   // Elements
- //G4Element* H  = new G4Element("Hydrogen", "H",  z=  1, a= 1.008*g/mole);
+  //G4Element* H  = new G4Element("Hydrogen", "H",  z=  1, a= 1.008*g/mole);
   //#G4Element* C  = new G4Element("Carbon",   "C",  z=  6, a= 12.00*g/mole);
   //G4Element* N  = new G4Element("Nitrogen", "N",  z=  7, a= 14.01*g/mole);
   //G4Element* O  = new G4Element("Oxygen",   "O",  z=  8, a= 16.00*g/mole);
