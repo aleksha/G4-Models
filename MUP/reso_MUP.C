@@ -7,7 +7,7 @@ void reso_MUP(){
 
     std::ifstream fOUT("./out.data" , std::ios::in);
 
-    TH1F* hANG = new TH1F("hANG",";Angle, mrad;Events",100, 0, 1);
+    TH1F* hANG = new TH1F("hANG",";Angle, mrad;Events",40, 0, 0.2);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     //TH2F* hSDV = new TH2F("hSDV",";#Delta x, mm; StdDev, mm", 50, 0, 50, 50, 0, 25);
