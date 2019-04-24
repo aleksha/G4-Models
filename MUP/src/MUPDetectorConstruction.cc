@@ -75,6 +75,10 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   //G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
   G4Material* w_mat = nist->FindOrBuildMaterial("G4_He");
 
+  NoMaterial = true ;
+
+  G4Material* no_mat = nist->FindOrBuildMaterial("G4_Galactic");
+
 //------------------------------------------
 //   Si layers
 //------------------------------------------
@@ -185,7 +189,6 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4Box* solidLV70 = new G4Box("LV70", 0.5*ll_xy, 0.5*ll_xy, 0.5*lAl_z);
   G4Box* solidLV71 = new G4Box("LV71", 0.5*ll_xy, 0.5*ll_xy, 0.5*lAl_z);
 
-  //G4Material* l00_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00 , SiSolid, "LV00");
   G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01 , SiSolid, "LV01");
@@ -194,27 +197,42 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 
   G4LogicalVolume* logicLV10 = new G4LogicalVolume(solidLV10 , H2Gas  , "LV10");
 
+  if(NoMaterial)
+  G4LogicalVolume* logicLV20 = new G4LogicalVolume(solidLV20 , no_mat, "LV20");
+  G4LogicalVolume* logicLV21 = new G4LogicalVolume(solidLV21 , no_mat, "LV21");
+  G4LogicalVolume* logicLV40 = new G4LogicalVolume(solidLV40 , no_mat, "LV40");
+  G4LogicalVolume* logicLV41 = new G4LogicalVolume(solidLV41 , no_mat, "LV41");
+  G4LogicalVolume* logicLV42 = new G4LogicalVolume(solidLV42 , no_mat, "LV42");
+  G4LogicalVolume* logicLV43 = new G4LogicalVolume(solidLV43 , no_mat, "LV43");
+  G4LogicalVolume* logicLV50 = new G4LogicalVolume(solidLV50 , no_mat, "LV50");
+  G4LogicalVolume* logicLV51 = new G4LogicalVolume(solidLV51 , no_mat, "LV51");
+  G4LogicalVolume* logicLV52 = new G4LogicalVolume(solidLV52 , no_mat, "LV52");
+  G4LogicalVolume* logicLV53 = new G4LogicalVolume(solidLV53 , no_mat, "LV53");
+  G4LogicalVolume* logicLV60 = new G4LogicalVolume(solidLV60 , no_mat, "LV60");
+  G4LogicalVolume* logicLV61 = new G4LogicalVolume(solidLV61 , no_mat, "LV61");
+  G4LogicalVolume* logicLV62 = new G4LogicalVolume(solidLV62 , no_mat, "LV62");
+  G4LogicalVolume* logicLV63 = new G4LogicalVolume(solidLV63 , no_mat, "LV63");
+  G4LogicalVolume* logicLV70 = new G4LogicalVolume(solidLV70 , no_mat, "LV70");
+  G4LogicalVolume* logicLV71 = new G4LogicalVolume(solidLV71 , no_mat, "LV71");
+  }
+  else{
   G4LogicalVolume* logicLV20 = new G4LogicalVolume(solidLV20 , BeSolid, "LV20");
   G4LogicalVolume* logicLV21 = new G4LogicalVolume(solidLV21 , BeSolid, "LV21");
-
   G4LogicalVolume* logicLV40 = new G4LogicalVolume(solidLV40 ,  Kapton, "LV40");
   G4LogicalVolume* logicLV41 = new G4LogicalVolume(solidLV41 ,  Kapton, "LV41");
   G4LogicalVolume* logicLV42 = new G4LogicalVolume(solidLV42 ,  Kapton, "LV42");
   G4LogicalVolume* logicLV43 = new G4LogicalVolume(solidLV43 ,  Kapton, "LV43");
-
   G4LogicalVolume* logicLV50 = new G4LogicalVolume(solidLV50 , CuSolid, "LV50");
   G4LogicalVolume* logicLV51 = new G4LogicalVolume(solidLV51 , CuSolid, "LV51");
   G4LogicalVolume* logicLV52 = new G4LogicalVolume(solidLV52 , CuSolid, "LV52");
   G4LogicalVolume* logicLV53 = new G4LogicalVolume(solidLV53 , CuSolid, "LV53");
-
   G4LogicalVolume* logicLV60 = new G4LogicalVolume(solidLV60 ,  WSolid, "LV60");
   G4LogicalVolume* logicLV61 = new G4LogicalVolume(solidLV61 ,  WSolid, "LV61");
   G4LogicalVolume* logicLV62 = new G4LogicalVolume(solidLV62 ,  WSolid, "LV62");
   G4LogicalVolume* logicLV63 = new G4LogicalVolume(solidLV63 ,  WSolid, "LV63");
-
   G4LogicalVolume* logicLV70 = new G4LogicalVolume(solidLV70 , AlSolid, "LV70");
   G4LogicalVolume* logicLV71 = new G4LogicalVolume(solidLV71 , AlSolid, "LV71");
-
+  }
 
 
   G4ThreeVector l00_pos; l00_pos.set( 0, 0, l00_z ); // Si 1
