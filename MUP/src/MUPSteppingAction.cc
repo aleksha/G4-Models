@@ -17,7 +17,7 @@ MUPSteppingAction::MUPSteppingAction(MUPEventAction* eventAction)
 }
 //------------------------------------------------------------------------------
 MUPSteppingAction::~MUPSteppingAction(){
-  myOUT.close(); myMUP.close(); myINI.close(); mySCI.close(); }
+  myOUT.close(); }
 //------------------------------------------------------------------------------
 void MUPSteppingAction::UserSteppingAction(const G4Step* step)
 {
