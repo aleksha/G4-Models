@@ -102,7 +102,8 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 //------------------------------------------
 // Be windows
 //------------------------------------------
-  G4Material *BeSolid = new G4Material("BeSolid",  4,  9.01218  *g/mole,  1.848 * g/cm3 );
+  //G4Material *BeSolid = new G4Material("BeSolid",  4,  9.01218  *g/mole,  1.848 * g/cm3 );
+  G4Material* BeSolid = nist->FindOrBuildMaterial("G4_Be");
 
 
   G4double rBe_in  = 29.*mm;
@@ -112,6 +113,43 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double l20_z = -0.5*lH2_z - dBeTPC - rBe_out;
   G4double l21_z =  0.5*lH2_z + dBeTPC + rBe_out;
 
+//------------------------------------------
+// Anode + Cathode + Grid
+//------------------------------------------
+
+  G4double ll_xy =  199.000*mm;
+
+
+  G4Material* AlSolid = nist->FindOrBuildMaterial("G4_Be");
+  G4Material* CuSolid = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* WSolid  = nist->FindOrBuildMaterial("G4_W" );
+  G4Material* Kapton  = nist->FindOrBuildMaterial("G4_KAPTON" );
+
+  G4double lKa_z = 0.080*mm;
+  G4double lCu_z = 0.030*mm;
+  G4double lAl_z = 0.030*mm;
+  G4double lGAP_z = 10.0*mm;
+  G4double lW_z  = (2*3.14159265*0.025*0.025) * mm; // grid 1 mm / step, diameter 50um
+
+  G4double l40_z = -0.5*lH2_z + 0.5*lKa_z;
+  G4double l41_z =            - 0.5*lKa_z;
+  G4double l42_z =              0.5*lKa_z;
+  G4double l43_z =  0.5*lH2_z - 0.5*lKa_z;
+
+  G4double l50_z = -0.5*lH2_z + lKa_z + 0.5*lCu_z;
+  G4double l51_z =            - lKa_z - 0.5*lCu_z;
+  G4double l52_z =              lKa_z + 0.5*lCu_z;
+  G4double l53_z =  0.5*lH2_z - lKa_z - 0.5*lCu_z;
+
+  G4double l60_z = -0.5*lH2_z + lKa_z + lCu_z + lGAP_z + 0.5*lW_z;
+  G4double l61_z =            - lKa_z - lCu_z - lGAP_z - 0.5*lW_z;
+  G4double l62_z =              lKa_z + lCu_z + lGAP_z + 0.5*lW_z;
+  G4double l63_z =  0.5*lH2_z - lKa_z - lCu_z - lGAP_z - 0.5*lW_z;
+
+  G4double l70_z = -0.25*lH2_z;
+  G4double l71_z =  0.25*lH2_z;
+
+//=====================================================================================
 
   G4Box* solidWorld = new G4Box("World", 0.5*w_xy, 0.5*w_xy, 0.5*w_z);
 
@@ -128,6 +166,25 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4Sphere* solidLV20 = new G4Sphere( "LV20", rBe_in, rBe_out, 0.0*deg, 360.0 *deg,  0.0*deg,  90.0*deg);
   G4Sphere* solidLV21 = new G4Sphere( "LV21", rBe_in, rBe_out, 0.0*deg, 360.0 *deg, 90.0*deg, 180.0*deg);
 
+
+  G4Box* solidLV40 = new G4Box("LV40", 0.5*ll_xy, 0.5*ll_xy, 0.5*lKa_z);
+  G4Box* solidLV41 = new G4Box("LV41", 0.5*ll_xy, 0.5*ll_xy, 0.5*lKa_z);
+  G4Box* solidLV42 = new G4Box("LV42", 0.5*ll_xy, 0.5*ll_xy, 0.5*lKa_z);
+  G4Box* solidLV43 = new G4Box("LV43", 0.5*ll_xy, 0.5*ll_xy, 0.5*lKa_z);
+
+  G4Box* solidLV50 = new G4Box("LV50", 0.5*ll_xy, 0.5*ll_xy, 0.5*lCu_z);
+  G4Box* solidLV51 = new G4Box("LV51", 0.5*ll_xy, 0.5*ll_xy, 0.5*lCu_z);
+  G4Box* solidLV52 = new G4Box("LV52", 0.5*ll_xy, 0.5*ll_xy, 0.5*lCu_z);
+  G4Box* solidLV53 = new G4Box("LV53", 0.5*ll_xy, 0.5*ll_xy, 0.5*lCu_z);
+
+  G4Box* solidLV60 = new G4Box("LV60", 0.5*ll_xy, 0.5*ll_xy, 0.5*lW_z );
+  G4Box* solidLV61 = new G4Box("LV61", 0.5*ll_xy, 0.5*ll_xy, 0.5*lW_z );
+  G4Box* solidLV62 = new G4Box("LV62", 0.5*ll_xy, 0.5*ll_xy, 0.5*lW_z );
+  G4Box* solidLV63 = new G4Box("LV63", 0.5*ll_xy, 0.5*ll_xy, 0.5*lW_z );
+
+  G4Box* solidLV70 = new G4Box("LV70", 0.5*ll_xy, 0.5*ll_xy, 0.5*lAl_z);
+  G4Box* solidLV71 = new G4Box("LV71", 0.5*ll_xy, 0.5*ll_xy, 0.5*lAl_z);
+
   //G4Material* l00_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00 , SiSolid, "LV00");
@@ -137,17 +194,50 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 
   G4LogicalVolume* logicLV10 = new G4LogicalVolume(solidLV10 , H2Gas  , "LV10");
 
-
   G4LogicalVolume* logicLV20 = new G4LogicalVolume(solidLV20 , BeSolid, "LV20");
   G4LogicalVolume* logicLV21 = new G4LogicalVolume(solidLV21 , BeSolid, "LV21");
+
+  G4LogicalVolume* logicLV40 = new G4LogicalVolume(solidLV40 ,  Kapton, "LV40");
+  G4LogicalVolume* logicLV41 = new G4LogicalVolume(solidLV41 ,  Kapton, "LV41");
+  G4LogicalVolume* logicLV42 = new G4LogicalVolume(solidLV42 ,  Kapton, "LV42");
+  G4LogicalVolume* logicLV43 = new G4LogicalVolume(solidLV43 ,  Kapton, "LV43");
+
+  G4LogicalVolume* logicLV50 = new G4LogicalVolume(solidLV50 , CuSolid, "LV50");
+  G4LogicalVolume* logicLV51 = new G4LogicalVolume(solidLV51 , CuSolid, "LV51");
+  G4LogicalVolume* logicLV52 = new G4LogicalVolume(solidLV52 , CuSolid, "LV52");
+  G4LogicalVolume* logicLV53 = new G4LogicalVolume(solidLV53 , CuSolid, "LV53");
+
+  G4LogicalVolume* logicLV60 = new G4LogicalVolume(solidLV60 ,  WSolid, "LV60");
+  G4LogicalVolume* logicLV61 = new G4LogicalVolume(solidLV61 ,  WSolid, "LV61");
+  G4LogicalVolume* logicLV62 = new G4LogicalVolume(solidLV62 ,  WSolid, "LV62");
+  G4LogicalVolume* logicLV63 = new G4LogicalVolume(solidLV63 ,  WSolid, "LV63");
+
+  G4LogicalVolume* logicLV70 = new G4LogicalVolume(solidLV70 , AlSolid, "LV70");
+  G4LogicalVolume* logicLV71 = new G4LogicalVolume(solidLV71 , AlSolid, "LV71");
+
+
 
   G4ThreeVector l00_pos; l00_pos.set( 0, 0, l00_z ); // Si 1
   G4ThreeVector l01_pos; l01_pos.set( 0, 0, l01_z ); // Si 2
   G4ThreeVector l02_pos; l02_pos.set( 0, 0, l02_z ); // Si 3
   G4ThreeVector l03_pos; l03_pos.set( 0, 0, l03_z ); // Si 4
-  G4ThreeVector l10_pos; l10_pos.set( 0, 0, 0     ); // H2 gas
-  G4ThreeVector l20_pos; l20_pos.set( 0, 0, l20_z ); // Be entrance
-  G4ThreeVector l21_pos; l21_pos.set( 0, 0, l21_z ); // Be exit
+  G4ThreeVector l10_pos; l10_pos.set( 0, 0, 0     ); // H2 gas   -- TPC volume
+  G4ThreeVector l20_pos; l20_pos.set( 0, 0, l20_z ); // Be       -- entrance window
+  G4ThreeVector l21_pos; l21_pos.set( 0, 0, l21_z ); // Be       -- exit window
+  G4ThreeVector l40_pos; l40_pos.set( 0, 0, l40_z ); // Kapton 1 -- anode
+  G4ThreeVector l41_pos; l41_pos.set( 0, 0, l41_z ); // Kapton 2 -- anode
+  G4ThreeVector l42_pos; l42_pos.set( 0, 0, l42_z ); // Kapton 3 -- anode
+  G4ThreeVector l43_pos; l43_pos.set( 0, 0, l43_z ); // Kapton 4 -- anode
+  G4ThreeVector l50_pos; l50_pos.set( 0, 0, l50_z ); // Cu 1     -- anode
+  G4ThreeVector l51_pos; l51_pos.set( 0, 0, l51_z ); // Cu 2     -- anode
+  G4ThreeVector l52_pos; l52_pos.set( 0, 0, l52_z ); // Cu 3     -- anode
+  G4ThreeVector l53_pos; l53_pos.set( 0, 0, l53_z ); // Cu 4     -- anode
+  G4ThreeVector l60_pos; l60_pos.set( 0, 0, l60_z ); // W 1      -- grid
+  G4ThreeVector l61_pos; l61_pos.set( 0, 0, l61_z ); // W 2      -- grid
+  G4ThreeVector l62_pos; l62_pos.set( 0, 0, l62_z ); // W 3      -- grid
+  G4ThreeVector l63_pos; l63_pos.set( 0, 0, l63_z ); // W 4      -- grid
+  G4ThreeVector l70_pos; l70_pos.set( 0, 0, l70_z ); // Al 1     -- cathode
+  G4ThreeVector l71_pos; l71_pos.set( 0, 0, l71_z ); // Al 2     -- cathode
 
   G4VPhysicalVolume* physWorld =
     new G4PVPlacement(0, G4ThreeVector(), logicWorld,
@@ -163,6 +253,25 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   // - Be windows 
   new G4PVPlacement(0, l20_pos, logicLV20, "LV20", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, l21_pos, logicLV21, "LV21", logicWorld, false, 0, checkOverlaps);
+  // Kapton -- anode
+  new G4PVPlacement(0, l40_pos, logicLV40, "LV40", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l41_pos, logicLV41, "LV41", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l42_pos, logicLV42, "LV42", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l43_pos, logicLV43, "LV43", logicLV10, false, 0, checkOverlaps);
+  // Cu -- anode
+  new G4PVPlacement(0, l50_pos, logicLV50, "LV50", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l51_pos, logicLV51, "LV51", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l52_pos, logicLV52, "LV52", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l53_pos, logicLV53, "LV53", logicLV10, false, 0, checkOverlaps);
+  // W -- grid
+  new G4PVPlacement(0, l60_pos, logicLV60, "LV60", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l61_pos, logicLV61, "LV61", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l62_pos, logicLV62, "LV62", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l63_pos, logicLV63, "LV63", logicLV10, false, 0, checkOverlaps);
+  // Al -- cathode
+  new G4PVPlacement(0, l70_pos, logicLV70, "LV70", logicLV10, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l71_pos, logicLV71, "LV71", logicLV10, false, 0, checkOverlaps);
+
 
   fLV00 = logicLV00;
   fLV01 = logicLV01;
