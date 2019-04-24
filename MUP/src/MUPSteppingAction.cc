@@ -94,7 +94,6 @@ void MUPSteppingAction::UserSteppingAction(const G4Step* step)
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-    }
   }
 
 //  // collect energy deposited in this step
