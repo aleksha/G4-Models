@@ -44,6 +44,7 @@ target_link_libraries(exec_MUP ${Geant4_LIBRARIES})
 set(MUP_SCRIPTS
   run.mac
   Run_Geant.sh
+  reso_MUP.C
   )
 
 foreach(_script ${MUP_SCRIPTS})
