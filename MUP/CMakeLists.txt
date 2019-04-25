@@ -46,6 +46,7 @@ set(MUP_SCRIPTS
   Run_Geant.sh
   reso_MUP.C
   thetaX_MUP.C
+  vertex_MUP.C
   )
 
 foreach(_script ${MUP_SCRIPTS})
