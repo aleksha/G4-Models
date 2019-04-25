@@ -89,7 +89,7 @@ void MUPSteppingAction::UserSteppingAction(const G4Step* step)
 
     if(myOUT.is_open() && vol>-1 && st_id==2)
        myOUT << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
-             << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
+             << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_ed<< " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;

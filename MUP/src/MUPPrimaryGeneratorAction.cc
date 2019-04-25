@@ -30,7 +30,10 @@ MUPPrimaryGeneratorAction::~MUPPrimaryGeneratorAction(){ delete fParticleGun; }
 void MUPPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
+
+//  fParticleGun->SetParticlePosition( G4ThreeVector(0,29.1*mm,-5499.5*mm) );
   fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-5499.5*mm) );
+//  fParticleGun->SetParticlePosition( G4ThreeVector(0,0.0*mm,-350.5*mm) );
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 //------------------------------------------------------------------------------
