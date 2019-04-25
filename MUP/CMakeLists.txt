@@ -45,6 +45,7 @@ set(MUP_SCRIPTS
   run.mac
   Run_Geant.sh
   reso_MUP.C
+  thetaX_MUP.C
   )
 
 foreach(_script ${MUP_SCRIPTS})
