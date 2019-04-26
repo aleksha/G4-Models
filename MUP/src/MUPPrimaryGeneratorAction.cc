@@ -52,7 +52,9 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 
   G4double p_mu = 100.*GeV;
   G4double pos  = 20.*mm;
-  double theta = 0.00033;
+//  double theta = 0.00033;
+//  double theta = 0.00033;
+  double theta = 0.002;
 
 
   G4ThreeVector positionB( 0, 0, pos );
