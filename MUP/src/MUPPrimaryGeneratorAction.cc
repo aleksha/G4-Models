@@ -1,4 +1,5 @@
 #include "MUPPrimaryGeneratorAction.hh"
+
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Box.hh"
@@ -8,33 +9,76 @@
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
+
+#include "G4VPrimaryGenerator.hh"
+
+//==============================================================================
+// HERE IS PRIMARY GENERATOR CLASS FIRST
+//==============================================================================
+
+
+class PrimaryGenerator : public G4VPrimaryGenerator
+{
+  public:
+    PrimaryGenerator();
+   ~PrimaryGenerator();
+
+  public:
+    virtual void GeneratePrimaryVertex(G4Event*);
+
+//  private:
+//    G4double fCosAlphaMin, fCosAlphaMax;      //solid angle
+
+};
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+PrimaryGenerator::PrimaryGenerator()
+: G4VPrimaryGenerator()
+{ }
+
+PrimaryGenerator::~PrimaryGenerator()
+{ }
+
+void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
+{
+
+  G4ParticleDefinition* particleDefMu = G4ParticleTable::GetParticleTable()->FindParticle("mu+");
+
+  G4PrimaryParticle* particle1;
+  G4PrimaryParticle* particle2;
+
+  particle1 = new G4PrimaryParticle(particleDefMu);
+  particle2 = new G4PrimaryParticle(particleDefMu);
+
+  G4double p_mu = 100.*GeV;
+  G4double pos  = 20.*mm;
+  double theta = 0.00033;
+
+
+  G4ThreeVector positionB( 0, 0, pos );
+
+  particle1->SetMomentum( 0,          0, -p_mu );
+  particle2->SetMomentum( 0, theta*p_mu,  p_mu );
+
+  G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
+
+  event->AddPrimaryVertex(vertexB);
+
+}
+
 //------------------------------------------------------------------------------
 MUPPrimaryGeneratorAction::MUPPrimaryGeneratorAction()
 : G4VUserPrimaryGeneratorAction(),
-  fParticleGun(0)
+  PrimaryGenerator(0)
 {
-  G4int n_particle = 1;
-  fParticleGun  = new G4ParticleGun(n_particle);
-
-  // default particle kinematic
-  G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4String particleName;
-  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="mu+");
-  fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(100.*GeV);
+  fPrimaryGenerator = new PrimaryGenerator();
 }
 //------------------------------------------------------------------------------
-MUPPrimaryGeneratorAction::~MUPPrimaryGeneratorAction(){ delete fParticleGun; }
+MUPPrimaryGeneratorAction::~MUPPrimaryGeneratorAction(){ delete fPrimaryGenerator; }
 //------------------------------------------------------------------------------
 void MUPPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
-
-//  fParticleGun->SetParticlePosition( G4ThreeVector(0,29.1*mm,-5499.5*mm) );
-  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-5499.5*mm) );
-//  fParticleGun->SetParticlePosition( G4ThreeVector(0,0.0*mm,-350.5*mm) );
-  fParticleGun->GeneratePrimaryVertex(anEvent);
+  fPrimaryGenerator->GeneratePrimaryVertex(anEvent);
 }
 //------------------------------------------------------------------------------
 
