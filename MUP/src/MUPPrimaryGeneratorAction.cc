@@ -34,10 +34,10 @@ class PrimaryGenerator : public G4VPrimaryGenerator
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 PrimaryGenerator::PrimaryGenerator()
 : G4VPrimaryGenerator()
-{ };
+{ }
 
 PrimaryGenerator::~PrimaryGenerator()
-{ };
+{ }
 
 void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 {
@@ -62,9 +62,11 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 
   G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
 
+  vertexB->SetPrimary(particle1);
+  vertexB->SetPrimary(particle2);
   event->AddPrimaryVertex(vertexB);
 
-};
+}
 
 //------------------------------------------------------------------------------
 MUPPrimaryGeneratorAction::MUPPrimaryGeneratorAction()
