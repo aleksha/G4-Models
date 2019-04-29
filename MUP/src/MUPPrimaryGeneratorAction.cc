@@ -63,7 +63,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 //  double theta = 0.002;
 
   G4ThreeVector positionB( 0, 0, pos );
-//  G4ThreeVector positionB( 0, 29.0*mm, pos );
+//  G4ThreeVector positionB( 0, 29.0*mm, pos ); // check edge of Be window
 
   particle1->SetMomentum( 0, theta*p_mu,  p_mu );
   particle2->SetMomentum( 0,          0, -p_mu );
