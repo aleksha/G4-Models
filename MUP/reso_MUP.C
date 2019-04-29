@@ -9,7 +9,7 @@ void reso_MUP(){
 
     TH1F* hANG  = new TH1F("hANG" ,";Angle, #murad;Events",40, 0, 200);
     TH1F* hSEC  = new TH1F("hSEC" ,";Angle, mrad;Events",40, 0, 200);
-    TH1F* hFAKE = new TH1F("hFAKE",";Angle, mrad;Events",60, 0, 6);
+    TH1F* hFAKE = new TH1F("hFAKE",";Angle, mrad;Events",300, 0, 300);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     //TH2F* hSDV = new TH2F("hSDV",";#Delta x, mm; StdDev, mm", 50, 0, 50, 50, 0, 25);
@@ -56,7 +56,7 @@ void reso_MUP(){
                   vec_out.SetXYZ( xx[3]-sx[2] , yy[3]-sy[2], 5000.);
               else
                   vec_out.SetXYZ( sx[3]-xx[2] , sy[3]-yy[2], 5000.);
-              hFAKE->Fill( 1000.*vec_out.Angle(vec_ini)  );
+              hFAKE->Fill( 1000.*1000.*vec_out.Angle(vec_ini)  );
           }
 
           for(int ii=0;ii<4;ii++){ fired[ii] = false; secnd[ii] = false; }
@@ -82,6 +82,7 @@ void reso_MUP(){
     canv->Print("TEMP.png");
     hSEC->Draw();
     canv->Print("SECN.png");
+    gPad->SetLogy();
     hFAKE->Draw();
     canv->Print("FAKE.png");
     cout << "Num.sec = " << nSec << endl;
