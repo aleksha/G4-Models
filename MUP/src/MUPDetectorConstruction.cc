@@ -70,7 +70,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 //   World
 //------------------------------------------
   G4double w_xy =   220.0*mm;
-  G4double w_z  = 11000.0*mm;
+  G4double w_z  = 12000.0*mm;
 
   //G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
   G4Material* w_mat = nist->FindOrBuildMaterial("G4_He");
@@ -86,10 +86,10 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double l_xy  =  200.000*mm;
   G4double lSi_z =    0.250*mm;
   // z-pozitiion of Si layers
-  G4double l00_z = -5450.000*mm + 0.5 * lSi_z;
-  G4double l01_z =  -450.000*mm + 0.5 * lSi_z;
-  G4double l02_z =   450.000*mm - 0.5 * lSi_z;
-  G4double l03_z =  5450.000*mm - 0.5 * lSi_z;
+  G4double l00_z = -5700.000*mm + 0.5 * lSi_z;
+  G4double l01_z =  -700.000*mm + 0.5 * lSi_z;
+  G4double l02_z =   700.000*mm - 0.5 * lSi_z;
+  G4double l03_z =  5700.000*mm - 0.5 * lSi_z;
 
   //G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4Material* SiSolid = nist->FindOrBuildMaterial("G4_Si");
@@ -99,7 +99,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 // H_2 gas, 20 atm.
 //------------------------------------------
 
-  G4double lH2_z =  600.0*mm;
+  G4double lH2_z =  1200.0*mm;
   G4Material *H2Gas   = new G4Material("H2Gas"  ,  1,  1.008  *g/mole,  1.6347*kg/m3 );
 
 //------------------------------------------
@@ -132,7 +132,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double lCu_z = 0.030*mm;
   G4double lAl_z = 0.030*mm;
   G4double lGAP_z = 10.0*mm;
-  G4double lW_z  = (2*3.14159265*0.025*0.025) * mm; // grid 1 mm / step, diameter 50um
+  G4double lW_z  = (3.14159265*0.1*0.1) * mm; // grid 1 mm / step, diameter 100um / 1 direction
 
   G4double l40_z = -0.5*lH2_z + 0.5*lKa_z;
   G4double l41_z =            - 0.5*lKa_z;
