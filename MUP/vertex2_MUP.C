@@ -30,7 +30,7 @@ TVector3 Vertex(TVector3 a, TVector3 ea, TVector3 c, TVector3 ec){
    double min_d  = 1000;
    double dst;
    TVector3 pnt;
-   for(double ss=5000.; ss<6000.; ss=ss+1){
+   for(double ss=5500.; ss<7000.; ss=ss+1){
       pnt = a + b*ss;
       dst = ( (c-pnt)-((c-pnt).Dot(d))*d ).Mag();
       if(dst<min_d){
@@ -53,7 +53,7 @@ void vertex2_MUP(){
 
     std::ifstream fOUT("./out.data" , std::ios::in);
 
-    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 200, -100, 100);
+    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 200, 0, 200);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     TH2F* hL = new TH2F("hL",";t;s", 1000, 0, 10000, 1000, 0, 10000);
@@ -78,13 +78,13 @@ void vertex2_MUP(){
     int nThr  = 0;
     int EVENT = 0;
     while( fOUT >> ev >> tr >> st >> vol >> dE >> code >> c >> E >> xi >> yi >> zi >> ti >> xf >> yf >> zf >> tf ){
-      if(ev>EVENT && ev<500){
+      if(ev>EVENT && ev<1000){
 
           if( fired[0] && fired[1] && fired[2] && fired[3] ){
-              vv0.SetXYZ( xx[0] , yy[0], -5450.);
-              vv1.SetXYZ( xx[1] , yy[1], - 450.);
-              vv2.SetXYZ( xx[2] , yy[2],   450.);
-              vv3.SetXYZ( xx[3] , yy[3],  5450.);
+              vv0.SetXYZ( xx[0] , yy[0], -5900.);
+              vv1.SetXYZ( xx[1] , yy[1], - 900.);
+              vv2.SetXYZ( xx[2] , yy[2],   900.);
+              vv3.SetXYZ( xx[3] , yy[3],  5900.);
               v_vtx = Vertex( vv0, vv1, vv2, vv3);
 
               hVTX->Fill( v_vtx.z() );
@@ -92,7 +92,7 @@ void vertex2_MUP(){
 
           for(int ii=0;ii<4;ii++){ fired[ii] = false; secnd[ii] = false; }
           EVENT = ev;
-          if( !(ev%100) ) cout << ev << endl;
+          if( !(ev%50) ) cout << ev << endl;
       }
 
       if(tr < 3){
@@ -104,6 +104,7 @@ void vertex2_MUP(){
     }
     fOUT.close();
     hVTX->Draw();
+    hVTX->Fit("gaus");
     canv->Print("VRTX.png");
 //    gPad->SetLogz();
 //    hL->Draw("colz");
