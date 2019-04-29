@@ -140,20 +140,20 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 
   G4double lW_z  = (3.14159265*0.1*0.1) * mm; // grid 1 mm / step, diameter 100um / 1 direction
 
-  G4double l40_z = -0.5*lH2_z + 0.5*lKa_z - 0.5*lCENTER_z;
+  G4double l40_z = -0.5*lH2_z + 0.5*lKa_z                ;
   G4double l41_z =            - 0.5*lKa_z - 0.5*lCENTER_z;
   G4double l42_z =              0.5*lKa_z + 0.5*lCENTER_z;
-  G4double l43_z =  0.5*lH2_z - 0.5*lKa_z + 0.5*lCENTER_z;
+  G4double l43_z =  0.5*lH2_z - 0.5*lKa_z                ;
 
-  G4double l50_z = -0.5*lH2_z + lKa_z + 0.5*lCu_z - 0.5*lCENTER_z;;
-  G4double l51_z =            - lKa_z - 0.5*lCu_z - 0.5*lCENTER_z;;
-  G4double l52_z =              lKa_z + 0.5*lCu_z + 0.5*lCENTER_z;;
-  G4double l53_z =  0.5*lH2_z - lKa_z - 0.5*lCu_z + 0.5*lCENTER_z;;
+  G4double l50_z = -0.5*lH2_z + lKa_z + 0.5*lCu_z                ;
+  G4double l51_z =            - lKa_z - 0.5*lCu_z - 0.5*lCENTER_z;
+  G4double l52_z =              lKa_z + 0.5*lCu_z + 0.5*lCENTER_z;
+  G4double l53_z =  0.5*lH2_z - lKa_z - 0.5*lCu_z                ;
 
-  G4double l60_z = -0.5*lH2_z + lKa_z + lCu_z + lGAP_z + 0.5*lW_z - 0.5*lCENTER_z;;
-  G4double l61_z =            - lKa_z - lCu_z - lGAP_z - 0.5*lW_z - 0.5*lCENTER_z;;
-  G4double l62_z =              lKa_z + lCu_z + lGAP_z + 0.5*lW_z + 0.5*lCENTER_z;;
-  G4double l63_z =  0.5*lH2_z - lKa_z - lCu_z - lGAP_z - 0.5*lW_z + 0.5*lCENTER_z;;
+  G4double l60_z = -0.5*lH2_z + lKa_z + lCu_z + lGAP_z + 0.5*lW_z                ;
+  G4double l61_z =            - lKa_z - lCu_z - lGAP_z - 0.5*lW_z - 0.5*lCENTER_z;
+  G4double l62_z =              lKa_z + lCu_z + lGAP_z + 0.5*lW_z + 0.5*lCENTER_z;
+  G4double l63_z =  0.5*lH2_z - lKa_z - lCu_z - lGAP_z - 0.5*lW_z                ;
 
   G4double l70_z = -0.25*(lH2_z - lCENTER_z) - 0.5*lCENTER_z;
   G4double l71_z =  0.25*(lH2_z - lCENTER_z) + 0.5*lCENTER_z;
