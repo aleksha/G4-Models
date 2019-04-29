@@ -86,10 +86,10 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double l_xy  =  200.000*mm;
   G4double lSi_z =    0.250*mm;
   // z-pozitiion of Si layers
-  G4double l00_z = -5700.000*mm + 0.5 * lSi_z;
-  G4double l01_z =  -700.000*mm + 0.5 * lSi_z;
-  G4double l02_z =   700.000*mm - 0.5 * lSi_z;
-  G4double l03_z =  5700.000*mm - 0.5 * lSi_z;
+  G4double l00_z = -5900.000*mm + 0.5 * lSi_z;
+  G4double l01_z =  -900.000*mm + 0.5 * lSi_z;
+  G4double l02_z =   900.000*mm - 0.5 * lSi_z;
+  G4double l03_z =  5900.000*mm - 0.5 * lSi_z;
 
   //G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4Material* SiSolid = nist->FindOrBuildMaterial("G4_Si");
@@ -99,8 +99,13 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 // H_2 gas, 20 atm.
 //------------------------------------------
 
-  G4double lH2_z =  1200.0*mm;
-  G4Material *H2Gas   = new G4Material("H2Gas"  ,  1,  1.008  *g/mole,  1.6347*kg/m3 );
+  G4double lUNIT_z   = 400.0*mm; // length of one TPC unit
+  G4double lCENTER_z =  50.0*mm; // gap between central anodes
+
+  G4double lH2_z = ( lUNIT_z*4 + lCENTER_z );
+
+  // 20 atm --> 1.6347 kg/m3
+  G4Material *H2Gas = new G4Material("H2Gas", 1, 1.008*g/mole, 1.6347*kg/m3 );
 
 //------------------------------------------
 // Be windows
@@ -132,25 +137,26 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double lCu_z = 0.030*mm;
   G4double lAl_z = 0.030*mm;
   G4double lGAP_z = 10.0*mm;
+
   G4double lW_z  = (3.14159265*0.1*0.1) * mm; // grid 1 mm / step, diameter 100um / 1 direction
 
-  G4double l40_z = -0.5*lH2_z + 0.5*lKa_z;
-  G4double l41_z =            - 0.5*lKa_z;
-  G4double l42_z =              0.5*lKa_z;
-  G4double l43_z =  0.5*lH2_z - 0.5*lKa_z;
+  G4double l40_z = -0.5*lH2_z + 0.5*lKa_z - 0.5*lCENTER_z;
+  G4double l41_z =            - 0.5*lKa_z - 0.5*lCENTER_z;
+  G4double l42_z =              0.5*lKa_z + 0.5*lCENTER_z;
+  G4double l43_z =  0.5*lH2_z - 0.5*lKa_z + 0.5*lCENTER_z;
 
-  G4double l50_z = -0.5*lH2_z + lKa_z + 0.5*lCu_z;
-  G4double l51_z =            - lKa_z - 0.5*lCu_z;
-  G4double l52_z =              lKa_z + 0.5*lCu_z;
-  G4double l53_z =  0.5*lH2_z - lKa_z - 0.5*lCu_z;
+  G4double l50_z = -0.5*lH2_z + lKa_z + 0.5*lCu_z - 0.5*lCENTER_z;;
+  G4double l51_z =            - lKa_z - 0.5*lCu_z - 0.5*lCENTER_z;;
+  G4double l52_z =              lKa_z + 0.5*lCu_z + 0.5*lCENTER_z;;
+  G4double l53_z =  0.5*lH2_z - lKa_z - 0.5*lCu_z + 0.5*lCENTER_z;;
 
-  G4double l60_z = -0.5*lH2_z + lKa_z + lCu_z + lGAP_z + 0.5*lW_z;
-  G4double l61_z =            - lKa_z - lCu_z - lGAP_z - 0.5*lW_z;
-  G4double l62_z =              lKa_z + lCu_z + lGAP_z + 0.5*lW_z;
-  G4double l63_z =  0.5*lH2_z - lKa_z - lCu_z - lGAP_z - 0.5*lW_z;
+  G4double l60_z = -0.5*lH2_z + lKa_z + lCu_z + lGAP_z + 0.5*lW_z - 0.5*lCENTER_z;;
+  G4double l61_z =            - lKa_z - lCu_z - lGAP_z - 0.5*lW_z - 0.5*lCENTER_z;;
+  G4double l62_z =              lKa_z + lCu_z + lGAP_z + 0.5*lW_z + 0.5*lCENTER_z;;
+  G4double l63_z =  0.5*lH2_z - lKa_z - lCu_z - lGAP_z - 0.5*lW_z + 0.5*lCENTER_z;;
 
-  G4double l70_z = -0.25*lH2_z;
-  G4double l71_z =  0.25*lH2_z;
+  G4double l70_z = -0.25*(lH2_z - lCENTER_z) - 0.5*lCENTER_z;
+  G4double l71_z =  0.25*(lH2_z - lCENTER_z) + 0.5*lCENTER_z;
 
 //=====================================================================================
 
