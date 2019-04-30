@@ -86,10 +86,10 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double l_xy  =  200.000*mm;
   G4double lSi_z =    0.250*mm;
   // z-pozitiion of Si layers
-  G4double l00_z = -5900.000*mm + 0.5 * lSi_z;
-  G4double l01_z =  -900.000*mm + 0.5 * lSi_z;
-  G4double l02_z =   900.000*mm - 0.5 * lSi_z;
-  G4double l03_z =  5900.000*mm - 0.5 * lSi_z;
+  G4double l00_z = -5700.000*mm + 0.5 * lSi_z;
+  G4double l01_z =  -700.000*mm + 0.5 * lSi_z;
+  G4double l02_z =   700.000*mm - 0.5 * lSi_z;
+  G4double l03_z =  5700.000*mm - 0.5 * lSi_z;
 
   //G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
   G4Material* SiSolid = nist->FindOrBuildMaterial("G4_Si");
@@ -99,7 +99,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
 // H_2 gas, 20 atm.
 //------------------------------------------
 
-  G4double lUNIT_z   = 400.0*mm; // length of one TPC unit
+  G4double lUNIT_z   = 300.0*mm; // length of one TPC unit
   G4double lCENTER_z =  50.0*mm; // gap between central anodes
 
   G4double lH2_z = ( lUNIT_z*4 + lCENTER_z );
@@ -138,8 +138,8 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4double lAl_z = 0.030*mm;
   G4double lGAP_z = 10.0*mm;
 
-  G4double lW_z  = (3.14159265*0.05*0.05) * mm; // grid 1 mm / step, diameter 100um / 1 direction
-//  G4double lW_z  = (3.14159265*0.025*0.025) * mm; // grid 1 mm / step, diameter 100um / 1 direction
+//  G4double lW_z  = (3.14159265*0.05*0.05) * mm; // grid 1 mm / step, diameter 100um / 1 direction
+  G4double lW_z  = (3.14159265*0.025*0.025) * mm; // grid 1 mm / step, diameter 100um / 1 direction
 
   G4double l40_z = -0.5*lH2_z + 0.5*lKa_z                ;
   G4double l41_z =            - 0.5*lKa_z - 0.5*lCENTER_z;
