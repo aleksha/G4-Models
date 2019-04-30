@@ -53,12 +53,13 @@ void vertex2_MUP(){
 
     std::ifstream fOUT("./out.data" , std::ios::in);
 
-    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 200, 0, 200);
+    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 200, -100, 300);
+    TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 200, 0, 600);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     TH2F* hL = new TH2F("hL",";t;s", 1000, 0, 10000, 1000, 0, 10000);
 
-    TVector3 vec_ini, vec_out, v_vtx;
+    TVector3 vINI, vOUT, v_vtx;
     TVector3 vv0,vv1,vv2,vv3,tv;
     double xx[4], sx[4];
     double yy[4], sy[4];
@@ -85,9 +86,12 @@ void vertex2_MUP(){
               vv1.SetXYZ( xx[1] , yy[1], - 900.);
               vv2.SetXYZ( xx[2] , yy[2],   900.);
               vv3.SetXYZ( xx[3] , yy[3],  5900.);
+              vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -5000.);
+              vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -5000.);
               v_vtx = Vertex( vv0, vv1, vv2, vv3);
 
               hVTX->Fill( v_vtx.z() );
+              hANG->Fill( 1000.*1000.*vOUT.Angle( vINI ) );
           }
 
           for(int ii=0;ii<4;ii++){ fired[ii] = false; secnd[ii] = false; }
@@ -103,6 +107,9 @@ void vertex2_MUP(){
 
     }
     fOUT.close();
+    hANG->Draw();
+    hANG->Fit("gaus");
+    canv->Print("RECO.png");
     hVTX->Draw();
     hVTX->Fit("gaus");
     canv->Print("VRTX.png");

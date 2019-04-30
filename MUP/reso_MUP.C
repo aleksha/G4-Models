@@ -9,7 +9,8 @@ void reso_MUP(){
 
     TH1F* hANG  = new TH1F("hANG" ,";Angle, #murad;Events",40, 0, 200);
     TH1F* hSEC  = new TH1F("hSEC" ,";Angle, mrad;Events",40, 0, 200);
-    TH1F* hFAKE = new TH1F("hFAKE",";Angle, mrad;Events",300, 0, 300);
+    TH1F* hFAKE = new TH1F("hFAKE",";Angle, #murad;Events",230, 0, 230);
+    TH1F* hALL  = new TH1F("hALL",";Angle, #murad;Events",230, 0, 2300);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     //TH2F* hSDV = new TH2F("hSDV",";#Delta x, mm; StdDev, mm", 50, 0, 50, 50, 0, 25);
@@ -26,6 +27,7 @@ void reso_MUP(){
     double Ev    = 0.;
 
     int cntr=0.;
+    int rate[5]=0.;
     int mult[7] = {0,0,0,0,0,0,0};
     double m1[1000],m2[1000];
     double mv1,sdv1,m2,sdv2,df,sdf;
@@ -40,6 +42,14 @@ void reso_MUP(){
               vec_ini.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], 5000.);
               vec_out.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], 5000.);
               hANG->Fill( 1000.*1000.*vec_out.Angle(vec_ini)  );
+              hALL->Fill( 1000.*1000.*vec_out.Angle(vec_ini)  );
+              if( 1000.*1000.*vec_out.Angle(vec_ini)<2000.){
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>100.) rate[0]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>200.) rate[1]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>300.) rate[2]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>330.) rate[3]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>400.) rate[4]++;
+              }
           }
           if( secnd[2] && secnd[3] ){
               if( (sx[2]*sx[2]+sy[2]*sy[2])<900 && (sx[3]*sx[3]+sy[3]*sy[3])<900){
@@ -57,6 +67,14 @@ void reso_MUP(){
               else
                   vec_out.SetXYZ( sx[3]-xx[2] , sy[3]-yy[2], 5000.);
               hFAKE->Fill( 1000.*1000.*vec_out.Angle(vec_ini)  );
+              hALL->Fill( 1000.*1000.*vec_out.Angle(vec_ini)  );
+              if( 1000.*1000.*vec_out.Angle(vec_ini)<2000.){
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>100.) rate[0]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>200.) rate[1]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>300.) rate[2]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>330.) rate[3]++;
+                  if(1000.*1000.*vec_out.Angle(vec_ini)>400.) rate[4]++;
+              }
           }
 
           for(int ii=0;ii<4;ii++){ fired[ii] = false; secnd[ii] = false; }
@@ -85,8 +103,12 @@ void reso_MUP(){
     gPad->SetLogy();
     hFAKE->Draw();
     canv->Print("FAKE.png");
+    hALL->Draw();
+    canv->Print("ALL.png");
     cout << "Num.sec = " << nSec << endl;
     cout << "Three hits = " << nThr << endl;
+    for(int uu=0;uu<5;uu++)
+        cout << "   --> " << rate[uu] << endl;
     gSystem->Exit(0);
 
 }
