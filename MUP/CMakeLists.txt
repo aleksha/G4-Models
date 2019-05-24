@@ -44,6 +44,7 @@ target_link_libraries(exec_MUP ${Geant4_LIBRARIES})
 set(MUP_SCRIPTS
   run.mac
   Run_Geant.sh
+  det_MUP.C
   reso_MUP.C
   thetaX_MUP.C
   vertex_MUP.C

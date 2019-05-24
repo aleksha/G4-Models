@@ -8,6 +8,7 @@ void thetaX_MUP(){
     std::ifstream fOUT("./out.data" , std::ios::in);
 
     TH1F* hTHETAx = new TH1F("hTHETAx",";#theta_{x}, #murad;Events", 320, -80, 80);
+    TH1F* hX      = new TH1F("hX"     ,";x, #mum;Events", 2*320, -160, 160);
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     //TH2F* hSDV = new TH2F("hSDV",";#Delta x, mm; StdDev, mm", 50, 0, 50, 50, 0, 25);
@@ -33,6 +34,7 @@ void thetaX_MUP(){
       if(ev>EVENT){
           if( fired[2] ){
               hTHETAx->Fill( 1000.*1000.*xx[2]/(zz[2]+885.)  );
+              hX->Fill( 1000.*xx[2]  );
           }
           for(int ii=0;ii<4;ii++) fired[ii] = false;
           EVENT = ev;
@@ -47,8 +49,9 @@ void thetaX_MUP(){
 
     }
     fOUT.close();
-    hTHETAx->Draw();
-    hTHETAx->Fit("gaus");
+    gPad->SetLogy();
+    hX->Draw();
+    hX->Fit("gaus");
     canv->Print("TEMP.png");
     gSystem->Exit(0);
 

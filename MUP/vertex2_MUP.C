@@ -30,7 +30,7 @@ TVector3 Vertex(TVector3 a, TVector3 ea, TVector3 c, TVector3 ec){
    double min_d  = 1000;
    double dst;
    TVector3 pnt;
-   for(double ss=5500.; ss<7000.; ss=ss+1){
+   for(double ss=3000.; ss<9000.; ss=ss+1){
       pnt = a + b*ss;
       dst = ( (c-pnt)-((c-pnt).Dot(d))*d ).Mag();
       if(dst<min_d){
@@ -53,14 +53,49 @@ void vertex2_MUP(){
 
     std::ifstream fOUT("./out.data" , std::ios::in);
 
-    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 200, -100, 300);
-    TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 200, 0, 600);
+    //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, 400, 1000);
+    //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
+    //TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60, 400, 1000);
+    //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 200, 500);
+
+    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60,-200, 400);
+    TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 1850, 2150);
+    TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60,-200, 400);
+    TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 1850, 2150);
+
+    //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, -200, 400);
+    //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
+    ////TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 500, 800);
+    //TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60, -200, 400);
+    //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 200, 500);
+    ////TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 500, 800);
+
+    //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, 450, 1050);
+    //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
+    //TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60, 450, 1050);
+    //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 200, 500);
+
+    TH1F* hPHI  = new TH1F("hPHI" ,"; #phi-angle, mrad;Events", 60,-150, 150);
+    TH1F* hPHI2 = new TH1F("hPHI2","; #phi-angle, mrad;Events", 60,-150, 150);
+
+
+    hVTX2->SetLineColor( kGreen+3 );
+    hANG2->SetLineColor( kGreen+3 );
+    hPHI2->SetLineColor( kGreen+3 );
+    hVTX2->SetFillColor( kGreen+3 );
+    hANG2->SetFillColor( kGreen+3 );
+    hPHI2->SetFillColor( kGreen+3 );
+    hVTX2->SetFillStyle( 3005     );
+    hANG2->SetFillStyle( 3005     );
+    hPHI2->SetFillStyle( 3005     );
 
     TCanvas* canv = new TCanvas("canv","canv",600,600);
     TH2F* hL = new TH2F("hL",";t;s", 1000, 0, 10000, 1000, 0, 10000);
 
     TVector3 vINI, vOUT, v_vtx;
+    TVector3 wINI, wOUT, w_vtx;
     TVector3 vv0,vv1,vv2,vv3,tv;
+    TVector3 ww0,ww1,ww2,ww3;
     double xx[4], sx[4];
     double yy[4], sy[4];
     bool fired[4] = {false, false, false, false};
@@ -82,36 +117,82 @@ void vertex2_MUP(){
       if(ev>EVENT && ev<1000){
 
           if( fired[0] && fired[1] && fired[2] && fired[3] ){
-              vv0.SetXYZ( xx[0] , yy[0], -5900.);
-              vv1.SetXYZ( xx[1] , yy[1], - 900.);
-              vv2.SetXYZ( xx[2] , yy[2],   900.);
-              vv3.SetXYZ( xx[3] , yy[3],  5900.);
+
+              vv0.SetXYZ( xx[0] , yy[0], -6250.);
+              vv1.SetXYZ( xx[1] , yy[1], -1250.);
+              vv2.SetXYZ( xx[2] , yy[2],  1250.);
+              vv3.SetXYZ( xx[3] , yy[3],  6250.);
+
+              ww0.SetXYZ( sx[0] , sy[0], -6250.);
+              ww1.SetXYZ( sx[1] , sy[1], -1250.);
+              ww2.SetXYZ( sx[2] , sy[2],  1250.);
+              ww3.SetXYZ( sx[3] , sy[3],  6250.);
+
+//              vv0.SetXYZ( xx[0] , yy[0], -5850.);
+//              vv1.SetXYZ( xx[1] , yy[1],  -850.);
+//              vv2.SetXYZ( xx[2] , yy[2],   850.);
+//              vv3.SetXYZ( xx[3] , yy[3],  5850.);
+
+//              ww0.SetXYZ( sx[0] , sy[0], -5850.);
+//              ww1.SetXYZ( sx[1] , sy[1],  -850.);
+//              ww2.SetXYZ( sx[2] , sy[2],   850.);
+//              ww3.SetXYZ( sx[3] , sy[3],  5850.);
+
               vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -5000.);
               vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -5000.);
               v_vtx = Vertex( vv0, vv1, vv2, vv3);
 
-              hVTX->Fill( v_vtx.z() );
-              hANG->Fill( 1000.*1000.*vOUT.Angle( vINI ) );
+              wINI.SetXYZ( sx[1]-sx[0] , sy[1]-sy[0], -5000.);
+              wOUT.SetXYZ( sx[3]-sx[2] , sy[3]-sy[2], -5000.);
+              w_vtx = Vertex( ww0, ww1, ww2, ww3);
+
+              hVTX->Fill(  v_vtx.z() );
+              hANG->Fill(  1000.*1000.*vOUT.Angle( vINI ) );
+              hPHI->Fill(  1000.*((vOUT - vINI ).Phi() -0.5*TMath::Pi()));
+
+              hVTX2->Fill( w_vtx.z() );
+              hANG2->Fill( 1000.*1000.*wOUT.Angle( wINI ) );
+              hPHI2->Fill(  1000.*( (wOUT - wINI ).Phi() -0.5*TMath::Pi()));
+              if( !(ev%50) ) cout << ev << "\t" <<  1000.*((wOUT - wINI ).Phi() - 0.5*TMath::Pi()) << endl;
           }
 
           for(int ii=0;ii<4;ii++){ fired[ii] = false; secnd[ii] = false; }
           EVENT = ev;
-          if( !(ev%50) ) cout << ev << endl;
       }
 
       if(tr < 3){
           xx[vol] = xi;
           yy[vol] = yi;
+          if(vol>-1){
+          sx[vol] = xi + gRandom->Gaus( 0, 0.016 );
+          sy[vol] = yi + gRandom->Gaus( 0, 0.016 );
+          }
+          else{
+          sx[vol] = xi;
+          sy[vol] = yi;
+          }
           fired[vol] = true;
       }
 
     }
+
+    hANG->GetYaxis()->SetRangeUser(0,400);
+    hVTX->GetYaxis()->SetRangeUser(0,150);
+
     fOUT.close();
     hANG->Draw();
-    hANG->Fit("gaus");
+    hANG2->Draw("same");
+//    hANG->Fit("gaus");
+    hANG2->Fit("gaus");
     canv->Print("RECO.png");
+    hPHI->Draw();
+    hPHI2->Draw("same");
+    hPHI2->Fit("gaus");
+    canv->Print("PHIa.png");
     hVTX->Draw();
-    hVTX->Fit("gaus");
+    hVTX2->Draw("same");
+//    hVTX->Fit("gaus");
+    hVTX2->Fit("gaus");
     canv->Print("VRTX.png");
 //    gPad->SetLogz();
 //    hL->Draw("colz");
