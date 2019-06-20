@@ -1,5 +1,5 @@
 TVector3 Vertex(TVector3 a, TVector3 ea, TVector3 c, TVector3 ec){
-
+ 
     TVector3 v_res, v_vvv;
     TVector3 b = (ea - a).Unit();
     TVector3 d = (ec - c).Unit();

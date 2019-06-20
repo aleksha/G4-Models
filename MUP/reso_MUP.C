@@ -81,6 +81,7 @@ void reso_MUP(){
     int mult[7] = {0,0,0,0,0,0,0};
     double m1[1000],m2[1000];
     double mv1,sdv1,m2,sdv2,df,sdf;
+    double vrtx_z_true = 0;
 
     int nSec  = 0;
     int nThr  = 0;
@@ -105,7 +106,9 @@ void reso_MUP(){
                       ww1.SetXYZ( xx[1]+gRandom->Gaus( 0, 0.016 ), yy[1]+gRandom->Gaus( 0, 0.016 ), -1250.);
                       ww2.SetXYZ( xx[2]+gRandom->Gaus( 0, 0.016 ), yy[2]+gRandom->Gaus( 0, 0.016 ),  1250.);
                       ww3.SetXYZ( xx[3]+gRandom->Gaus( 0, 0.016 ), yy[3]+gRandom->Gaus( 0, 0.016 ),  6250.);
-                      hZtrue->Fill( Vertex(ww0,ww1,ww2,ww3).z() );
+                      vrtx_z_true = Vertex(ww0,ww1,ww2,ww3).z() ;
+                      if( vrtx_z_true>-1000 && vrtx_z_true<1000 )
+                          hZtrue->Fill( vrtx_z_true );
                   }
 
               }
