@@ -54,14 +54,15 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   G4double p_mu = 100.*GeV;
 
 //   G4double pos  = -6299.0*mm; // for reso
-// G4double pos  =  -885.0*mm; // for thetaX
- G4double pos  =   100.0*mm; //
+// G4double pos  =  -885.0*mm; // for thetaX LONG
+ G4double pos  =  -(885.0-425.0)*mm; // for thetaX SHORT
+// G4double pos  =   100.0*mm; //
 // G4double pos  =   750.0*mm; //
 
-//  double theta = 0.0;
+  double theta = 0.0;
 //  double theta = 0.00011;
 //  double theta = 0.00033;
-  double theta = 0.002;
+//  double theta = 0.002;
 
   G4ThreeVector positionB( 0, 0, pos );
 //  G4ThreeVector positionB( 0, 20.0*mm, pos ); // check edge of Be window
@@ -73,7 +74,7 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
   G4PrimaryVertex* vertexB = new G4PrimaryVertex(positionB, 0);
 
   vertexB->SetPrimary(particle1);
-  vertexB->SetPrimary(particle2);
+//  vertexB->SetPrimary(particle2);
   event->AddPrimaryVertex(vertexB);
 
 }
