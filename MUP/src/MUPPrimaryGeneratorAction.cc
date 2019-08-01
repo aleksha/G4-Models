@@ -26,8 +26,8 @@ class PrimaryGenerator : public G4VPrimaryGenerator
   public:
     virtual void GeneratePrimaryVertex(G4Event*);
 
-//  private:
-//    G4double fCosAlphaMin, fCosAlphaMax;      //solid angle
+  private:
+    G4double fXpos, fYpos;      //solid angle
 
 };
 
@@ -53,9 +53,9 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 
   G4double p_mu = 100.*GeV;
 
-//   G4double pos  = -6299.0*mm; // for reso
+ G4double pos  = -6299.0*mm; // for reso
 // G4double pos  =  -885.0*mm; // for thetaX LONG
- G4double pos  =  -(885.0-425.0)*mm; // for thetaX SHORT
+// G4double pos  =  -(885.0-425.0)*mm; // for thetaX SHORT
 // G4double pos  =   100.0*mm; //
 // G4double pos  =   750.0*mm; //
 
@@ -64,7 +64,17 @@ void PrimaryGenerator::GeneratePrimaryVertex(G4Event* event)
 //  double theta = 0.00033;
 //  double theta = 0.002;
 
-  G4ThreeVector positionB( 0, 0, pos );
+  fXpos = 0.*mm;  fYpos = 0.*mm;
+  if( true ){
+    fXpos = (G4UniformRand() - 0.5)*29.*mm;
+    fYpos = (G4UniformRand() - 0.5)*29.*mm;
+    while( fXpos*fXpos + fYpos*fYpos > 29.*29. ){
+      fXpos = (G4UniformRand() - 0.5)*29.*mm;
+      fYpos = (G4UniformRand() - 0.5)*29.*mm;
+    }
+  }
+
+  G4ThreeVector positionB( fXpos, fYpos, pos );
 //  G4ThreeVector positionB( 0, 20.0*mm, pos ); // check edge of Be window
 //  G4ThreeVector positionB( 0, 29.0*mm, pos ); // check edge of Be window
 
