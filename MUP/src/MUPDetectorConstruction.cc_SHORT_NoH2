@@ -214,7 +214,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   //G4LogicalVolume* logicLV50 = new G4LogicalVolume(solidLV50 , w_mat, "LV50");
   //G4LogicalVolume* logicLV51 = new G4LogicalVolume(solidLV51 , w_mat, "LV51");
   //G4LogicalVolume* logicLV60 = new G4LogicalVolume(solidLV60 , w_mat, "LV60");
-  //G4LogicalVolume* logicLV63 = new G4LogicalVolume(solidLV63 , w_mat, "LV63");
+  //G4LogicalVolume* logicLV61 = new G4LogicalVolume(solidLV61 , w_mat, "LV63");
   //G4LogicalVolume* logicLV70 = new G4LogicalVolume(solidLV70 , w_mat, "LV70");
 
 
