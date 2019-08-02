@@ -30,7 +30,7 @@ TVector3 Vertex(TVector3 a, TVector3 ea, TVector3 c, TVector3 ec){
 //    v_vtx = l1+g*u/2.;                                                                                 
     return v_vtx;                                                                                        
 }                                                                                                        
-void thetaX_MUP(){
+void tthetaX_MUP(){
 
     TVector3 vtx;
     double vtx_z;
@@ -124,14 +124,14 @@ void thetaX_MUP(){
            for(int ii=0;ii<n_in;ii++){
               for(int jj=0;jj<n_out;jj++){
                   Angle =  v_out[jj].Angle( v_in[ii] )*1000. ;
-                  if (Angle>0.33 && Angle<2.0 ){
+                  if (Angle>0.33 && Angle<0.633 ){
                     nTOT++;
                     vtx_z = Vertex( vv[0][ii], vv[1][ii], vv[2][jj], vv[3][jj] ).Z();
                     if( vtx_z > -1000. && vtx_z<1000 ){
-                      hZx->Fill( vtx_z );
-                      if( !t_in[ii] || !t_out[jj] ){
+                      if (Angle>0.33 && Angle<0.43 )
+                        hZx->Fill( vtx_z );
+                      if (Angle>0.43 && Angle<0.63 )
                         hZs->Fill( vtx_z );
-                      }
                     }
                     cout << nTOT << endl;
                   }
@@ -176,29 +176,12 @@ void thetaX_MUP(){
     cout << "   additional  : " << nADD << endl;
     fOUT.close();
 
-    hZs->SetLineColor(1);
-    hZs->SetFillColor(1);
+    hZx->SetLineColor(4);
+    hZs->SetLineColor(2);
+    hZs->SetFillColor(2);
     hZs->SetFillStyle(3005);
     hZx->Draw();
     hZs->Draw("same");
     canv->Print("POSZ.png");
-
-
-    gPad->SetLogy();
-    gStyle->SetOptFit(1);
-    hXs->SetLineColor(1);
-    hXs->SetFillColor(1);
-    hXs->SetFillStyle(3005);
-    hX->Draw();
-    hXs->Draw("same");
-    hX->Fit("gaus");
-    canv->Print("TEMP.png");
-    hTHETAs->SetLineColor(1);
-    hTHETAs->SetFillColor(1);
-    hTHETAs->SetFillStyle(3005);
-    hTHETAx->Draw();
-    hTHETAs->Draw("same");
-    canv->Print("TEMP.png");
-    gSystem->Exit(0);
 
 }

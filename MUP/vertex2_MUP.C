@@ -65,10 +65,10 @@ void vertex2_MUP(){
 
     //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, -200, 400);
     //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
-    ////TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 500, 800);
+    //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 500, 800);
     //TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60, -200, 400);
     //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 200, 500);
-    ////TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 500, 800);
+    //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 500, 800);
 
     //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, 450, 1050);
     //TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
@@ -122,21 +122,19 @@ void vertex2_MUP(){
               vv1.SetXYZ( xx[1] , yy[1], -1250.);
               vv2.SetXYZ( xx[2] , yy[2],  1250.);
               vv3.SetXYZ( xx[3] , yy[3],  6250.);
-
               ww0.SetXYZ( sx[0] , sy[0], -6250.);
               ww1.SetXYZ( sx[1] , sy[1], -1250.);
               ww2.SetXYZ( sx[2] , sy[2],  1250.);
               ww3.SetXYZ( sx[3] , sy[3],  6250.);
 
-//              vv0.SetXYZ( xx[0] , yy[0], -5850.);
-//              vv1.SetXYZ( xx[1] , yy[1],  -850.);
-//              vv2.SetXYZ( xx[2] , yy[2],   850.);
-//              vv3.SetXYZ( xx[3] , yy[3],  5850.);
-
-//              ww0.SetXYZ( sx[0] , sy[0], -5850.);
-//              ww1.SetXYZ( sx[1] , sy[1],  -850.);
-//              ww2.SetXYZ( sx[2] , sy[2],   850.);
-//              ww3.SetXYZ( sx[3] , sy[3],  5850.);
+//              vv0.SetXYZ( xx[0] , yy[0], -5825.);
+//              vv1.SetXYZ( xx[1] , yy[1],  -825.);
+//              vv2.SetXYZ( xx[2] , yy[2],   825.);
+//              vv3.SetXYZ( xx[3] , yy[3],  5825.);
+//              ww0.SetXYZ( sx[0] , sy[0], -5825.);
+//              ww1.SetXYZ( sx[1] , sy[1],  -825.);
+//              ww2.SetXYZ( sx[2] , sy[2],   825.);
+//              ww3.SetXYZ( sx[3] , sy[3],  5825.);
 
               vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -5000.);
               vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -5000.);
@@ -164,8 +162,9 @@ void vertex2_MUP(){
           xx[vol] = xi;
           yy[vol] = yi;
           if(vol>-1){
-          sx[vol] = xi + gRandom->Gaus( 0, 0.016 );
-          sy[vol] = yi + gRandom->Gaus( 0, 0.016 );
+//          sx[vol] = xi + gRandom->Gaus( 0, 0.0001);  sy[vol] = yi + gRandom->Gaus( 0, 0.0001);
+//          sx[vol] = xi + gRandom->Gaus( 0, 0.008 );  sy[vol] = yi + gRandom->Gaus( 0, 0.008 );
+            sx[vol] = xi + gRandom->Gaus( 0, 0.016 );  sy[vol] = yi + gRandom->Gaus( 0, 0.016 );
           }
           else{
           sx[vol] = xi;
