@@ -49,6 +49,8 @@ set(MUP_SCRIPTS
   thetaX_MUP.C
   vertex_MUP.C
   vertex2_MUP.C
+  vertex3_MUP.C
+  fast_vertex.C
   )
 
 foreach(_script ${MUP_SCRIPTS})
