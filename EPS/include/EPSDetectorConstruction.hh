@@ -1,5 +1,5 @@
-#ifndef CSCDetectorConstruction_h
-#define CSCDetectorConstruction_h 1
+#ifndef EPSDetectorConstruction_h
+#define EPSDetectorConstruction_h 1
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
@@ -9,11 +9,11 @@ class G4LogicalVolume;
 
 /// Detector construction class to define materials and geometry.
 
-class CSCDetectorConstruction : public G4VUserDetectorConstruction
+class EPSDetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    CSCDetectorConstruction();
-    virtual ~CSCDetectorConstruction();
+    EPSDetectorConstruction();
+    virtual ~EPSDetectorConstruction();
 
     virtual G4VPhysicalVolume* Construct();
 

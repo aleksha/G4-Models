@@ -1,16 +1,16 @@
-#include "CSCEventAction.hh"
-#include "CSCRunAction.hh"
+#include "EPSEventAction.hh"
+#include "EPSRunAction.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 //------------------------------------------------------------------------------
-CSCEventAction::CSCEventAction(CSCRunAction* runAction)
+EPSEventAction::EPSEventAction(EPSRunAction* runAction)
 : G4UserEventAction(),
   fRunAction(runAction)
 {}
 //------------------------------------------------------------------------------
-CSCEventAction::~CSCEventAction(){}
+EPSEventAction::~EPSEventAction(){}
 //------------------------------------------------------------------------------
-void CSCEventAction::BeginOfEventAction(const G4Event*){}
+void EPSEventAction::BeginOfEventAction(const G4Event*){}
 //------------------------------------------------------------------------------
-void CSCEventAction::EndOfEventAction(const G4Event*){}
+void EPSEventAction::EndOfEventAction(const G4Event*){}
 //------------------------------------------------------------------------------

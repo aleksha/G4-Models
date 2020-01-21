@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-#include "CSCDetectorConstruction.hh"
+#include "EPSDetectorConstruction.hh"
 //------------------------------------------------------------------------------
 #include "G4RunManager.hh"
 #include "G4NistManager.hh"
@@ -12,7 +12,7 @@
 #include "G4PVPlacement.hh"
 #include "G4SystemOfUnits.hh"
 //------------------------------------------------------------------------------
-CSCDetectorConstruction::CSCDetectorConstruction()
+EPSDetectorConstruction::EPSDetectorConstruction()
 : G4VUserDetectorConstruction(),
   fLV00(0), fLV01(0), fLV02(0), fLV03(0), fLV04(0),
   fLV05(0), fLV06(0), fLV07(0), fLV08(0), fLV09(0),
@@ -20,9 +20,9 @@ CSCDetectorConstruction::CSCDetectorConstruction()
   fLV15(0), fLV16(0)
 { }
 //------------------------------------------------------------------------------
-CSCDetectorConstruction::~CSCDetectorConstruction(){ }
+EPSDetectorConstruction::~EPSDetectorConstruction(){ }
 //------------------------------------------------------------------------------
-G4VPhysicalVolume* CSCDetectorConstruction::Construct()
+G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 {
   G4bool checkOverlaps = true;
   G4NistManager* nist = G4NistManager::Instance();

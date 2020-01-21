@@ -1,14 +1,14 @@
 
-#include "CSCSteppingAction.hh"
-#include "CSCEventAction.hh"
-#include "CSCDetectorConstruction.hh"
+#include "EPSSteppingAction.hh"
+#include "EPSEventAction.hh"
+#include "EPSDetectorConstruction.hh"
 #include "G4Step.hh"
 #include "G4Event.hh"
 #include "G4RunManager.hh"
 #include "G4LogicalVolume.hh"
 #include "G4SystemOfUnits.hh"
 //------------------------------------------------------------------------------
-CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
+EPSSteppingAction::EPSSteppingAction(EPSEventAction* eventAction)
 : G4UserSteppingAction(),
   fEventAction(eventAction),
   fLV00(0), fLV01(0), fLV02(0), fLV03(0), fLV04(0),
@@ -18,20 +18,20 @@ CSCSteppingAction::CSCSteppingAction(CSCEventAction* eventAction)
 {
  myOUT .open( "out.data" , std::ios::trunc);
  myINI .open( "ini.data" , std::ios::trunc);
- myCSC .open( "csc.data" , std::ios::trunc);
+ myEPS .open( "EPS.data" , std::ios::trunc);
  mySCI .open( "sci.data" , std::ios::trunc);
 }
 //------------------------------------------------------------------------------
-CSCSteppingAction::~CSCSteppingAction(){
-  myOUT.close(); myCSC.close(); myINI.close(); mySCI.close(); }
+EPSSteppingAction::~EPSSteppingAction(){
+  myOUT.close(); myEPS.close(); myINI.close(); mySCI.close(); }
 //------------------------------------------------------------------------------
-void CSCSteppingAction::UserSteppingAction(const G4Step* step)
+void EPSSteppingAction::UserSteppingAction(const G4Step* step)
 {
   if ( !fLV00 || !fLV01 || !fLV02 || !fLV03 || !fLV04 ||
                  !fLV05 || !fLV06 || !fLV07 || !fLV08 || !fLV09 ||
        !fLV10 || !fLV11 || !fLV12 || !fLV13 || !fLV14 || !fLV15 || !fLV16 ){
-    const CSCDetectorConstruction* detectorConstruction
-      = static_cast<const CSCDetectorConstruction*>
+    const EPSDetectorConstruction* detectorConstruction
+      = static_cast<const EPSDetectorConstruction*>
         (G4RunManager::GetRunManager()->GetUserDetectorConstruction());
 
     fLV00 = detectorConstruction->GetLV00();
@@ -135,8 +135,8 @@ void CSCSteppingAction::UserSteppingAction(const G4Step* step)
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-    if(myCSC.is_open() && vol>6 && vol<9 && tr_ed>0)
-       myCSC << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
+    if(myEPS.is_open() && vol>6 && vol<9 && tr_ed>0)
+       myEPS << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "

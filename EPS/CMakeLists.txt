@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------
 # Setup the project
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(CSC)
+project(EPS)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -33,20 +33,20 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(exec_CSC CSC.cc ${sources} ${headers})
-target_link_libraries(exec_CSC ${Geant4_LIBRARIES})
+add_executable(exec_EPS EPS.cc ${sources} ${headers})
+target_link_libraries(exec_EPS ${Geant4_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build CSC. This is so that we can run the executable directly because it
+# build EPS. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(CSC_SCRIPTS
+set(EPS_SCRIPTS
   run.mac
   Run_Geant.sh
   )
 
-foreach(_script ${CSC_SCRIPTS})
+foreach(_script ${EPS_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
@@ -58,11 +58,11 @@ endforeach()
 # For internal Geant4 use - but has no effect if you build this
 # example standalone
 #
-add_custom_target(CSC DEPENDS exec_CSC)
+add_custom_target(EPS DEPENDS exec_EPS)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS exec_CSC DESTINATION bin)
+install(TARGETS exec_EPS DESTINATION bin)
 
 

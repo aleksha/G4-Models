@@ -1,5 +1,5 @@
 
-name := exec_CSC
+name := exec_EPS
 G4TARGET := $(name)
 G4EXLIB := true
 

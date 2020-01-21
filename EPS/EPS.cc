@@ -1,5 +1,5 @@
-#include "CSCDetectorConstruction.hh"
-#include "CSCActionInitialization.hh"
+#include "EPSDetectorConstruction.hh"
+#include "EPSActionInitialization.hh"
 
 #include "G4RunManager.hh"
 
@@ -23,7 +23,7 @@ int main(int argc,char** argv)
   G4RunManager* runManager = new G4RunManager;
 
   // Detector construction
-  runManager->SetUserInitialization(new CSCDetectorConstruction());
+  runManager->SetUserInitialization(new EPSDetectorConstruction());
 
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;
@@ -31,7 +31,7 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(physicsList);
     
   // User action initialization
-  runManager->SetUserInitialization(new CSCActionInitialization());
+  runManager->SetUserInitialization(new EPSActionInitialization());
   
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
