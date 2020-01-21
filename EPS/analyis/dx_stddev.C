@@ -1,0 +1,102 @@
+{
+//=========Macro generated from canvas: canv/canv
+//=========  (Fri Jul 06 16:53:53 2018) by ROOT version5.34/36
+   TCanvas *canv = new TCanvas("canv", "canv",183,160,600,600);
+   canv->Range(-6.25,-3.125,56.25,28.125);
+   canv->SetFillColor(0);
+   canv->SetBorderMode(0);
+   canv->SetBorderSize(2);
+   canv->SetFrameBorderMode(0);
+   canv->SetFrameBorderMode(0);
+   
+   TH2F *hSDV = new TH2F("hSDV","",50,0,50,50,0,25);
+   hSDV->SetBinContent(261,8);
+   hSDV->SetBinContent(313,2);
+   hSDV->SetBinContent(314,8);
+   hSDV->SetBinContent(315,3);
+   hSDV->SetBinContent(316,2);
+   hSDV->SetBinContent(317,1);
+   hSDV->SetBinContent(365,1);
+   hSDV->SetBinContent(367,2);
+   hSDV->SetBinContent(369,2);
+   hSDV->SetBinContent(420,1);
+   hSDV->SetBinContent(421,1);
+   hSDV->SetBinContent(422,2);
+   hSDV->SetBinContent(470,1);
+   hSDV->SetBinContent(481,1);
+   hSDV->SetBinContent(528,1);
+   hSDV->SetBinContent(581,1);
+   hSDV->SetBinContent(582,2);
+   hSDV->SetBinContent(634,1);
+   hSDV->SetBinContent(687,2);
+   hSDV->SetBinContent(740,1);
+   hSDV->SetBinContent(741,1);
+   hSDV->SetBinContent(847,1);
+   hSDV->SetBinContent(850,1);
+   hSDV->SetBinContent(854,1);
+   hSDV->SetBinContent(898,1);
+   hSDV->SetBinContent(900,1);
+   hSDV->SetBinContent(910,1);
+   hSDV->SetBinContent(955,1);
+   hSDV->SetBinContent(1005,1);
+   hSDV->SetBinContent(1059,1);
+   hSDV->SetBinContent(1165,1);
+   hSDV->SetBinContent(1218,1);
+   hSDV->SetBinContent(1219,1);
+   hSDV->SetBinContent(1282,1);
+   hSDV->SetBinContent(1323,2);
+   hSDV->SetBinContent(1325,1);
+   hSDV->SetBinContent(1328,1);
+   hSDV->SetBinContent(1377,1);
+   hSDV->SetBinContent(1378,1);
+   hSDV->SetBinContent(1493,1);
+   hSDV->SetBinContent(1541,1);
+   hSDV->SetBinContent(1694,1);
+   hSDV->SetBinContent(1907,1);
+   hSDV->SetBinContent(1960,1);
+   hSDV->SetBinContent(2331,1);
+   hSDV->SetEntries(69);
+   
+   TPaveStats *ptstats = new TPaveStats(0.78,0.695,0.98,0.935,"brNDC");
+   ptstats->SetName("stats");
+   ptstats->SetBorderSize(1);
+   ptstats->SetFillColor(0);
+   ptstats->SetTextAlign(12);
+   ptstats->SetTextFont(42);
+   TText *text = ptstats->AddText("hSDV");
+   text->SetTextSize(0.0368);
+   text = ptstats->AddText("Entries = 69     ");
+   text = ptstats->AddText("Mean x =  11.44");
+   text = ptstats->AddText("Mean y =  6.535");
+   text = ptstats->AddText("RMS x =  11.33");
+   text = ptstats->AddText("RMS y =  4.669");
+   ptstats->SetOptStat(1111);
+   ptstats->SetOptFit(0);
+   ptstats->Draw();
+   hSDV->GetListOfFunctions()->Add(ptstats);
+   ptstats->SetParent(hSDV);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   hSDV->SetLineColor(ci);
+   hSDV->SetMarkerStyle(20);
+   hSDV->GetXaxis()->SetTitle("#Delta x, mm");
+   hSDV->GetXaxis()->SetLabelFont(42);
+   hSDV->GetXaxis()->SetLabelSize(0.035);
+   hSDV->GetXaxis()->SetTitleSize(0.035);
+   hSDV->GetXaxis()->SetTitleFont(42);
+   hSDV->GetYaxis()->SetTitle(" StdDev, mm");
+   hSDV->GetYaxis()->SetLabelFont(42);
+   hSDV->GetYaxis()->SetLabelSize(0.035);
+   hSDV->GetYaxis()->SetTitleSize(0.035);
+   hSDV->GetYaxis()->SetTitleFont(42);
+   hSDV->GetZaxis()->SetLabelFont(42);
+   hSDV->GetZaxis()->SetLabelSize(0.035);
+   hSDV->GetZaxis()->SetTitleSize(0.035);
+   hSDV->GetZaxis()->SetTitleFont(42);
+   hSDV->Draw("");
+   canv->Modified();
+   canv->cd();
+   canv->SetSelected(canv);
+}
