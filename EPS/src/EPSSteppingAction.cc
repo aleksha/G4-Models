@@ -17,7 +17,7 @@ EPSSteppingAction::EPSSteppingAction(EPSEventAction* eventAction)
   fLV15(0), fLV16(0)
 {
  myOUT .open( "out.data" , std::ios::trunc);
- 
+}
 //------------------------------------------------------------------------------
 EPSSteppingAction::~EPSSteppingAction(){
   myOUT.close(); }
