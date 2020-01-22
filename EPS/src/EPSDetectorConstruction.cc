@@ -146,10 +146,14 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   //G4Material* l16_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, w_mat   , "LV00");
-  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, H2Gas   , "LV01");
-  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, H2Gas   , "LV02");
-  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
-  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
+  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, w_mat   , "LV01");
+  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, w_mat   , "LV02");
+  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, w_mat   , "LV03");
+  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, w_mat   , "LV04");
+//  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, H2Gas   , "LV01");
+//  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, H2Gas   , "LV02");
+//  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
+//  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
 
   G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, steel , "LV05");
   G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, ArCH4 , "LV06");

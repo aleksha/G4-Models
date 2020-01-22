@@ -76,6 +76,7 @@ void EPSSteppingAction::UserSteppingAction(const G4Step* step)
   if (volume == fLV16) vol=16 ;
 
 //  if (vol!=0 || vol!=5 || vol!=6 || vol!=7 || vol!=8 || vol!=15) return;
+  if (vol!=4) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
