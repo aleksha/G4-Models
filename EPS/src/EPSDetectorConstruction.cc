@@ -146,14 +146,14 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   //G4Material* l16_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, w_mat   , "LV00");
-  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, w_mat   , "LV01");
-  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, w_mat   , "LV02");
-  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, w_mat   , "LV03");
-  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, w_mat   , "LV04");
-//  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, H2Gas   , "LV01");
-//  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, H2Gas   , "LV02");
-//  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
-//  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
+//  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, w_mat   , "LV01");
+//  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, w_mat   , "LV02");
+//  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, w_mat   , "LV03");
+//  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, w_mat   , "LV04");
+  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, H2Gas   , "LV01");
+  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, H2Gas   , "LV02");
+  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
+  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
 
   G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, steel , "LV05");
   G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, ArCH4 , "LV06");
@@ -170,14 +170,14 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 
 
   
-  G4ThreeVector l00_pos; l00_pos.set(0,0,-l00_z-l01_z      );
-  G4ThreeVector l01_pos; l01_pos.set(0,0,-l01_z            );
-  G4ThreeVector l02_pos; l02_pos.set(0,0, l02_z            );
-  G4ThreeVector l03_pos; l03_pos.set(0,0, l02_z+l03_z      );
-  G4ThreeVector l04_pos; l04_pos.set(0,0, l02_z+l03_z+l04_z);
+  G4ThreeVector l00_pos; l00_pos.set(0,0,-l00_z*0.5-l01_z      );
+  G4ThreeVector l01_pos; l01_pos.set(0,0,-l01_z*0.5            );
+  G4ThreeVector l02_pos; l02_pos.set(0,0, l02_z*0.5            );
+  G4ThreeVector l03_pos; l03_pos.set(0,0, l02_z+l03_z*0.5      );
+  G4ThreeVector l04_pos; l04_pos.set(0,0, l02_z+l03_z+l04_z*0.5);
 
 
-  G4double l_dummy = 0.002*mm;
+  G4double l_dummy = 2.*mm;
   G4ThreeVector l05_pos; l05_pos.set(0,0,0.5*w_z-l_dummy* 5.);
   G4ThreeVector l06_pos; l06_pos.set(0,0,0.5*w_z-l_dummy* 6.);
   G4ThreeVector l07_pos; l07_pos.set(0,0,0.5*w_z-l_dummy* 7.);
