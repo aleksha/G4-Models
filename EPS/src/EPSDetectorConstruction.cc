@@ -40,7 +40,7 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4Element* H  = new G4Element("Hydrogen", "H",  z=  1, a= 1.008*g/mole);
   G4Element* C  = new G4Element("Carbon",   "C",  z=  6, a= 12.00*g/mole);
   //G4Element* N  = new G4Element("Nitrogen", "N",  z=  7, a= 14.01*g/mole);
-  //G4Element* O  = new G4Element("Oxygen",   "O",  z=  8, a= 16.00*g/mole);
+  G4Element* O  = new G4Element("Oxygen",   "O",  z=  8, a= 16.00*g/mole);
   //G4Element* Al = new G4Element("Aluminium","Al", z= 13, a= 26.9815385*g/mole);
   //G4Element* Ar = new G4Element("Argon",    "Ar", z= 18, a= 39.95*g/mole);
   //G4Element* Cu = new G4Element("Copper",   "Cu", z= 29, a= 63.546*g/mole);
@@ -58,58 +58,55 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4Material* ArCH4 = new G4Material(name="ArCH4"  , density = 32.2354*kg/m3, ncomponents=2);
   ArCH4->AddMaterial (  ArGas,  fractionmass = 0.978811);
   ArCH4->AddMaterial( CH4Gas,  fractionmass = 0.021189);
-  //G4Material *H2Gas   = new G4Material("H2Gas"  ,  1,  1.008  *g/mole,  1.6347*kg/m3 );
+  G4Material *H2Gas   = new G4Material("H2Gas"  ,  1,  1.008  *g/mole,  1.6347*kg/m3 );
   //Solids
   //G4Material *BeSolid = new G4Material("BeSolid",  4,  9.01218  *g/mole,  1.848 * g/cm3 );
   //G4Material *SiSolid = new G4Material("SiSolid", 14, 28.0855   *g/mole,  2.33  * g/cm3 );
   //G4Material *AlSolid = new G4Material("AlSolid", 13, 26.9815385*g/mole,  2.700 * g/cm3 );
   //G4Material *CuSolid = new G4Material("CuSolid", 29, 63.543    *g/mole,  8.96  * g/cm3 );
-  //G4Material* Mylar = new G4Material(name="Mylar", 1.39*g/cm3, 3);
-  //Mylar->AddElement(O,2);
-  //Mylar->AddElement(C,5);
-  //Mylar->AddElement(H,4);
+  G4Material* Mylar = new G4Material(name="Mylar", 1.39*g/cm3, 3);
+  Mylar->AddElement(O,2);
+  Mylar->AddElement(C,5);
+  Mylar->AddElement(H,4);
 
   //G4Material* CarbonFiber = new G4Material(name="CarbonFiber",0.145*g/cm3, 1);
   //CarbonFiber->AddElement(C,1);
 
+  G4Material* air_mat = nist->FindOrBuildMaterial("G4_AIR");
+  G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
 
 
 
+
+  // World
+  G4double w_xy = 1000.0*mm;
+  G4double w_z  = 4000.0*mm;
+  G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
+  G4Box* solidWorld = new G4Box("World", 0.5*w_xy, 0.5*w_xy, 0.5*w_z);
+
+  G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, w_mat, "World");
 
   // Layer (LV) geometrical parameters
   G4double l_xy = 999.000*mm;
 
-  G4double l00_z =   5.000*mm;
+  G4double l00_z = 1000.000*mm; // Vacuum
+  G4double l01_z =   50.000*mm; // H2 
+  G4double l02_z =  800.000*mm; // H2 TPC
+  G4double l03_z =  800.000*mm; // Ar + CH4
+  G4double l04_z =  105.000*mm; // Air
 
-  G4double l01_z =  10.000*mm;
-  G4double l02_z =  10.000*mm;
-  G4double l03_z =  10.000*mm;
-  G4double l04_z =  10.000*mm;
-  G4double l05_z =  10.000*mm;
-
-  G4double l06_z =  22.000*mm;
-  G4double l07_z =   3.000*mm;
-  G4double l08_z =   3.001*mm;
-  G4double l09_z =  22.001*mm;
-
-  G4double l10_z =  10.000*mm;
-  G4double l11_z =  10.000*mm;
-  G4double l12_z =  10.000*mm;
-  G4double l13_z =  10.000*mm;
-  G4double l14_z =  10.000*mm;
-
-  G4double l15_z =   5.000*mm;
-  G4double l16_z =   5.000*mm;
-
-  // World
-  G4double w_xy = 2000.0*mm;
-  G4double w_z  = 2000.0*mm;
-  //G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
-  G4Material* w_mat = nist->FindOrBuildMaterial("G4_AIR");
-  G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
-  G4Box* solidWorld = new G4Box("World", 0.5*w_xy, 0.5*w_xy, 0.5*w_z);
-
-  G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, w_mat, "World");
+  G4double l05_z =  0.001*mm;
+  G4double l06_z =  0.001*mm;
+  G4double l07_z =  0.001*mm;
+  G4double l08_z =  0.001*mm;
+  G4double l09_z =  0.001*mm;
+  G4double l10_z =  0.001*mm;
+  G4double l11_z =  0.001*mm;
+  G4double l12_z =  0.001*mm;
+  G4double l13_z =  0.001*mm;
+  G4double l14_z =  0.001*mm;
+  G4double l15_z =  0.001*mm;
+  G4double l16_z =  0.001*mm;
 
   // LVs
   G4Box* solidLV00 =  new G4Box("LV00", 0.5*l_xy, 0.5*l_xy, 0.5*l00_z);
@@ -148,11 +145,12 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   //G4Material* l15_mat = nist->FindOrBuildMaterial("G4_Galactic");
   //G4Material* l16_mat = nist->FindOrBuildMaterial("G4_Galactic");
 
-  G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, scinc , "LV00");
-  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, steel , "LV01");
-  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, steel , "LV02");
-  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, steel , "LV03");
-  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, steel , "LV04");
+  G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, w_mat   , "LV00");
+  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, H2Gas   , "LV01");
+  G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, H2Gas   , "LV02");
+  G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
+  G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
+
   G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, steel , "LV05");
   G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, ArCH4 , "LV06");
   G4LogicalVolume* logicLV07 = new G4LogicalVolume(solidLV07, ArCH4 , "LV07");
@@ -167,35 +165,27 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4LogicalVolume* logicLV16 = new G4LogicalVolume(solidLV16, scinc , "LV16");
 
 
-  G4double shft  =   10.*mm;
-  G4double s_gap =   30.*mm;
-  G4double l_tof = 1000.*mm;
+  
+  G4ThreeVector l00_pos; l00_pos.set(0,0,-l00_z-l01_z      );
+  G4ThreeVector l01_pos; l01_pos.set(0,0,-l01_z            );
+  G4ThreeVector l02_pos; l02_pos.set(0,0, l02_z            );
+  G4ThreeVector l03_pos; l03_pos.set(0,0, l02_z+l03_z      );
+  G4ThreeVector l04_pos; l04_pos.set(0,0, l02_z+l03_z+l04_z);
 
-  G4double p_start = shft -  0.5*w_z ;
 
-  G4double wall1 = l00_z + s_gap + l01_z + l02_z + l03_z + l04_z + l05_z + p_start;
-  G4double argap = wall1 + l06_z + l07_z + l08_z + l09_z                 ;
-  G4double wall2 = argap + l10_z + l11_z + l12_z + l13_z + l14_z + s_gap ;
-
-  G4ThreeVector l00_pos; l00_pos.set(0,0,0.5*l00_z + p_start);
-  G4ThreeVector l01_pos; l01_pos.set(0,0,l00_z + s_gap + 0.5*l01_z + p_start);
-  G4ThreeVector l02_pos; l02_pos.set(0,0,l00_z + s_gap + l01_z+0.5*l02_z+ p_start );
-  G4ThreeVector l03_pos; l03_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+0.5*l03_z+p_start );
-  G4ThreeVector l04_pos; l04_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+l03_z+0.5*l04_z+p_start);
-  G4ThreeVector l05_pos; l05_pos.set(0,0,l00_z + s_gap + l01_z+l02_z+l03_z+l04_z+0.5*l05_z+p_start);
-  G4ThreeVector l06_pos; l06_pos.set(0,0,wall1 + 0.5*l06_z);
-  G4ThreeVector l07_pos; l07_pos.set(0,0,wall1 + l06_z+0.5*l07_z);
-  G4ThreeVector l08_pos; l08_pos.set(0,0,wall1 + l06_z+l07_z+0.5*l08_z);
-  G4ThreeVector l09_pos; l09_pos.set(0,0,wall1 + l06_z+l07_z+l08_z+0.5*l09_z);
-
-  G4ThreeVector l10_pos; l10_pos.set(0,0,argap + 0.5*l10_z);
-  G4ThreeVector l11_pos; l11_pos.set(0,0,argap + l10_z+0.5*l11_z);
-  G4ThreeVector l12_pos; l12_pos.set(0,0,argap + l10_z+l11_z+0.5*l12_z);
-  G4ThreeVector l13_pos; l13_pos.set(0,0,argap + l10_z+l11_z+l12_z+0.5*l13_z);
-  G4ThreeVector l14_pos; l14_pos.set(0,0,argap + l10_z+l11_z+l12_z+l13_z+0.5*l14_z);
-
-  G4ThreeVector l15_pos; l15_pos.set(0,0,wall2 + 0.5*l15_z);
-  G4ThreeVector l16_pos; l16_pos.set(0,0,wall2 + l15_z + l_tof + 0.5*l16_z);
+  G4double l_dummy = 0.002*mm;
+  G4ThreeVector l05_pos; l05_pos.set(0,0,0.5*w_z-l_dummy* 5.);
+  G4ThreeVector l06_pos; l06_pos.set(0,0,0.5*w_z-l_dummy* 6.);
+  G4ThreeVector l07_pos; l07_pos.set(0,0,0.5*w_z-l_dummy* 7.);
+  G4ThreeVector l08_pos; l08_pos.set(0,0,0.5*w_z-l_dummy* 8.);
+  G4ThreeVector l09_pos; l09_pos.set(0,0,0.5*w_z-l_dummy* 9.);
+  G4ThreeVector l10_pos; l10_pos.set(0,0,0.5*w_z-l_dummy*10.);
+  G4ThreeVector l11_pos; l11_pos.set(0,0,0.5*w_z-l_dummy*11.);
+  G4ThreeVector l12_pos; l12_pos.set(0,0,0.5*w_z-l_dummy*12.);
+  G4ThreeVector l13_pos; l13_pos.set(0,0,0.5*w_z-l_dummy*13.);
+  G4ThreeVector l14_pos; l14_pos.set(0,0,0.5*w_z-l_dummy*14.);
+  G4ThreeVector l15_pos; l15_pos.set(0,0,0.5*w_z-l_dummy*15.);
+  G4ThreeVector l16_pos; l16_pos.set(0,0,0.5*w_z-l_dummy*16.);
 
   G4VPhysicalVolume* physWorld =
     new G4PVPlacement(0, G4ThreeVector(), logicWorld,

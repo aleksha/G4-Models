@@ -19,10 +19,10 @@ EPSPrimaryGeneratorAction::EPSPrimaryGeneratorAction()
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
-  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="proton");
+  G4ParticleDefinition* particle = particleTable->FindParticle(particleName="e-");
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(1000.*MeV);
+  fParticleGun->SetParticleEnergy(720.*MeV);
 }
 //------------------------------------------------------------------------------
 EPSPrimaryGeneratorAction::~EPSPrimaryGeneratorAction(){ delete fParticleGun; }
@@ -30,7 +30,7 @@ EPSPrimaryGeneratorAction::~EPSPrimaryGeneratorAction(){ delete fParticleGun; }
 void EPSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
-  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-999.5*mm) );
+  fParticleGun->SetParticlePosition( G4ThreeVector(0,0,-1999.5*mm) );
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 //------------------------------------------------------------------------------

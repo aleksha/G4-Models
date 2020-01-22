@@ -28,9 +28,6 @@ class EPSSteppingAction : public G4UserSteppingAction
   private:
     EPSEventAction*  fEventAction;
     std::ofstream myOUT;
-    std::ofstream myINI;
-    std::ofstream myEPS;
-    std::ofstream mySCI;
 
     G4LogicalVolume* fLV00;
     G4LogicalVolume* fLV01;

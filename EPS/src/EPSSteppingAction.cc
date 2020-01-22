@@ -17,13 +17,10 @@ EPSSteppingAction::EPSSteppingAction(EPSEventAction* eventAction)
   fLV15(0), fLV16(0)
 {
  myOUT .open( "out.data" , std::ios::trunc);
- myINI .open( "ini.data" , std::ios::trunc);
- myEPS .open( "EPS.data" , std::ios::trunc);
- mySCI .open( "sci.data" , std::ios::trunc);
-}
+ 
 //------------------------------------------------------------------------------
 EPSSteppingAction::~EPSSteppingAction(){
-  myOUT.close(); myEPS.close(); myINI.close(); mySCI.close(); }
+  myOUT.close(); }
 //------------------------------------------------------------------------------
 void EPSSteppingAction::UserSteppingAction(const G4Step* step)
 {
@@ -121,36 +118,14 @@ void EPSSteppingAction::UserSteppingAction(const G4Step* step)
     double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
     double g_time =  0.5 * (g_pre_time + g_post_time);
 
-    if(myOUT.is_open() && vol==5 && st_id==2)
+    if(myOUT.is_open() && vol=4 && st_id==2 && tr_c!=0)
        myOUT << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
              << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
              << G4endl;
 
-    if(myINI.is_open() && vol==6 && st_id==2 )
-       myINI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
-             << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
-             << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
-             << tr_px     << " " << tr_py     << " " << tr_pz     << " " << tr_m
-             << G4endl;
 
-    if(myEPS.is_open() && vol>6 && vol<9 && tr_ed>0)
-       myEPS << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
-             << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
-             << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "
-             << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
-             << G4endl;
-
-    if(mySCI.is_open() && (vol==0 || vol==6 || vol==15 || vol==16) && tr_ed>0){
-
-       if( ( (vol==0 || vol==15 || vol==16) && (tr_x>-30 && tr_x<30) &&  (tr_y>-30 && tr_y<30) ) ||
-           ( vol==6 && tr_x>-30 && tr_x<30 && tr_y>-300 && tr_y<300                 )    ){
-           mySCI << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
-                 << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
-                 << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " " << g_pre_time  << " "
-                 << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
-                 << G4endl;}
     }
   }
 
