@@ -118,7 +118,7 @@ void EPSSteppingAction::UserSteppingAction(const G4Step* step)
     double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
     double g_time =  0.5 * (g_pre_time + g_post_time);
 
-    if(myOUT.is_open() && vol=4 && st_id==2 && tr_c!=0)
+    if(myOUT.is_open() && vol==4 && st_id==2 && tr_c!=0)
        myOUT << ev_id     << " " << tr_id     << " " << st_id     << " " << vol  << " "
              << tr_ed     << " " << p_code    << " " << tr_c      << " " << tr_e << " "
              << tr_post_x << " " << tr_post_y << " " << tr_post_z << " " << g_post_time << " "
@@ -126,7 +126,7 @@ void EPSSteppingAction::UserSteppingAction(const G4Step* step)
              << G4endl;
 
 
-    }
+  
   }
 
 //  // collect energy deposited in this step
