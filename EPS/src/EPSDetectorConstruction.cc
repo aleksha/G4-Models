@@ -27,14 +27,15 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4bool checkOverlaps = true;
   G4NistManager* nist = G4NistManager::Instance();
 
-
   G4String name;
   G4double z, a, density;
   //G4double temperature, pressure;
   G4int ncomponents, natoms;
   G4double fractionmass;
 
-  // Elements
+//------------------------------------------
+// Elements
+
   G4Element* H  = new G4Element("Hydrogen", "H",  z=  1, a= 1.008*g/mole);
   G4Element* C  = new G4Element("Carbon",   "C",  z=  6, a= 12.00*g/mole);
   //G4Element* N  = new G4Element("Nitrogen", "N",  z=  7, a= 14.01*g/mole);
@@ -47,31 +48,35 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   scinc->AddElement(C, natoms=9);
   scinc->AddElement(H, natoms=10);
 
-  //Gases
+//------------------------------------------
+// Gases
+
+  G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 33.213 *kg/m3 );
+  G4Material *H2Gas = new G4Material("H2Gas", 1, 1.008*g/mole, 1.6347*kg/m3 );
+
   G4Material* CH4Gas = new G4Material(name="CH4Gas",density=13.661*kg/m3,ncomponents=2);
   CH4Gas->AddElement(H,4);
   CH4Gas->AddElement(C,1);
-  G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 33.213 *kg/m3 );
+
   // Use 95% Ar, 5% Methane for electron detector gas. Percentage per volume
   G4Material* ArCH4 = new G4Material(name="ArCH4"  , density = 32.2354*kg/m3, ncomponents=2);
   ArCH4->AddMaterial (  ArGas,  fractionmass = 0.978811);
   ArCH4->AddMaterial( CH4Gas,  fractionmass = 0.021189);
-  G4Material *H2Gas   = new G4Material("H2Gas"  ,  1,  1.008  *g/mole,  1.6347*kg/m3 );
-  //Solids
-  G4Material *BeSolid = new G4Material("BeSolid",  4,  9.01218  *g/mole,  1.848 * g/cm3 );
-  //G4Material *SiSolid = new G4Material("SiSolid", 14, 28.0855   *g/mole,  2.33  * g/cm3 );
-  G4Material *AlSolid = new G4Material("AlSolid", 13, 26.9815385*g/mole,  2.700 * g/cm3 );
-  //G4Material *CuSolid = new G4Material("CuSolid", 29, 63.543    *g/mole,  8.96  * g/cm3 );
-  G4Material* Mylar = new G4Material(name="Mylar", 1.39*g/cm3, 3);
-  Mylar->AddElement(O,2);
-  Mylar->AddElement(C,5);
-  Mylar->AddElement(H,4);
 
-  //G4Material* CarbonFiber = new G4Material(name="CarbonFiber",0.145*g/cm3, 1);
-  //CarbonFiber->AddElement(C,1);
 
+//------------------------------------------
+// NIST materials
+
+  G4Material* w_mat   = nist->FindOrBuildMaterial("G4_Galactic");
   G4Material* air_mat = nist->FindOrBuildMaterial("G4_AIR");
-  G4Material* steel = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  G4Material* steel   = nist->FindOrBuildMaterial("G4_STAINLESS-STEEL");
+  G4Material* BeSolid = nist->FindOrBuildMaterial("G4_Be");
+  G4Material* AlSolid = nist->FindOrBuildMaterial("G4_Al");
+  G4Material* TiSolid = nist->FindOrBuildMaterial("G4_Ti");
+  G4Material* CuSolid = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* WSolid  = nist->FindOrBuildMaterial("G4_W" );
+  G4Material* Kapton  = nist->FindOrBuildMaterial("G4_KAPTON" );
+  G4Material* Mylar   = nist->FindOrBuildMaterial("G4_MYLAR" );
 
 
 
@@ -79,7 +84,6 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   // World
   G4double w_xy = 1000.0*mm;
   G4double w_z  = 4000.0*mm;
-  G4Material* w_mat = nist->FindOrBuildMaterial("G4_Galactic");
   G4Box* solidWorld = new G4Box("World", 0.5*w_xy, 0.5*w_xy, 0.5*w_z);
 
   G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, w_mat, "World");
@@ -152,7 +156,7 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, ArCH4   , "LV03");
   G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
 
-  G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, Mylar , "LV05");
+  G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, Mylar   , "LV05");
   G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, BeSolid , "LV06");
   G4LogicalVolume* logicLV07 = new G4LogicalVolume(solidLV07, BeSolid , "LV07");
 
