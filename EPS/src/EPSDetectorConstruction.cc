@@ -157,13 +157,17 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, air_mat , "LV04");
 
   G4LogicalVolume* logicLV05 = new G4LogicalVolume(solidLV05, Mylar   , "LV05");
-  G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, BeSolid , "LV06");
-  G4LogicalVolume* logicLV07 = new G4LogicalVolume(solidLV07, BeSolid , "LV07");
 
-  G4LogicalVolume* logicLV08 = new G4LogicalVolume(solidLV08, ArCH4 , "LV08");
-  G4LogicalVolume* logicLV09 = new G4LogicalVolume(solidLV09, ArCH4 , "LV09");
-  G4LogicalVolume* logicLV10 = new G4LogicalVolume(solidLV10, steel , "LV10");
-  G4LogicalVolume* logicLV11 = new G4LogicalVolume(solidLV11, steel , "LV11");
+  G4LogicalVolume* logicLV06 = new G4LogicalVolume(solidLV06, BeSolid , "LV06");
+
+  G4LogicalVolume* logicLV07 = new G4LogicalVolume(solidLV07, BeSolid , "LV07");
+  G4LogicalVolume* logicLV08 = new G4LogicalVolume(solidLV08, WSolid  , "LV08");
+  G4LogicalVolume* logicLV09 = new G4LogicalVolume(solidLV09, AlSolid , "LV09");
+
+  G4LogicalVolume* logicLV10 = new G4LogicalVolume(solidLV10, Mylar   , "LV10");
+
+  G4LogicalVolume* logicLV11 = new G4LogicalVolume(solidLV11, TiSolid , "LV11");
+
   G4LogicalVolume* logicLV12 = new G4LogicalVolume(solidLV12, steel , "LV12");
   G4LogicalVolume* logicLV13 = new G4LogicalVolume(solidLV13, steel , "LV13");
   G4LogicalVolume* logicLV14 = new G4LogicalVolume(solidLV14, steel , "LV14");
@@ -180,13 +184,18 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 
   G4ThreeVector l05_pos; l05_pos.set(0,0,0.5*l05_z-l00_z-l01_z );
   G4ThreeVector l06_pos; l06_pos.set(0,0,0.5*l06_z-l01_z);
+
+  G4Double l_grid    =  10.*mm;
+  G4Double l_cathode = 400.*mm;
   G4ThreeVector l07_pos; l07_pos.set(0,0,0.5*l07_z);
+  G4ThreeVector l08_pos; l08_pos.set(0,0,0.5*l08_z+l_grid);
+  G4ThreeVector l09_pos; l09_pos.set(0,0,0.5*l09_z+l_cathode);
+
+  G4ThreeVector l10_pos; l10_pos.set(0,0,0.5*l10_z+l02_z);
+
+  G4ThreeVector l11_pos; l11_pos.set(0,0,0.5*l11_z+l02_z+l03_z);
 
   G4double l_dummy = 2.*mm;
-  G4ThreeVector l08_pos; l08_pos.set(0,0,0.5*w_z-l_dummy* 8.);
-  G4ThreeVector l09_pos; l09_pos.set(0,0,0.5*w_z-l_dummy* 9.);
-  G4ThreeVector l10_pos; l10_pos.set(0,0,0.5*w_z-l_dummy*10.);
-  G4ThreeVector l11_pos; l11_pos.set(0,0,0.5*w_z-l_dummy*11.);
   G4ThreeVector l12_pos; l12_pos.set(0,0,0.5*w_z-l_dummy*12.);
   G4ThreeVector l13_pos; l13_pos.set(0,0,0.5*w_z-l_dummy*13.);
   G4ThreeVector l14_pos; l14_pos.set(0,0,0.5*w_z-l_dummy*14.);
@@ -205,10 +214,10 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   new G4PVPlacement(0, l05_pos, logicLV05, "LV05", logicLV00 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l06_pos, logicLV06, "LV06", logicLV01 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l07_pos, logicLV07, "LV07", logicLV02 , false, 0, checkOverlaps);
-  new G4PVPlacement(0, l08_pos, logicLV08, "LV08", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l09_pos, logicLV09, "LV09", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l10_pos, logicLV10, "LV10", logicWorld, false, 0, checkOverlaps);
-  new G4PVPlacement(0, l11_pos, logicLV11, "LV11", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l08_pos, logicLV08, "LV08", logicLV02 , false, 0, checkOverlaps);
+  new G4PVPlacement(0, l09_pos, logicLV09, "LV09", logicLV02 , false, 0, checkOverlaps);
+  new G4PVPlacement(0, l10_pos, logicLV10, "LV10", logicLV03 , false, 0, checkOverlaps);
+  new G4PVPlacement(0, l11_pos, logicLV11, "LV11", logicLV04 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l12_pos, logicLV12, "LV12", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, l13_pos, logicLV13, "LV13", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, l14_pos, logicLV14, "LV14", logicWorld, false, 0, checkOverlaps);
