@@ -107,7 +107,9 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4double l10_z =  0.050*mm;   // Mylar
 
   G4double l11_z =  5.000*mm;   // Ti
-  G4double l12_z =  0.001*mm;
+
+  G4double l12_z =  0.028*mm;   // 8 CSCs
+
   G4double l13_z =  0.001*mm;
   G4double l14_z =  0.001*mm;
   G4double l15_z =  0.001*mm;
@@ -168,7 +170,8 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 
   G4LogicalVolume* logicLV11 = new G4LogicalVolume(solidLV11, TiSolid , "LV11");
 
-  G4LogicalVolume* logicLV12 = new G4LogicalVolume(solidLV12, steel , "LV12");
+  G4LogicalVolume* logicLV12 = new G4LogicalVolume(solidLV12, WSolid  , "LV12");
+
   G4LogicalVolume* logicLV13 = new G4LogicalVolume(solidLV13, steel , "LV13");
   G4LogicalVolume* logicLV14 = new G4LogicalVolume(solidLV14, steel , "LV14");
   G4LogicalVolume* logicLV15 = new G4LogicalVolume(solidLV15, scinc , "LV15");
@@ -185,8 +188,8 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   G4ThreeVector l05_pos; l05_pos.set(0,0,0.5*l05_z-l00_z-l01_z );
   G4ThreeVector l06_pos; l06_pos.set(0,0,0.5*l06_z-l01_z);
 
-  G4Double l_grid    =  10.*mm;
-  G4Double l_cathode = 400.*mm;
+  G4double l_grid    =  10.*mm;
+  G4double l_cathode = 400.*mm;
   G4ThreeVector l07_pos; l07_pos.set(0,0,0.5*l07_z);
   G4ThreeVector l08_pos; l08_pos.set(0,0,0.5*l08_z+l_grid);
   G4ThreeVector l09_pos; l09_pos.set(0,0,0.5*l09_z+l_cathode);
@@ -195,8 +198,9 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 
   G4ThreeVector l11_pos; l11_pos.set(0,0,0.5*l11_z+l02_z+l03_z);
 
+  G4ThreeVector l12_pos; l12_pos.set(0,0,0.5*l12_z+l11_z+l02_z);
+
   G4double l_dummy = 2.*mm;
-  G4ThreeVector l12_pos; l12_pos.set(0,0,0.5*w_z-l_dummy*12.);
   G4ThreeVector l13_pos; l13_pos.set(0,0,0.5*w_z-l_dummy*13.);
   G4ThreeVector l14_pos; l14_pos.set(0,0,0.5*w_z-l_dummy*14.);
   G4ThreeVector l15_pos; l15_pos.set(0,0,0.5*w_z-l_dummy*15.);
@@ -218,7 +222,7 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   new G4PVPlacement(0, l09_pos, logicLV09, "LV09", logicLV02 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l10_pos, logicLV10, "LV10", logicLV03 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l11_pos, logicLV11, "LV11", logicLV04 , false, 0, checkOverlaps);
-  new G4PVPlacement(0, l12_pos, logicLV12, "LV12", logicWorld, false, 0, checkOverlaps);
+  new G4PVPlacement(0, l12_pos, logicLV12, "LV12", logicLV03 , false, 0, checkOverlaps);
   new G4PVPlacement(0, l13_pos, logicLV13, "LV13", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, l14_pos, logicLV14, "LV14", logicWorld, false, 0, checkOverlaps);
   new G4PVPlacement(0, l15_pos, logicLV15, "LV15", logicWorld, false, 0, checkOverlaps);
