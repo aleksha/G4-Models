@@ -44,6 +44,10 @@ target_link_libraries(exec_STL ${Geant4_LIBRARIES})
 set(STL_SCRIPTS
   run.mac
   analysis.C
+  ionization.C
+  ionization2.C
+  ionization3.C
+  ready.py
   Run_Geant.sh
   )
 
