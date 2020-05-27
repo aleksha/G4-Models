@@ -75,7 +75,7 @@ void POSSteppingAction::UserSteppingAction(const G4Step* step)
   if (volume == fLV15) vol=15 ;
   if (volume == fLV16) vol=16 ;
 
-  if (vol!=16) return;
+  if (vol<7) return;
 
   G4Track* trk = step->GetTrack();
   int    tr_c  = trk->GetDefinition()->GetPDGCharge();
@@ -118,11 +118,9 @@ void POSSteppingAction::UserSteppingAction(const G4Step* step)
     double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
     double g_time =  0.5 * (g_pre_time + g_post_time);
 
-    if(myOUT.is_open() && vol==16 && st_id==2)
-       myOUT << ev_id << " " << tr_id  << " " << st_id << " " << vol    << " "
-             << tr_ed << " " << p_code << " " << tr_c  << " " << tr_e   << " "
-             << tr_x  << " " << tr_y   << " " << tr_z  << " " << g_time << " "
-             << tr_px << " " << tr_py  << " " << tr_pz << " " << tr_m   << G4endl;
+    if(myOUT.is_open() && vol<7 && tr_ed>0)
+       myOUT << ev_id << " " << vol    << " " << tr_ed << " "
+             << tr_x  << " " << tr_y   << " " << tr_z  << " " << g_time << G4endl;
   }
 }
 //------------------------------------------------------------------------------
