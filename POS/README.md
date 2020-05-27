@@ -6,7 +6,7 @@ mkdir build
 cd build
 cmake -DGeant4_DIR=/home/user/Sim/geant4.10.06-install/lib/Geant4-10.6.0/ ../POS/
 source  Run_Geant.sh
-root -b analysis.C
+root -b ionization.C
 python3 -m http.server 8000
 ```
 
