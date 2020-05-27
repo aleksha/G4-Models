@@ -9,6 +9,16 @@ source  Run_Geant.sh
 root -b ionization.C
 python3 -m http.server 8000
 ```
+This will reurn **TEMP.png** with energy deposite in Scintillators and in Hydroden.
+
+To fe FlashADC spectrum, run **fadc.py**. Parameters are:
+  1. Measurement position in mm from anode plane;
+  2. Number of events to accumulate.
+
+```bash
+root -b "fadc.C(10.,10000)" ; python3 -m http.server 8000
+```
+
 
 ## Model (layers)
 

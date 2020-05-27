@@ -44,6 +44,7 @@ target_link_libraries(exec_POS ${Geant4_LIBRARIES})
 set(POS_SCRIPTS
   run.mac
   ionization.C
+  fadc.C
   ready.py
   README.md
   Run_Geant.sh
