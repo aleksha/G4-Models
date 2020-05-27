@@ -128,7 +128,7 @@ G4VPhysicalVolume* POSDetectorConstruction::Construct()
   G4ThreeVector l03_pos; l03_pos.set(0,0,0);
   G4ThreeVector l04_pos; l04_pos.set(0,0,gap+0.5*be_layer+0.5*hy_layer); // be2
   G4ThreeVector l05_pos; l05_pos.set(0,0,gap+1.0*be_layer+0.5*hy_layer+ 500.*gap+0.5*si_layer); // si2
-  G4ThreeVector l06_pos; l06_pos.set(0,0,gap+1.0*be_layer+0.5*hy_layer+1000.*gap+1.0*si_layer+0.5*sc_Layer); // sc2
+  G4ThreeVector l06_pos; l06_pos.set(0,0,gap+1.0*be_layer+0.5*hy_layer+1000.*gap+1.0*si_layer+0.5*sc_layer); // sc2
 
   G4ThreeVector l07_pos; l07_pos.set(0,0,0.5*w_z-9.5*du_layer);
   G4ThreeVector l08_pos; l08_pos.set(0,0,0.5*w_z-8.5*du_layer);
