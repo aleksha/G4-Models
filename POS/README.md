@@ -17,6 +17,7 @@ To fe FlashADC spectrum, run **fadc.py**. Parameters are:
 
 ```bash
 root -b "fadc.C(10.,10000)" ; python3 -m http.server 8000
+root -b estimators.C+ ; python3 -m http.server 8000
 ```
 
 

@@ -45,6 +45,7 @@ set(POS_SCRIPTS
   run.mac
   ionization.C
   fadc.C
+  estimators.C
   ready.py
   README.md
   Run_Geant.sh
