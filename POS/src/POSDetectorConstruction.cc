@@ -100,7 +100,7 @@ G4VPhysicalVolume* POSDetectorConstruction::Construct()
   G4Box* solidLV16 =  new G4Box("LV16", 0.5*l_xy, 0.5*l_xy, 0.5*l16_z);
 
   G4LogicalVolume* logicLV00 = new G4LogicalVolume(solidLV00, si_mat , "LV00");
-  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, sc_mat , "LV01");
+  G4LogicalVolume* logicLV01 = new G4LogicalVolume(solidLV01, du_mat , "LV01"); // no 1st Sci
   G4LogicalVolume* logicLV02 = new G4LogicalVolume(solidLV02, be_mat , "LV02");
   G4LogicalVolume* logicLV03 = new G4LogicalVolume(solidLV03, hy_mat , "LV03");
   G4LogicalVolume* logicLV04 = new G4LogicalVolume(solidLV04, be_mat , "LV04");

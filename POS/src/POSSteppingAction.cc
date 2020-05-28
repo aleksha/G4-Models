@@ -118,9 +118,11 @@ void POSSteppingAction::UserSteppingAction(const G4Step* step)
     double tr_z   =  0.5 * (tr_pre_z + tr_post_z);
     double g_time =  0.5 * (g_pre_time + g_post_time);
 
-    if(myOUT.is_open() && vol<7 && tr_ed>0)
-       myOUT << ev_id << " " << vol    << " " << tr_ed << " "
-             << tr_x  << " " << tr_y   << " " << tr_z  << " " << g_time << G4endl;
+    if(myOUT.is_open() && (vol==3 || vol==6 || vol==5 || vol==0 ) && tr_ed>0)
+       myOUT << ev_id     << " " << vol       << " " << tr_ed     << " "
+             << tr_pre_x  << " " << tr_pre_y  << " " << tr_pre_z  << " "
+             << tr_post_x << " " << tr_post_y << " " << tr_post_z << " "
+             << g_time << G4endl;
   }
 }
 //------------------------------------------------------------------------------
