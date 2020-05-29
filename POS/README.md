@@ -33,6 +33,16 @@ in the **Digi.txt** file, which have to be loaded.
 root -b conv.C
 ```
 
+## Longitudinal diffusion
+
+**sigma_Z = 0.008*sqrt(L)**
+
+**L** ans **sigma_Z**  in cm.
+
+```bash
+root -b diffusion.C+
+```
+
 
 ## Model (layers)
 

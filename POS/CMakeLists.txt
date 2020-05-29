@@ -48,6 +48,8 @@ set(POS_SCRIPTS
   Digi.txt
   fadc.C
   estimators.C
+  estimators2.C
+  diffusion.C
   ready.py
   README.md
   Run_Geant.sh
