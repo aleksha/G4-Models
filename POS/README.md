@@ -20,6 +20,19 @@ root -b "fadc.C(10.,10000)" ; python3 -m http.server 8000
 root -b estimators.C+ ; python3 -m http.server 8000
 ```
 
+## Signal processing
+
+In previous version a signal apears, when an electron reach the anode.
+On practice a current starts, when an electron reach the grid.
+The current is linearly rising during a drift between grid and anode.
+An integral of this current is equal to the charge of one electron.
+A new procedure is done in **conv.C**. The result is stored
+in the **Digi.txt** file, which have to be loaded.
+
+```bash
+root -b conv.C
+```
+
 
 ## Model (layers)
 

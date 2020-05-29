@@ -44,6 +44,8 @@ target_link_libraries(exec_POS ${Geant4_LIBRARIES})
 set(POS_SCRIPTS
   run.mac
   ionization.C
+  conv.C
+  Digi.txt
   fadc.C
   estimators.C
   ready.py
