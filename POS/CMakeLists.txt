@@ -46,6 +46,7 @@ set(POS_SCRIPTS
   ionization.C
   conv.C
   Digi.txt
+  allpads.C
   fadc.C
   estimators.C
   estimators2.C

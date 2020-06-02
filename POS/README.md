@@ -43,6 +43,11 @@ root -b conv.C
 root -b diffusion.C+
 ```
 
+All pads are aveilable with
+```bash
+root -b allpads.C+
+```
+
 
 ## Model (layers)
 
@@ -54,3 +59,6 @@ root -b diffusion.C+
  6. Silicon tracker (exit)  --> **out.data**
  7. Scintillator layer (exit) --> **out.data**
 
+## Influence of different parameter
+
+Scripts and results are in **draw/** directory.
