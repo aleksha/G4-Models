@@ -48,7 +48,6 @@ All pads are aveilable with
 root -b allpads.C+
 ```
 
-
 ## Model (layers)
 
  1. Silicon traker (entrance) --> **out.data**
@@ -62,3 +61,11 @@ root -b allpads.C+
 ## Influence of different parameter
 
 Scripts and results are in **draw/** directory.
+
+## Noise
+
+See **POS/noise/** files.
+
+## Accumulated signal
+
+Dump files are in **/home/user/Data/Signal/Accumulated**
