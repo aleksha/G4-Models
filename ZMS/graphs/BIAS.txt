@@ -1,0 +1,100 @@
+Pad 0   49816.1 48563.6
+Pad     37.1028 90.5692
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   49815.1 48571.9
+Pad     39.7973 42.4058
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   49807.6 48567.8
+Pad     175.096 164.984
+Info in <TCanvas::Print>: png file Time_02.png has been created
+Pad 3   49816.1 48576.3
+Pad     233.784 258.627
+
+
+Pad 0   49838.2 48585.9
+Pad     36.8592 89.9758
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   49950.8 48702.7
+Pad     40.2503 39.3675
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   50131.6 48879.9
+Pad     176.945 189.021
+Info in <TCanvas::Print>: png file Time_02.png has been created
+Pad 3   50200.5 48972.1
+Pad     271.456 256.144
+Info in <TCanvas::Print>: png
+
+
+Pad 0   49860.4 48606.6
+Pad     36.6978 90.093
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   50087.5 48824.8
+Pad     40.6367 36.626
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   50457.1 49189.7
+Pad     179.793 183.1
+Info in <TCanvas::Print>: png file Time_02.png has been created
+Pad 3   50580.3 49365.2
+Pad     211.738 260.093
+
+
+Info in <TCanvas::Print>: png file dFADS_08.png has been created
+Pad 0   49882.6 48627.5
+Pad     36.634  88.6915
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   50225.2 48938.3
+Pad     41.2133 34.1278
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   50752   49490.6
+Pad     161.627 177.263
+Info in <TCanvas::Print>: png file Time_02.png has been created
+Pad 3   50794.9 49750.2
+Pad     328.295 246.341
+
+Pad 0   49905   48647.8
+Pad     36.6963 88.3355
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   50364.3 49043.5
+Pad     41.7027 32.1574
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   50887.4 49783.4
+Pad     188.549 171.997
+Info in <TCanvas::Print>: png file Time_02.png has been created
+Pad 3   50893.5 50151.1
+Pad     90.1871 247.108
+
+
+Pad 0   49927.4 48667.9
+Pad     36.9501 88.5374
+Info in <TCanvas::Print>: png file Time_00.png has been created
+Pad 1   50504.9 49139.8
+Pad     42.5258 31.3711
+Info in <TCanvas::Print>: png file Time_01.png has been created
+Pad 2   50545.9 50069
+Pad     557.688 167.302
+
+
+
+
+
+Pad 0   49818.3 48575.6
+Pad     13.921  27.6678
+
+
+Pad 0   49832.5 48589.6
+Pad     13.8504 27.3557
+
+
+Pad 0   49846.8 48603.1
+Pad     13.8435 27.192
+
+
+Pad 0   49860.8 48617
+Pad     13.8452 27.057
+
+
+Pad 0   49875   48630.4
+Pad     13.8813 27.1938
+
+Pad 0   49889.2 48643.6
+Pad     14.0177 27.1619
