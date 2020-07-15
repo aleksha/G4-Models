@@ -43,7 +43,10 @@ target_link_libraries(exec_ZMS ${Geant4_LIBRARIES})
 #
 set(ZMS_SCRIPTS
   Digi.txt
-  allpads3.C
+  Digi2.txt
+  allpads.C
+  fadc.cc
+  clean.sh
   run.mac
   README.md
   Run_Geant.sh
