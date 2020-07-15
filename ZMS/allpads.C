@@ -23,6 +23,7 @@
 bool ADD_NOISE = true;
 int MY_EVTS    = 100;
 double Calib   = 200./151.;
+double AnodeGrid = 10.;
 
 TH1F* hFADC[9];
 TH1F* hDIFF[9];
@@ -81,12 +82,13 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
   int channel ;
   double digi,tt;
 
-    std::ifstream fDIGI("./Digi.txt" , std::ios::in);
+  if(AnodeGrid==20.) std::ifstream fDIGI("./Digi2.txt", std::ios::in);
+  else               std::ifstream fDIGI("./Digi.txt" , std::ios::in);
 
-    while( fDIGI >> channel >> digi ){
-      Digi[channel]=digi;
-    }
-    fDIGI.close();
+  while( fDIGI >> channel >> digi ){
+    Digi[channel]=digi;
+  }
+  fDIGI.close();
 
 //==============================================================================
 // read digitization
