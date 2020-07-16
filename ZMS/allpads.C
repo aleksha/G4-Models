@@ -14,16 +14,17 @@
 #include "TRandom.h"
 #include "TMath.h"
 #include "TFile.h"
+#include "TTree.h"
+#include "TBranch.h"
 #include "TCanvas.h"
 #include "TVector3.h"
 #include "TStyle.h"
 #include "TLatex.h"
 
-//bool ADD_NOISE = false;
-bool ADD_NOISE = true;
-int MY_EVTS    = 100;
+bool ADD_NOISE = false;
+//bool ADD_NOISE = true;
+int MY_EVTS    = 30;
 double Calib   = 200./151.;
-double AnodeGrid = 10.;
 
 TH1F* hFADC[9];
 TH1F* hDIFF[9];
@@ -82,8 +83,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
   int channel ;
   double digi,tt;
 
-  if(AnodeGrid==20.) std::ifstream fDIGI("./Digi2.txt", std::ios::in);
-  else               std::ifstream fDIGI("./Digi.txt" , std::ios::in);
+  std::ifstream fDIGI("./Digi.txt" , std::ios::in);
 
   while( fDIGI >> channel >> digi ){
     Digi[channel]=digi;
@@ -115,6 +115,59 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     TString pdDIFF, psDIFF;
     TString pMax, pStart, pEnergy;
 
+    TTree *out = new TTree("out","out");
+
+    Float_t energy0; out->Branch("energy0"  ,&energy0 ,"energy0/F" );
+    Float_t energy1; out->Branch("energy1"  ,&energy1 ,"energy1/F" );
+    Float_t energy2; out->Branch("energy2"  ,&energy2 ,"energy2/F" );
+    Float_t energy3; out->Branch("energy3"  ,&energy3 ,"energy3/F" );
+    Float_t energy4; out->Branch("energy4"  ,&energy4 ,"energy4/F" );
+    Float_t energy5; out->Branch("energy5"  ,&energy5 ,"energy5/F" );
+    Float_t energy6; out->Branch("energy6"  ,&energy6 ,"energy6/F" );
+    Float_t energy7; out->Branch("energy7"  ,&energy7 ,"energy7/F" );
+    Float_t energy8; out->Branch("energy8"  ,&energy8 ,"energy8/F" );
+
+    Bool_t fired0; out->Branch("fired0"  ,&fired0 ,"fired0/B" );
+    Bool_t fired1; out->Branch("fired2"  ,&fired1 ,"fired1/B" );
+    Bool_t fired2; out->Branch("fired2"  ,&fired2 ,"fired2/B" );
+    Bool_t fired3; out->Branch("fired3"  ,&fired3 ,"fired3/B" );
+    Bool_t fired4; out->Branch("fired4"  ,&fired4 ,"fired4/B" );
+    Bool_t fired5; out->Branch("fired5"  ,&fired5 ,"fired5/B" );
+    Bool_t fired6; out->Branch("fired6"  ,&fired6 ,"fired6/B" );
+    Bool_t fired7; out->Branch("fired7"  ,&fired7 ,"fired7/B" );
+    Bool_t fired8; out->Branch("fired8"  ,&fired8 ,"fired8/B" );
+
+    Float_t start0; out->Branch("start0"  ,&start0 ,"start0/F" );
+    Float_t start1; out->Branch("start1"  ,&start1 ,"start1/F" );
+    Float_t start2; out->Branch("start2"  ,&start2 ,"start2/F" );
+    Float_t start3; out->Branch("start3"  ,&start3 ,"start3/F" );
+    Float_t start4; out->Branch("start4"  ,&start4 ,"start4/F" );
+    Float_t start5; out->Branch("start5"  ,&start5 ,"start5/F" );
+    Float_t start6; out->Branch("start6"  ,&start6 ,"start6/F" );
+    Float_t start7; out->Branch("start7"  ,&start7 ,"start7/F" );
+    Float_t start8; out->Branch("start8"  ,&start8 ,"start8/F" );
+
+    Float_t peak0; out->Branch("peak0"  ,&peak0 ,"peak0/F" );
+    Float_t peak1; out->Branch("peak1"  ,&peak1 ,"peak1/F" );
+    Float_t peak2; out->Branch("peak2"  ,&peak2 ,"peak2/F" );
+    Float_t peak3; out->Branch("peak3"  ,&peak3 ,"peak3/F" );
+    Float_t peak4; out->Branch("peak4"  ,&peak4 ,"peak4/F" );
+    Float_t peak5; out->Branch("peak5"  ,&peak5 ,"peak5/F" );
+    Float_t peak6; out->Branch("peak6"  ,&peak6 ,"peak6/F" );
+    Float_t peak7; out->Branch("peak7"  ,&peak7 ,"peak7/F" );
+    Float_t peak8; out->Branch("peak8"  ,&peak8 ,"peak8/F" );
+
+    Float_t end0; out->Branch("end0"  ,&end0 ,"end0/F" );
+    Float_t end1; out->Branch("end1"  ,&end1 ,"end1/F" );
+    Float_t end2; out->Branch("end2"  ,&end2 ,"end2/F" );
+    Float_t end3; out->Branch("end3"  ,&end3 ,"end3/F" );
+    Float_t end4; out->Branch("end4"  ,&end4 ,"end4/F" );
+    Float_t end5; out->Branch("end5"  ,&end5 ,"end5/F" );
+    Float_t end6; out->Branch("end6"  ,&end6 ,"end6/F" );
+    Float_t end7; out->Branch("end7"  ,&end7 ,"end7/F" );
+    Float_t end8; out->Branch("end8"  ,&end8 ,"end8/F" );
+
+
     for(int pad=0;pad<9;pad++){
         if(pad<10){
             pFADC.Form ("hFADS_0%d", pad);
@@ -144,8 +197,8 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
         dDIFF[pad] = new TH1F(pdDIFF," ;time, ns; voltage, a.u.", 2550, 0., 40.*2550. );
         sDIFF[pad] = new TH1F(psDIFF," ;time, ns; voltage, a.u.", 2550, 0., 40.*2550. );
 
-        tMax   [pad] = new TH1F(pMax   ," ;time, ns; evts", 400, 47000, 51000 );
-        tStart [pad] = new TH1F(pStart ," ;time, ns; evts", 400, 47000, 51000 );
+        tMax   [pad] = new TH1F(pMax   ," ;time, ns; evts", 700, 47000, 54000 );
+        tStart [pad] = new TH1F(pStart ," ;time, ns; evts", 700, 47000, 54000 );
         tEnergy[pad] = new TH1F(pEnergy," ;energy, a.u.; evts", 1300, 0, 130000 );
 
         hDIFF[pad]->SetLineColor(2);
@@ -159,7 +212,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     double Slope;
     int MaxDervBin;
 
-    double cp[1000],fp[1000],mp[1000],ep[1000];
+    double cp[1000],fp[1000],mp[1000],ep[1000], sp[1000];
     double TotalE=0;
 
     while( fOUT >> ev >> vol >> dE >> xi >> yi >> zi >> ti >> xf >> yf >> zf >> tf ){
@@ -199,9 +252,61 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
             hd1->Fill(info[1].end-info[1].start);
             cp[EVENT] = info[0].start;
             fp[EVENT] = info[1].start;
+            sp[EVENT] = info[2].start;
             mp[EVENT] = info[1].peak ;
             ep[EVENT] = info[1].end - info[1].start ;
 
+            fired0 = info[0].is_fired;
+            fired1 = info[1].is_fired;
+            fired2 = info[2].is_fired;
+            fired3 = info[3].is_fired;
+            fired4 = info[4].is_fired;
+            fired5 = info[5].is_fired;
+            fired6 = info[6].is_fired;
+            fired7 = info[7].is_fired;
+            fired8 = info[8].is_fired;
+
+            energy0 = info[0].energy;
+            energy1 = info[1].energy;
+            energy2 = info[2].energy;
+            energy3 = info[3].energy;
+            energy4 = info[4].energy;
+            energy5 = info[5].energy;
+            energy6 = info[6].energy;
+            energy7 = info[7].energy;
+            energy8 = info[8].energy;
+
+            start0 = info[0].start;
+            start1 = info[1].start;
+            start2 = info[2].start;
+            start3 = info[3].start;
+            start4 = info[4].start;
+            start5 = info[5].start;
+            start6 = info[6].start;
+            start7 = info[7].start;
+            start8 = info[8].start;
+
+            peak0 = info[0].peak;
+            peak1 = info[1].peak;
+            peak2 = info[2].peak;
+            peak3 = info[3].peak;
+            peak4 = info[4].peak;
+            peak5 = info[5].peak;
+            peak6 = info[6].peak;
+            peak7 = info[7].peak;
+            peak8 = info[8].peak;
+
+            end0 = info[0].end;
+            end1 = info[1].end;
+            end2 = info[2].end;
+            end3 = info[3].end;
+            end4 = info[4].end;
+            end5 = info[5].end;
+            end6 = info[6].end;
+            end7 = info[7].end;
+            end8 = info[8].end;
+
+            out->Fill();
             if( !(ev%10) ) std::cout << "PROCESSED: "<< ev << " events\n";
 
             if(ev==Evts) break;
@@ -250,6 +355,10 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     fNOI.close();
 
 
+    TFile *tfile = new TFile("out.root","RECREATE");
+    out->Write();
+    tfile->Write();
+    tfile->Close();
 
     TCanvas* canv = new TCanvas("canv","canv",1200,300);
     gStyle->SetOptStat(0);
@@ -329,8 +438,10 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
 
 
     TH1F* hA = new TH1F("hA",";angle, deg.; Events", 200,-10,10);
+    TH1F* hB = new TH1F("hB",";angle, deg.; Events", 200,-10,10);
     for(int e=0;e<Evts;e++){
         hA->Fill( atan( (fp[e]-cp[e])*W1/25. )*180./3.14159265);
+        hB->Fill( atan( (sp[e]-fp[e])*W1/40. )*180./3.14159265);
     }
     TCanvas* canvA = new TCanvas("canvA","canvA",800,800);
     hA->SetLineWidth(2);
@@ -340,6 +451,14 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     hA->Draw();
     std::cout << "mean : " << hA->GetMean() << "\t rms : " << hA->GetRMS() << "\n";
     canvA->Print( "Angle_0vs1.png" );
+    hB->SetLineWidth(2);
+    hB->SetLineColor(2);
+    hB->SetFillColor(2);
+    hB->SetFillStyle(3004);
+    hB->Draw();
+    std::cout << "mean : " << hB->GetMean() << "\t rms : " << hB->GetRMS() << "\n";
+    canvA->Print( "Angle_1vs2.png" );
+
     canvA->Close();
 
     TCanvas* canvW = new TCanvas("canvW","canvW",800,800);
