@@ -14,27 +14,37 @@ ZMSPrimaryGeneratorAction::ZMSPrimaryGeneratorAction()
   fParticleGun(0)
 {
 
-  double ang = 0;
-  ang = ang*3.14159265/180.;
+  fAngle = 5;
+  fEnergy= 5;
+  fZpos  = 200.;
   G4int n_particle = 1;
   fParticleGun  = new G4ParticleGun(n_particle);
-
   // default particle kinematic
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
   G4String particleName;
   G4ParticleDefinition* particle = particleTable->FindParticle(particleName="proton");
   fParticleGun->SetParticleDefinition(particle);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,cos(ang),sin(ang)));
-  fParticleGun->SetParticleEnergy(5.*MeV);
+
+  myGEN .open( "gen.data" , std::ios::trunc);
 }
 //------------------------------------------------------------------------------
-ZMSPrimaryGeneratorAction::~ZMSPrimaryGeneratorAction(){ delete fParticleGun; }
+ZMSPrimaryGeneratorAction::~ZMSPrimaryGeneratorAction(){
+  delete fParticleGun;
+  myGEN.close();
+}
 //------------------------------------------------------------------------------
 void ZMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
-  fParticleGun->SetParticlePosition( G4ThreeVector(0, 0, 200.*mm) );
+  fAngle  = G4UniformRand()*10.   ;
+  fEnergy = 4.+G4UniformRand()*5. ;
+  fZpos   = 190.+G4UniformRand()*20.;
+  ang = fAngle*3.14159265/180.;
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,cos(ang),sin(ang)));
+  fParticleGun->SetParticleEnergy(fEnergy*MeV);
+  fParticleGun->SetParticlePosition( G4ThreeVector(0, 0, fZpos*mm) );
   fParticleGun->GeneratePrimaryVertex(anEvent);
+  myGEN << fAngle << " " << fEnergy << " " << fZpos << G4endl;
 }
 //------------------------------------------------------------------------------
 

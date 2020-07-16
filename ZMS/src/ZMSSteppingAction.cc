@@ -95,7 +95,7 @@ void ZMSSteppingAction::UserSteppingAction(const G4Step* step)
     G4StepPoint* pre_step  ; pre_step  = step->GetPreStepPoint()  ;
     G4StepPoint* post_step ; post_step = step->GetPostStepPoint() ;
     double tr_ed = step->GetTotalEnergyDeposit() - step->GetNonIonizingEnergyDeposit() ;
-    //double tr_rd = step->GetNonIonizingEnergyDeposit() ;
+    double tr_rd = step->GetNonIonizingEnergyDeposit() ;
 
     //double tr_px  = post_step->GetMomentum().x()      ;
     //double tr_py  = post_step->GetMomentum().y()      ;

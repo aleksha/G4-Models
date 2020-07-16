@@ -5,6 +5,11 @@
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+
 class G4ParticleGun;
 class G4Event;
 //class G4Box;
@@ -24,7 +29,12 @@ class ZMSPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
     const G4ParticleGun* GetParticleGun() const { return fParticleGun; }
 
   private:
+    std::ofstream myGEN;
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
+    double fAngle  ;
+    double ang     ;
+    double fEnergy ;
+    double fZpos   ;
 //    G4Box* fEnvelopeBox;
 };
 //------------------------------------------------------------------------------
