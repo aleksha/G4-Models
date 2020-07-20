@@ -36,10 +36,13 @@ ZMSPrimaryGeneratorAction::~ZMSPrimaryGeneratorAction(){
 void ZMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
-  fAngle  = G4UniformRand()*10.   ;
-  fEnergy = 4.+G4UniformRand()*5. ;
-  fZpos   = 190.+G4UniformRand()*20.;
+
+  fAngle  =        G4UniformRand()* 6. ;
+  fEnergy = 4.5  + G4UniformRand()* 1. ;
+  fZpos   = 190. + G4UniformRand()*20. ;
+
   ang = fAngle*3.14159265/180.;
+
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,cos(ang),sin(ang)));
   fParticleGun->SetParticleEnergy(fEnergy*MeV);
   fParticleGun->SetParticlePosition( G4ThreeVector(0, 0, fZpos*mm) );
