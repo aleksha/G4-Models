@@ -21,9 +21,9 @@
 #include "TStyle.h"
 #include "TLatex.h"
 
-bool ADD_NOISE = false;
-//bool ADD_NOISE = true;
-int MY_EVTS    = 30;
+//bool ADD_NOISE = false;
+bool ADD_NOISE = true;
+int MY_EVTS    = 700;
 double Calib   = 200./151.;
 
 TH1F* hFADC[9];
