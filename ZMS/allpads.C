@@ -23,7 +23,7 @@
 
 //bool ADD_NOISE = false;
 bool ADD_NOISE = true;
-int MY_EVTS    = 70;
+int MY_EVTS    = 30;
 double Calib   = 200./151.;
 
 TH1F* hFADC[9];
@@ -416,8 +416,8 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
         std::cout << "Pad  \t"  << tEnergy[p]->GetMean()  << "\t" << tEnergy[p]->GetRMS()  << std::endl;
         canvT->Print( pFADC );
     }
-    canvD->Close();
-
+    canvT->Close();
+/*
     TGraph* gp = new TGraph(Evts,cp,fp);
     TGraph* gc = new TGraph(Evts,mp,fp);
     TGraph* ge = new TGraph(Evts,ep,fp);
@@ -471,9 +471,8 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     std::cout << "mean : " << hd1->GetMean() << "\t rms : " << hd1->GetRMS() << "\n";
     canvW->Print( "Length_01.png" );
     canvW->Close();
-
     std::cout << "Energy: " << tTotal->GetMean() << " +- " << tTotal->GetRMS() << "\n";
-
+*/
     gSystem->Exit(0);
 
 }
