@@ -360,6 +360,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     tfile->Write();
     tfile->Close();
 
+
     TCanvas* canv = new TCanvas("canv","canv",1200,300);
     gStyle->SetOptStat(0);
     for(int p=0;p<9;p++){
@@ -371,7 +372,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     }
     canv->Close();
 
-
+/*
     TCanvas* canvD = new TCanvas("canvD","canvD",1200,300);
     gStyle->SetOptStat(0);
     for(int p=0;p<9;p++){
@@ -390,7 +391,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     }
     f->Write();
     f->Close();
-
+*/
     TCanvas* canvT = new TCanvas("canvT","canvT",800,600);
     gStyle->SetOptStat(0);
     for(int p=0;p<9;p++){
