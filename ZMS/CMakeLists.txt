@@ -42,8 +42,7 @@ target_link_libraries(exec_ZMS ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(ZMS_SCRIPTS
-  Digi.txt
-  Digi2.txt
+  DigiC.txt
   allpads.C
   fadc.cc
   histo_funcs.cc

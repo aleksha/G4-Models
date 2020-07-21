@@ -83,7 +83,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
   int channel ;
   double digi,tt;
 
-  std::ifstream fDIGI("./Digi.txt" , std::ios::in);
+  std::ifstream fDIGI("./DigiC.txt" , std::ios::in);
 
   while( fDIGI >> channel >> digi ){
     Digi[channel]=digi;
