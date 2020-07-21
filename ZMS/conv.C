@@ -1,7 +1,7 @@
 {
   gStyle->SetOptStat(0);
 
-  double Lag  = 20.0; // mm
+  double Lag  = 10.0; // mm
   double W2  =  7.5; // mm/us
 
   double Tag = Lag / W2; // Time of the drift btw. Grid and Anode
@@ -49,7 +49,8 @@
   double sum = 0.;
   for(int ii=0; ii<Nag; ii++){
     sum = sum + 0.04*(2.*ttg/pow(Tag,2));
-    Charge = 0.04*2.*ttg/pow(Tag,2);
+//    Charge = 0.04*2.*ttg/pow(Tag,2);
+    Charge = 1./ Nag;
     dft->SetBinContent( ii+1, Charge/0.04 );
 
     tt = 0.02;
@@ -81,6 +82,8 @@
   sft->Draw();
   cft->Draw("same");
   canv->Print("Resp.png");
+  dft->Draw();
+  canv->Print("Current.png");
   canv->Close();
 
   gSystem->Exit(0);
