@@ -46,6 +46,7 @@ set(ZMS_SCRIPTS
   Digi2.txt
   allpads.C
   fadc.cc
+  histo_funcs.cc
   clean.sh
   run.mac
   README.md

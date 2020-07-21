@@ -23,7 +23,7 @@
 
 //bool ADD_NOISE = false;
 bool ADD_NOISE = true;
-int MY_EVTS    = 700;
+int MY_EVTS    = 70;
 double Calib   = 200./151.;
 
 TH1F* hFADC[9];
