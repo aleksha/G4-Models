@@ -109,7 +109,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     int fpad,dpad;
 
     std::ifstream fOUT("./out.data" , std::ios::in);
-    std::ifstream fNOI("/home/user/Data/Noise/MERGED/noise.data" , std::ios::in);
+    std::ifstream fNOI("/home/geant/Data/Noise/MERGED/noise.data" , std::ios::in);
 
     TString pFADC,pDIFF,pTEMP,pDEMP;
     TString pdDIFF, psDIFF;
