@@ -49,6 +49,7 @@ set(ZMS_SCRIPTS
   clean.sh
   run.mac
   README.md
+  create_gen_tree.C
   Run_Geant.sh
   )
 
