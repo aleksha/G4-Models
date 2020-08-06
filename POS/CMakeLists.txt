@@ -45,7 +45,7 @@ set(POS_SCRIPTS
   run.mac
   ionization.C
   conv.C
-  Digi.txt
+  DigiC.txt
   allpads.C
   fadc.C
   estimators.C
