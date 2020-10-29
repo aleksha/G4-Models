@@ -23,7 +23,7 @@
 
 //bool ADD_NOISE = false;
 bool ADD_NOISE = true;
-int MY_EVTS    = 30;
+int MY_EVTS    = 999;
 double Calib   = 200./151.;
 
 TH1F* hFADC[9];
@@ -437,7 +437,7 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     canvS->Print( "Corr_LENGTHvsSTART.png" );
     canvS->Close();
 
-
+*/
     TH1F* hA = new TH1F("hA",";angle, deg.; Events", 200,-10,10);
     TH1F* hB = new TH1F("hB",";angle, deg.; Events", 200,-10,10);
     for(int e=0;e<Evts;e++){
@@ -459,9 +459,9 @@ void allpads( int Evts=MY_EVTS, bool AddNoise=ADD_NOISE ){
     hB->Draw();
     std::cout << "mean : " << hB->GetMean() << "\t rms : " << hB->GetRMS() << "\n";
     canvA->Print( "Angle_1vs2.png" );
-
     canvA->Close();
 
+/*
     TCanvas* canvW = new TCanvas("canvW","canvW",800,800);
     hd1->SetLineWidth(2);
     hd1->SetLineColor(2);

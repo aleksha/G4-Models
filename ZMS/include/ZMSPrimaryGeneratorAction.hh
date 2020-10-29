@@ -30,11 +30,14 @@ class ZMSPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
   private:
     std::ofstream myGEN;
+    std::ifstream myESEPP;
     G4ParticleGun*  fParticleGun; // pointer a to G4 gun class
     double fAngle  ;
     double ang     ;
     double fEnergy ;
     double fZpos   ;
+    double fTHETA  ; // unit vector fo momentum direction
+    double fPHI    ;
 //    G4Box* fEnvelopeBox;
 };
 //------------------------------------------------------------------------------

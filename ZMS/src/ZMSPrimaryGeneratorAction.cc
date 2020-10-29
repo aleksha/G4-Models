@@ -25,21 +25,31 @@ ZMSPrimaryGeneratorAction::ZMSPrimaryGeneratorAction()
   G4ParticleDefinition* particle = particleTable->FindParticle(particleName="proton");
   fParticleGun->SetParticleDefinition(particle);
 
-  myGEN .open( "gen.data" , std::ios::trunc);
+  myGEN  .open( "gen.data"   , std::ios::trunc );
+  myESEPP.open( "esepp.data" , std::ios::in    );
 }
 //------------------------------------------------------------------------------
 ZMSPrimaryGeneratorAction::~ZMSPrimaryGeneratorAction(){
   delete fParticleGun;
   myGEN.close();
+  myESEPP.close();
 }
 //------------------------------------------------------------------------------
 void ZMSPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   //this function is called at the begining of ecah event
 
-  fAngle  =        G4UniformRand()* 6. ;
-  fEnergy = 4.5  + G4UniformRand()* 1. ;
-  fZpos   = 190. + G4UniformRand()*20. ;
+  myESEPP >> fTHETA >> fPHI >> fEnergy;
+
+  fAngle  = (3.14159265*0.5-fTHETA)*180./3.14159265 ;
+//  fEnergy = 2.0  + G4UniformRand()* 8. ;
+//  fZpos   = 190. + G4UniformRand()*20. ;
+
+//  fAngle  =   0. ;
+//  fAngle  =   2.5 ;
+//  fAngle  =   5.0 ;
+//  fEnergy =   5. ;
+  fZpos   = 200. ;
 
   ang = fAngle*3.14159265/180.;
 
