@@ -52,6 +52,7 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
 // Gases
 
   G4Material *ArGas   = new G4Material("ArGas"  , 18, 39.948*g/mole, 33.213 *kg/m3 );
+//  G4Material *H2Gas = new G4Material("H2Gas", 1, 1.008*g/mole, 0.25*1.6347*kg/m3 );
   G4Material *H2Gas = new G4Material("H2Gas", 1, 1.008*g/mole, 1.6347*kg/m3 );
 
   G4Material* CH4Gas = new G4Material(name="CH4Gas",density=13.661*kg/m3,ncomponents=2);
@@ -59,6 +60,7 @@ G4VPhysicalVolume* EPSDetectorConstruction::Construct()
   CH4Gas->AddElement(C,1);
 
   // Use 95% Ar, 5% Methane for electron detector gas. Percentage per volume
+//  G4Material* ArCH4 = new G4Material(name="ArCH4"  , density = 0.25*32.2354*kg/m3, ncomponents=2);
   G4Material* ArCH4 = new G4Material(name="ArCH4"  , density = 32.2354*kg/m3, ncomponents=2);
   ArCH4->AddMaterial (  ArGas,  fractionmass = 0.978811);
   ArCH4->AddMaterial( CH4Gas,  fractionmass = 0.021189);
