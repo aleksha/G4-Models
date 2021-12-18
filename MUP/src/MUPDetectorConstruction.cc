@@ -113,7 +113,7 @@ G4VPhysicalVolume* MUPDetectorConstruction::Construct()
   G4Material* BeSolid = nist->FindOrBuildMaterial("G4_Be");
 
 
-  G4double rBe_in  =  29.*mm;
+  G4double rBe_in  =  29.5*mm;
   G4double rBe_out =  30.*mm;
   G4double dBeTPC  = 220.*mm;
 

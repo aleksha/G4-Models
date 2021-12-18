@@ -50,9 +50,9 @@ void fast_vertex(){
     //TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60,-200, 400);
     //TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 1850, 2150);
 
-    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, -200, 400);
+    TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 80, -400, 400);
     TH1F* hANG  = new TH1F("hANG" ,"; angle, #murad;Events", 60, 200, 500);
-    TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 60, -200, 400);
+    TH1F* hVTX2 = new TH1F("hVTX2","; z, mm;Events", 80, -400, 400);
     TH1F* hANG2 = new TH1F("hANG2","; angle, #murad;Events", 60, 200, 500);
 
     //TH1F* hVTX  = new TH1F("hVTX" ,"; z, mm;Events", 60, 450, 1050);
@@ -113,12 +113,16 @@ void fast_vertex(){
               ww2.SetXYZ( sx[2] , sy[2], sz[2]);
               ww3.SetXYZ( sx[3] , sy[3], sz[3]);
 
-              vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -5000.);
-              vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -5000.);
+//              vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -5000.);
+//              vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -5000.);
+              vINI.SetXYZ( xx[1]-xx[0] , yy[1]-yy[0], -3000.);
+              vOUT.SetXYZ( xx[3]-xx[2] , yy[3]-yy[2], -3000.);
               v_vtx = Vertex( vv0, vv1, vv2, vv3);
 
-              wINI.SetXYZ( sx[1]-sx[0] , sy[1]-sy[0], -5000.);
-              wOUT.SetXYZ( sx[3]-sx[2] , sy[3]-sy[2], -5000.);
+//              wINI.SetXYZ( sx[1]-sx[0] , sy[1]-sy[0], -5000.);
+//              wOUT.SetXYZ( sx[3]-sx[2] , sy[3]-sy[2], -5000.);
+              wINI.SetXYZ( sx[1]-sx[0] , sy[1]-sy[0], -3000.);
+              wOUT.SetXYZ( sx[3]-sx[2] , sy[3]-sy[2], -3000.);
               w_vtx = Vertex( ww0, ww1, ww2, ww3);
 
               hVTX->Fill(  v_vtx.z() );
@@ -155,8 +159,8 @@ void fast_vertex(){
 
     }
 
-    hANG->GetYaxis()->SetRangeUser(0,400);
-    hVTX->GetYaxis()->SetRangeUser(0,150);
+//    hANG->GetYaxis()->SetRangeUser(0,400);
+//    hVTX->GetYaxis()->SetRangeUser(0,150);
 
     fOUT.close();
     hANG->Draw();
